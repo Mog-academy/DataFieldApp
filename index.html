@@ -1,0 +1,2384 @@
+<!DOCTYPE html>
+
+<html class="draft-pending" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>DataField | Proposal</title>
+<link href="proposal-assets/favicon.svg" rel="icon" type="image/svg+xml"/>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<style>
+    :root {
+      --green-dark: #0B3D2C;
+      --green-deep: #064e3b;
+      --green-mid: #2A7D2E;
+      --green-logo: #27b674;
+      --blue-logo: #0d75b8;
+      --yellow-logo: #ffc310;
+      --cream: #F1D2A9;
+      --bg: #FCFAF7;
+      --ink: #2f2f2f;
+      --ink-2: #102a43;
+      --muted: #5c6b63;
+      --line: #e6e0d6;
+      --white: #ffffff;
+      --orange: #FF9900;
+      --blue: #0d75b8;
+      --blue-deep: #084a7a;
+      --blue-navy: #062e4f;
+      --mog-blue: #007BFF;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.65;
+      font-size: 17px;
+    }
+    img { max-width: 100%; display: block; }
+    h1, h2 {
+      font-family: "Fraunces", serif;
+      font-optical-sizing: auto;
+      color: var(--green-dark);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+    }
+    h3, h4 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--green-dark);
+      line-height: 1.25;
+      letter-spacing: -0.02em;
+      font-weight: 700;
+    }
+    p { margin: 0 0 1rem; }
+    ul, ol { padding-left: 1.35em; }
+    a { color: var(--green-mid); }
+
+    .wrap {
+      width: min(1080px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+
+    /* Cover slide (PPTX-style hero) */
+    .hero {
+      --cover-orange: #27b674;
+      --cover-beige: #EDE6DA;
+      position: relative;
+      min-height: 100vh;
+      background: #000;
+      color: var(--white);
+      padding: 0;
+      overflow: hidden;
+    }
+    .cover-frame {
+      min-height: 100vh;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    .cover-panel {
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      overflow: hidden;
+      min-height: 0;
+    }
+    .cover-bg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+    }
+    .cover-content {
+      position: relative;
+      z-index: 2;
+      width: min(780px, 90%);
+      padding: 44px 48px 40px;
+      background: #1e2934;
+      border-radius: 48px;
+    }
+    .hero-phone {
+      position: absolute;
+      right: -22%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: min(430px, 88%);
+      width: auto;
+      z-index: 3;
+      pointer-events: none;
+      filter: none;
+      box-shadow: none;
+      animation: heroPhoneFloat 3.2s ease-in-out infinite;
+    }
+    body.is-editing .hero-phone { pointer-events: auto; animation-play-state: paused; }
+    .hero-logo {
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 28px;
+    }
+    .hero-logo img { height: 68px; width: auto; }
+    .eyebrow {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.8);
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      color: var(--white);
+      font-size: clamp(36px, 6.4vw, 76px);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      max-width: none;
+      margin: 0 auto 14px;
+      line-height: 1.05;
+    }
+    .hero .sub {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.32em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.88);
+      margin: 0 auto 22px;
+      max-width: none;
+    }
+    .accent-line {
+      width: 72px;
+      height: 3px;
+      background: var(--cover-orange);
+      margin: 0 auto 22px;
+    }
+    .hero .pitch {
+      font-size: 16px;
+      max-width: 46ch;
+      margin: 0 auto 36px;
+      color: rgba(255,255,255,.78);
+    }
+    .cover-contact .label {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.55);
+      margin: 0 0 8px;
+    }
+    .cover-contact .author {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 18px;
+      font-weight: 700;
+      color: #fff;
+      margin: 0 0 4px;
+    }
+    .cover-contact .party,
+    .cover-contact a {
+      color: rgba(255,255,255,.8);
+      text-decoration: none;
+      margin: 0;
+      font-size: 14px;
+    }
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255,255,255,.1);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 8px 14px;
+    }
+    .chip svg { width: 14px; height: 14px; }
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 28px;
+      font-size: 14px;
+      color: rgba(255,255,255,.8);
+    }
+
+    .image-only {
+      padding: 0;
+      margin: 0;
+      min-height: 100vh;
+      background: #000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .image-only img {
+      width: 100%;
+      height: 100vh;
+      object-fit: cover;
+      filter: none;
+      box-shadow: none;
+      border-radius: 0;
+    }
+
+    /* Section covers */
+    .cover {
+      min-height: 78vh;
+      background: linear-gradient(160deg, var(--blue-navy) 0%, var(--blue-deep) 45%, var(--blue) 100%);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      padding: 88px 0;
+      overflow: hidden;
+    }
+    .cover h2 {
+      color: #fff;
+      font-size: clamp(40px, 6vw, 72px);
+      margin: 0 0 16px;
+      max-width: 14ch;
+    }
+    .cover-kicker {
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #b9dcff;
+      margin-bottom: 14px;
+    }
+    .cover-desc {
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.5;
+      color: rgba(255,255,255,.88);
+      max-width: 38ch;
+      margin: 0;
+    }
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 48px;
+      align-items: center;
+      width: min(1180px, calc(100% - 40px));
+      margin: 0 auto;
+    }
+    .cover-grid img {
+      width: 100%;
+      height: min(58vh, 520px);
+      object-fit: cover;
+      border-radius: 24px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.28);
+    }
+    .cover.reverse .cover-grid { direction: rtl; }
+    .cover.reverse .cover-grid > * { direction: ltr; }
+    .cover.stack {
+      min-height: auto;
+      padding: 72px 0 0;
+    }
+    .cover.stack .cover-grid {
+      grid-template-columns: 1fr;
+      gap: 28px;
+      text-align: left;
+    }
+    .cover.stack .cover-desc { max-width: 52ch; }
+    .cover.stack img {
+      height: min(42vh, 420px);
+      border-radius: 24px 24px 0 0;
+      box-shadow: none;
+    }
+    .cover.overlay {
+      position: relative;
+      min-height: 84vh;
+      background-color: var(--blue-navy);
+      background-image: none;
+    }
+    .cover.overlay::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(105deg, rgba(6,46,79,.94) 8%, rgba(13,117,184,.72) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+    .cover.overlay .cover-grid {
+      position: relative;
+      z-index: 2;
+      grid-template-columns: minmax(0, 640px);
+    }
+    .cover.overlay img:not(.cover-bg) { display: none; }
+
+    /* Sections */
+    section.block {
+      padding: 88px 0;
+      background: var(--bg);
+    }
+    section.block.paper { background: #fff; }
+    .kicker {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .kicker svg { width: 16px; height: 16px; }
+    h2 {
+      font-size: clamp(26px, 3.2vw, 36px);
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-family: "Fraunces", serif;
+      font-size: clamp(36px, 5.5vw, 64px);
+      font-weight: 600;
+      letter-spacing: -0.04em;
+      line-height: 1.1;
+      color: var(--green-dark);
+      max-width: 16ch;
+      margin: 0 0 28px;
+    }
+    h3 {
+      font-size: 20px;
+      margin: 28px 0 12px;
+    }
+    .lead {
+      font-size: 19px;
+      color: var(--ink-2);
+      max-width: 70ch;
+      margin-bottom: 24px;
+    }
+    .muted { color: var(--muted); }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .card {
+      background: var(--white);
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 22px 22px 18px;
+    }
+    .block.paper .card { background: var(--bg); }
+    .card h3 { margin-top: 0; font-size: 18px; }
+    .num {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      color: var(--green-logo);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      margin-bottom: 8px;
+    }
+    .icon-wrap {
+      width: 42px;
+      height: 42px;
+      border-radius: 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(11,61,44,.08);
+      color: var(--green-dark);
+      margin-bottom: 12px;
+    }
+    .icon-wrap svg { width: 22px; height: 22px; }
+    .pain-item .icon-wrap {
+      margin: 0;
+      width: 44px;
+      height: 44px;
+    }
+
+    .pain {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+    .pain-item {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 14px;
+      padding: 18px;
+      border-radius: 16px;
+      background: var(--white);
+      border: 1px solid var(--line);
+    }
+    .block.paper .pain-item { background: var(--bg); }
+    .benefit-list {
+      display: grid;
+      gap: 0;
+    }
+    .benefit-row {
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 24px;
+      padding: 22px 0;
+      border-bottom: 1px solid var(--line);
+      align-items: start;
+    }
+    .benefit-row:last-child { border-bottom: none; }
+    .benefit-row h3 { margin: 0; }
+    .compare {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .compare-col {
+      border-radius: 20px;
+      padding: 28px 24px;
+      border: 1px solid var(--line);
+    }
+    .compare-col.them { background: #f4f6f8; }
+    .compare-col.us {
+      background: var(--green-dark);
+      color: #fff;
+      border-color: var(--green-dark);
+    }
+    .compare-col.us h3, .compare-col.us strong { color: #fff; }
+    .compare-col li { margin: 10px 0; }
+    .steps {
+      list-style: none;
+      position: relative;
+      margin: 8px 0 24px;
+      padding-left: 8px;
+    }
+    .steps::before {
+      content: "";
+      position: absolute;
+      left: 23px;
+      top: 12px;
+      bottom: 12px;
+      width: 2px;
+      background: var(--line);
+    }
+    .steps li {
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      gap: 16px;
+      margin: 0 0 22px;
+      position: relative;
+    }
+    .steps .dot {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--green-dark);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      z-index: 1;
+    }
+    .steps h3 { margin: 4px 0 6px; }
+    .weeks {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+    .week {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 20px 18px;
+      min-height: 220px;
+    }
+    .week .num { font-size: 12px; }
+    .price-duo {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 18px;
+      margin-bottom: 28px;
+    }
+    .price-card {
+      border-radius: 20px;
+      padding: 28px;
+      border: 1px solid var(--line);
+      background: #fff;
+    }
+    .price-card .amt {
+      font-family: "Fraunces", serif;
+      font-size: clamp(28px, 3vw, 40px);
+      color: var(--green-dark);
+      margin: 8px 0 10px;
+    }
+    .ux-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .ux-card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 22px;
+    }
+    .ux-card h3 {
+      margin: 0 0 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 17px;
+    }
+    .ux-card h3 svg { width: 18px; height: 18px; }
+    .pain-n {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 800;
+      color: var(--green-dark);
+      font-size: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 15px;
+      background: var(--white);
+      border-radius: 14px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    th, td {
+      text-align: left;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    th {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      background: var(--green-dark);
+      color: var(--white);
+    }
+    tr:last-child td { border-bottom: none; }
+    tr.highlight td {
+      background: #e8f6ee;
+      font-weight: 700;
+      color: var(--green-dark);
+    }
+    .table-wrap { overflow-x: auto; margin: 18px 0 8px; }
+
+    .flow {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+      margin: 18px 0 28px;
+    }
+    .flow span {
+      background: var(--green-dark);
+      color: #fff;
+      border-radius: 10px;
+      padding: 10px 14px;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .flow i {
+      color: var(--green-mid);
+      font-style: normal;
+      font-weight: 700;
+    }
+
+    .journey {
+      border-left: 4px solid var(--green-logo);
+      padding: 6px 0 6px 16px;
+      margin: 0 0 18px;
+    }
+    .journey strong {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 4px;
+      color: var(--green-dark);
+    }
+    .journey strong svg { width: 18px; height: 18px; flex-shrink: 0; }
+
+    .swatches { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 8px; }
+    .swatch {
+      width: 92px;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #fff;
+      font-size: 11px;
+      text-align: center;
+    }
+    .swatch b { display: block; height: 52px; }
+    .swatch span { display: block; padding: 8px 6px 10px; color: var(--muted); }
+
+    .offer {
+      background: linear-gradient(165deg, var(--green-dark), var(--green-deep));
+      color: #fff;
+      border-radius: 24px;
+      padding: 40px 36px;
+    }
+    .offer h2, .offer h3 { color: #fff; }
+    .offer .kicker { color: var(--cream); }
+    .offer-price {
+      font-family: "Fraunces", serif;
+      font-size: clamp(40px, 6vw, 64px);
+      font-weight: 600;
+      margin: 8px 0 6px;
+    }
+    .gallery {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin: 24px 0 8px;
+    }
+    .gallery.three { grid-template-columns: 1.2fr .7fr .7fr; }
+    .shot {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .shot img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
+    .shot.portrait img { aspect-ratio: 3/4; object-fit: cover; object-position: top; }
+    .shot figcaption {
+      padding: 12px 14px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .shot.wide { grid-column: 1 / -1; }
+    .shot.wide img { aspect-ratio: 16/8; }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s cubic-bezier(.22,.7,.2,1), transform .7s cubic-bezier(.22,.7,.2,1);
+      transition-delay: var(--reveal-delay, 0s);
+    }
+    .reveal.in {
+      opacity: 1;
+      transform: none;
+    }
+    .reveal.no-anim,
+    .reveal.no-anim.in {
+      transition: none !important;
+      animation: none !important;
+    }
+    .section-pop {
+      font-family: "Fraunces", serif;
+      font-size: clamp(28px, 4.4vw, 52px);
+      font-weight: 600;
+      text-align: center;
+      color: var(--green-dark);
+      line-height: 1.2;
+      letter-spacing: -0.03em;
+      max-width: 18ch;
+      margin: 56px auto 0;
+    }
+    .reveal.pop {
+      opacity: 0;
+      transform: scale(0.5);
+      transition: none;
+    }
+    .reveal.pop.in {
+      opacity: 1;
+      transform: scale(1);
+      animation: popIn .75s cubic-bezier(.22, 1.4, .36, 1) both;
+    }
+    @keyframes popIn {
+      0% { opacity: 0; transform: scale(0.42); }
+      58% { opacity: 1; transform: scale(1.12); }
+      100% { opacity: 1; transform: scale(1); }
+    }
+    .d1 { transition-delay: .08s; }
+    .d2 { transition-delay: .16s; }
+    .d3 { transition-delay: .24s; }
+    .d4 { transition-delay: .32s; }
+    .offer ul { margin: 12px 0 0 18px; }
+    .offer li { margin: 6px 0; }
+    .offer .note {
+      margin-top: 18px;
+      color: rgba(255,255,255,.85);
+    }
+
+    .ask {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .ask-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 18px;
+      border: 1px solid var(--line);
+    }
+    .sign {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 28px;
+    }
+    .sign-line {
+      border-top: 1px solid var(--line);
+      padding-top: 12px;
+      min-height: 96px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .callout {
+      background: #fff8ee;
+      border: 1px solid #f1d2a9;
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin: 16px 0;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      justify-content: center;
+      margin: 4px 0 28px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 56px;
+      padding: 14px 28px;
+      border-radius: 999px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+    .btn svg { width: 20px; height: 20px; }
+    .btn:hover { transform: translateY(-2px); }
+    .btn-primary {
+      background: #fff;
+      color: #0B3D2C;
+      box-shadow: 0 10px 30px rgba(0,0,0,.18);
+    }
+    .btn-ghost {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,.85);
+    }
+
+    .cover.finale-cover {
+      position: relative;
+      min-height: 84vh;
+      text-align: center;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .cover.finale-cover .cover-grid {
+      position: relative;
+      z-index: 2;
+      grid-template-columns: minmax(0, 720px);
+      justify-content: center;
+      text-align: center;
+    }
+    .cover.finale-cover h2 {
+      max-width: none;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .cover.finale-cover .cta-actions {
+      margin: 32px 0 0;
+    }
+    .finale-phone {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      right: 8%;
+      margin: auto 0;
+      height: min(640px, 90%);
+      width: auto;
+      max-width: none;
+      z-index: 1;
+      pointer-events: none;
+      filter: none;
+      box-shadow: none;
+      border-radius: 0;
+      animation: phoneFloat 3.2s ease-in-out infinite;
+    }
+    body.is-editing .finale-phone { pointer-events: auto; animation-play-state: paused; }
+    @keyframes heroPhoneFloat {
+      0%, 100% { transform: translateY(-50%); }
+      50% { transform: translateY(calc(-50% - 16px)); }
+    }
+    @keyframes phoneFloat {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-16px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-phone,
+      .finale-phone {
+        animation: none;
+      }
+    }
+
+    @media screen and (max-width: 960px) {
+      html, body { overflow-x: hidden; }
+      .wrap { width: calc(100% - 28px); }
+      .hero-grid, .gallery, .gallery.three, .cover-grid, .compare, .weeks, .price-duo, .ux-grid, .pain, .benefit-row { grid-template-columns: 1fr; }
+      .cover.reverse .cover-grid { direction: ltr; }
+      .weeks { grid-template-columns: 1fr 1fr; }
+      .cover-grid { width: calc(100% - 28px); gap: 22px; }
+      .cover h2 { max-width: none; font-size: clamp(28px, 7vw, 44px); }
+      .section-title { max-width: none; font-size: clamp(28px, 7vw, 42px); }
+      ul:not(.steps),
+      ol:not(.steps) {
+        padding-left: 1.55em;
+        margin-left: 12px;
+      }
+    }
+    @media screen and (max-width: 860px) {
+      .grid-2, .grid-4, .ask, .sign { grid-template-columns: 1fr; }
+      .weeks { grid-template-columns: 1fr; }
+      .pain-item { grid-template-columns: 44px 1fr; }
+      .benefit-row { grid-template-columns: 1fr; gap: 8px; }
+      .cta-actions { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+
+      .hero,
+      .cover-frame,
+      .cover-panel {
+        min-height: auto;
+        height: auto;
+      }
+      .cover-panel {
+        padding: 28px 16px 32px;
+        align-items: stretch;
+        overflow: hidden;
+      }
+      .cover-content {
+        width: 100%;
+        padding: 28px 22px 20px;
+        border-radius: 28px;
+      }
+      .hero-logo { margin-bottom: 18px; }
+      .hero-logo img { height: 44px; }
+      .hero h1 { font-size: clamp(26px, 8vw, 36px); }
+      .hero .sub { font-size: 11px; letter-spacing: 0.18em; }
+      .hero .pitch { font-size: 15px; margin-bottom: 22px; }
+      .hero-phone {
+        position: relative;
+        right: auto;
+        top: auto;
+        display: block;
+        height: 260px;
+        width: auto;
+        max-width: 220px;
+        margin: 12px auto 0;
+        animation-name: phoneFloat;
+      }
+      .finale-phone {
+        position: relative;
+        right: auto;
+        top: auto;
+        display: block;
+        height: 300px;
+        width: auto;
+        max-width: 250px;
+        margin: 28px auto 0;
+      }
+
+      .image-only { min-height: 42vh; }
+      .image-only img { height: 42vh; }
+
+      .cover {
+        min-height: auto;
+        padding: 48px 0;
+      }
+      .cover.stack { padding: 40px 0 0; }
+      .cover.overlay { min-height: 56vh; padding: 48px 16px; }
+      .cover-desc { font-size: 16px; }
+      .cover-grid img,
+      .cover.stack img {
+        height: 200px;
+        border-radius: 16px;
+      }
+
+      section.block { padding: 48px 0; }
+      .lead { font-size: 17px; }
+      .section-pop {
+        font-size: clamp(22px, 6.5vw, 30px);
+        margin-top: 32px;
+      }
+      .offer { padding: 22px 18px; }
+      .offer-price { font-size: 36px; }
+      .week { min-height: 0; }
+      .price-card { padding: 22px 18px; }
+      .table-wrap { margin-left: -6px; margin-right: -6px; }
+      table { font-size: 13px; }
+      th, td { padding: 10px 10px; }
+      .shot.portrait img { aspect-ratio: 4/5; max-height: 320px; }
+      .edit-bar {
+        left: 10px;
+        right: 10px;
+        bottom: 10px;
+        max-width: none;
+        justify-content: center;
+      }
+    }
+    @media screen and (max-width: 520px) {
+      .cover-content { padding: 22px 16px 16px; border-radius: 22px; }
+      .hero-logo img { height: 36px; }
+      .hero-phone { height: 210px; max-width: 170px; }
+      .finale-phone { height: 240px; max-width: 200px; }
+      .cover-kicker { font-size: 11px; }
+      .flow { gap: 6px; }
+      .flow span { font-size: 13px; padding: 8px 10px; }
+    }
+
+    @media print {
+      @page {
+        size: landscape;
+        margin: 8mm;
+      }
+      html, body {
+        background: #fff !important;
+        margin: 0;
+        padding: 0;
+      }
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+      .reveal, .reveal.d1, .reveal.d2, .reveal.d3, .reveal.pop, .cover-grid > div, .cover-grid > img {
+        opacity: 1 !important;
+        transform: none !important;
+        animation: none !important;
+      }
+      .section-pop { font-size: 28px !important; margin-top: 28px !important; }
+      .edit-bar, .align-toggle, input[type=file] { display: none !important; }
+      html.draft-pending body { visibility: visible !important; }
+
+      body > header.hero,
+      body > section {
+        box-sizing: border-box;
+        width: 100%;
+        height: 100vh;
+        max-height: 100vh;
+        min-height: 0 !important;
+        overflow: hidden;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+      body > section:last-of-type {
+        page-break-after: auto;
+        break-after: auto;
+      }
+      .hero {
+        display: flex;
+        flex-direction: column;
+        padding: 0 !important;
+      }
+      .hero .cover-frame {
+        min-height: 0 !important;
+        height: 100%;
+        flex: 1;
+      }
+      .cover.finale-cover .cover-grid {
+        grid-template-columns: minmax(0, 720px) !important;
+        justify-content: center;
+        text-align: center;
+      }
+      .finale-phone {
+        position: absolute !important;
+        top: 0 !important;
+        bottom: 0 !important;
+        right: 8% !important;
+        margin: auto 0 !important;
+        transform: none !important;
+        height: min(480px, 80%) !important;
+        max-height: none !important;
+        width: auto !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+      }
+      .image-only {
+        padding: 0 !important;
+        background: #000;
+      }
+      .image-only img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        filter: none !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        max-height: none !important;
+      }
+      .cover {
+        padding: 28px 20px !important;
+      }
+      .cover.stack { padding: 28px 20px 0 !important; }
+      .cover.overlay { min-height: 0 !important; }
+      .cover-grid { grid-template-columns: 1fr 1fr !important; }
+      .cover.stack .cover-grid { grid-template-columns: 1fr !important; }
+      .cover.overlay .cover-grid { grid-template-columns: minmax(0, 640px) !important; }
+      .cover.reverse .cover-grid { direction: rtl !important; }
+      .cover.reverse .cover-grid > * { direction: ltr !important; }
+      section.block {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 22px 28px !important;
+      }
+      .wrap {
+        width: min(1200px, calc(100% - 24px));
+        margin: 0 auto;
+      }
+      .grid-2, .compare, .price-duo, .ux-grid, .pain, .ask, .sign, .gallery {
+        grid-template-columns: 1fr 1fr !important;
+      }
+      .grid-4, .weeks { grid-template-columns: repeat(4, 1fr) !important; }
+      .gallery.three { grid-template-columns: 1.2fr .7fr .7fr !important; }
+      .benefit-row { grid-template-columns: 220px 1fr !important; }
+      .pain-item { grid-template-columns: 48px 1fr !important; }
+      .cta-actions {
+        flex-direction: row !important;
+        align-items: center !important;
+        justify-content: center !important;
+      }
+      .btn { width: auto !important; }
+      .cover-grid img,
+      .gallery img,
+      .shot img,
+      .shot.wide img {
+        height: auto !important;
+        max-height: 240px !important;
+      }
+      .section-title { font-size: 32px !important; }
+      .cover h2 { font-size: 40px !important; }
+      table { font-size: 12px; }
+      .print-fit-inner { width: 100%; }
+      section.block.is-print-fit,
+      section.block.is-print-fit {
+        justify-content: flex-start;
+      }
+      .is-print-fit > .print-fit-inner {
+        transform: scale(var(--print-scale, 1));
+        transform-origin: top center;
+      }
+    }
+
+    /* Visual editor */
+    .edit-bar {
+      display: none;
+      position: fixed;
+      right: 18px;
+      bottom: 18px;
+      z-index: 9999;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      background: #062e4f;
+      color: #fff;
+      padding: 10px 12px;
+      border-radius: 16px;
+      box-shadow: 0 16px 40px rgba(0,0,0,.28);
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 13px;
+      font-weight: 700;
+      max-width: calc(100vw - 36px);
+    }
+    html.draft-pending body { visibility: hidden; }
+    body.show-editor .edit-bar { display: flex; }
+    .edit-bar button {
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 12px;
+      font: inherit;
+      cursor: pointer;
+      background: #fff;
+      color: #062e4f;
+    }
+    .edit-bar button.ghost {
+      background: transparent;
+      color: #fff;
+      border: 1px solid rgba(255,255,255,.45);
+    }
+    .edit-bar .hint { font-weight: 500; opacity: .85; margin-right: 4px; }
+    .align-toggle {
+      display: none;
+      position: fixed;
+      z-index: 10001;
+      border: 0;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      background: #062e4f;
+      color: #fff;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+      white-space: nowrap;
+    }
+    .align-toggle.is-visible { display: block; }
+    body.is-editing [contenteditable="true"] {
+      outline: none;
+      cursor: text;
+    }
+    body.is-editing [contenteditable="true"]:hover,
+    body.is-editing [contenteditable="true"]:focus {
+      outline: 2px dashed rgba(13,117,184,.5);
+      outline-offset: 3px;
+    }
+    body.is-editing img:not(.edit-bar img):not(.cover-bg) {
+      outline: none;
+      cursor: pointer;
+    }
+    body.is-editing img:not(.edit-bar img):not(.cover-bg):hover {
+      outline: 2px dashed #1a8fe0;
+    }
+    body.is-editing .cover.overlay,
+    body.is-editing .cover-panel {
+      outline: none;
+      cursor: pointer;
+    }
+    body.is-editing .cover.overlay:hover,
+    body.is-editing .cover-panel:hover {
+      outline: 3px dashed #7ec8ff;
+      outline-offset: -8px;
+    }
+    body.is-editing img:not(.edit-bar img)::after { content: none; }
+  </style>
+</head>
+<body>
+<header class="hero" id="hero">
+<div class="cover-frame">
+<div class="cover-panel">
+<img alt="" class="cover-bg" src="proposal-assets/hero-cover-bg.png"/>
+<div class="cover-content reveal">
+<div class="hero-logo">
+<img alt="Mind Act" src="proposal-assets/logo-on-dark.png"/>
+</div>
+<p class="eyebrow">Confidential · August 2026</p>
+<h1>DataField</h1>
+<p class="sub">A Mindact on-field survey collection app</p>
+<div class="accent-line"></div>
+<p class="pitch">Your surveys. Your servers. Your brand. A MindAct-owned field platform so WHO-ECHO TPM data never lives on Kobo or Google Forms again.</p>
+<div class="cover-contact">
+<p class="label">Prepared by</p>
+<p class="author">Mo.G Creative Systems</p>
+<p><div><a href="https://wa.me/971509320937" rel="noopener" target="_blank">Mohamed Elgaili</a></div><div><a href="https://wa.me/971509320937" rel="noopener" target="_blank">+971 50 932 0937</a></div></p>
+</div>
+<img alt="" class="hero-phone" src="proposal-assets/hero-phone.png"/>
+</div>
+</div>
+</div>
+</header>
+<section class="image-only" id="after-hero">
+<img alt="" src="proposal-assets/after-hero.png"/>
+</section>
+<section class="cover" id="cover-purpose">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">01</p>
+<h2>Purpose</h2>
+<p class="cover-desc">From a village interview to a WHO-ready export, on MindAct infrastructure, not a rented form tool.</p>
+</div>
+<img alt="Humanitarian field work" src="proposal-assets/cover-purpose.png"/>
+</div>
+</section>
+<section class="block" id="purpose">
+<div class="wrap">
+<h2 class="section-title reveal">What’s the purpose?</h2>
+<p class="lead reveal d1">MindAct DataField is a purpose-built survey and TPM platform for MindAct’s field work in Sudan and beyond. Enumerators collect hospital, PHC, stabilization centre, and beneficiary exit interviews offline, then sync to MindAct’s own infrastructure on mind-act.co.</p>
+<div class="grid-2">
+<article class="card reveal"><div class="icon-wrap"><i data-lucide="wifi-off"></i></div><div class="num"><br/></div><h3>Collect offline</h3><p>High-quality survey data in low-connectivity, low-power environments.</p></article>
+<article class="card reveal d1"><div class="icon-wrap"><i data-lucide="shield-check"></i></div><div class="num"><br/></div><h3>Keep data inside MindAct</h3><p>Every submission, GPS point, photo, and export stays on MindAct, not a third-party form tool.</p></article>
+<article class="card reveal d2"><div class="icon-wrap"><i data-lucide="activity"></i></div><div class="num"><br/></div><h3>See the round live</h3><p>Supervisors track teams, states, facilities, and tools during a compressed field round.</p></article>
+<article class="card reveal d3"><div class="icon-wrap"><i data-lucide="award"></i></div><div class="num"><br/></div><h3>Look like the operator</h3><p>Present MindAct to WHO, IPs, and donors as a productized monitoring firm, not a team renting Kobo.</p></article>
+</div>
+<p class="muted reveal" style="margin-top:20px; text-align: center">This is not a consumer Play Store toy, and not a pixel-clone of Kobo.</p>
+<p class="section-pop reveal pop">It's MindAct's operational system for TPM and future Surveys.</p>
+</div>
+</section>
+<section class="cover reverse" id="cover-benefits">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">02</p>
+<h2>Benefit</h2>
+<p class="cover-desc">Own the data, the brand, and the workflow. Reuse the same engine for the next donor and the next state.</p>
+</div>
+<img alt="Partnership handshake" src="proposal-assets/cover-benefits.png"/>
+</div>
+</section>
+<section class="block paper" id="benefits">
+<div class="wrap">
+<h2 class="section-title reveal">How does MindAct benefit?</h2>
+<div class="benefit-list reveal d1">
+<article class="benefit-row"><h3>1. Data ownership</h3><p>WHO-ECHO and future project data sit on MindAct-controlled hosting. No Kobo account dependency, no Google Forms custody.</p></article>
+<article class="benefit-row"><h3>2. Branding</h3><p>Enumerators, facility staff, and clients see MindAct DataField and mind-act.co, not a generic humanitarian tool.</p></article>
+<article class="benefit-row"><h3>3. Win more work</h3><p>Proposals can say “proprietary offline TPM platform + owned datasets,” a real differentiator vs consultancies who only subcontract Kobo.</p></article>
+<article class="benefit-row"><h3>4. Speed in the field</h3><p>Facility roster, team assignment (A–D), tool picker (1–4), and 10-day completeness are built for MindAct’s actual TPM workflow.</p></article>
+<article class="benefit-row"><h3>5. Client confidence</h3><p>Clients can be given access to the app's dashboard that shows targets vs actual (hospitals, PHCs, SCs, exit interviews), GPS map, QA flags, and one-click export.</p></article>
+<article class="benefit-row"><h3>6. Reuse</h3><p>After WHO-ECHO, the same engine runs the next survey round, new tools, new states, new donors.</p></article>
+<article class="benefit-row"><h3>7. Lock-in the right way</h3><p>Clients stay because the data and workflow live with MindAct, not because of a vendor trap you do not control.</p></article>
+</div>
+<p class="reveal" style="margin-top:28px; text-align: center"><strong>Kobo makes MindAct look like every other implementer. </strong></p>
+<p class="section-pop reveal pop">DataField improves MindAct's positioning.</p>
+</div>
+</section>
+<section class="cover overlay" id="cover-pains">
+<img alt="" class="cover-bg" src="proposal-assets/cover-pains-bg.png"/>
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">03</p>
+<h2>Pain Points</h2>
+<p class="cover-desc">Custody, connectivity, and TPM shape. These are the problems a generic tool will not solve in rural Sudan.</p>
+</div>
+</div>
+</section>
+<section class="block" id="pains">
+<div class="wrap">
+<h2 class="section-title reveal">What problems does this solve?</h2>
+<div class="pain">
+<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="database"></i></div><div><strong>Data is not really yours.</strong> Kobo/Google hold the project, media, and access trail. Offboarding, audit, and “delete our data from their cloud” become political.</div></div>
+<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="wifi-off"></i></div><div><strong>Rural Sudan breaks online forms.</strong> Google Forms needs a live connection. Teams lose interviews, batch-submit in towns, or fall back to paper and re-entry error.</div></div>
+<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="layout-grid"></i></div><div><strong>Generic tools ignore TPM shape.</strong> 40 facilities, 15 states, 4 tools, 4 teams, 10 field days, GPS + photos, 260 exit interviews. Kobo can store answers; it does not run this operation.</div></div>
+<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="eye-off"></i></div><div><strong>Supervisors fly blind.</strong> Completeness vs target is a spreadsheet after the fact, not a live board during Days 1–10.</div></div>
+<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="tag"></i></div><div><strong>Brand leakage.</strong> Every tablet opens Kobo. Partners remember the tool, not MindAct.</div></div>
+<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="heart-handshake"></i></div><div><strong>Arabic + protection interviews are awkward.</strong> Tool 4 needs consent, PSEA-safe close, no probing. Generic builders do not encode that duty of care.</div></div>
+<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="bar-chart-3"></i></div><div><strong>Analysis is bolted on.</strong> Charts in Kobo/Forms are shallow. Facility × IP × tool triangulation for WHO reports is manual and slow.</div></div>
+<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="battery-low"></i></div><div><strong>Electricity and media.</strong> Uncompressed photos and chatty cloud apps drain batteries and fail on weak 3G. The product must queue, compress, and retry.</div></div>
+</div>
+<p class="section-pop reveal pop">Control is the product.</p>
+</div>
+</section>
+<section class="cover stack" id="cover-kobo">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">04</p>
+<h2>Kobo Comparison</h2>
+<p class="cover-desc">Kobo is excellent but MindAct DataField is MindAct’s production stack: your data, your brand, your TPM workflow.</p>
+</div>
+<img alt="Team working on laptops" src="proposal-assets/cover-kobo.jpg"/>
+</div>
+</section>
+<section class="block paper" id="kobo">
+<div class="wrap">
+<h2 class="section-title reveal">Why is this better than Kobo?</h2>
+<p class="lead reveal d1">This does not claim to beat Kobo worldwide. It beats Kobo as MindAct’s production stack.</p>
+<div class="compare reveal d1">
+<div class="compare-col them">
+<h3>Kobo</h3>
+<ul>
+<li><strong>Custody:</strong> their cloud, or a self-host you still do not brand</li>
+<li><strong>Brand:</strong> KoboCollect on every device</li>
+<li><strong>Workflow:</strong> generic projects and forms</li>
+<li><strong>Client view:</strong> share a project or send Excel</li>
+<li><strong>Offline:</strong> strong, field-proven</li>
+<li><strong>Arabic TPM tools:</strong> rebuild forms each time</li>
+<li><strong>Later:</strong> you are a tenant</li>
+<li><strong>3 years:</strong> “free” + staff time + brand dilution</li>
+</ul>
+</div>
+<div class="compare-col us">
+<h3>MindAct DataField</h3>
+<ul>
+<li><strong>Custody:</strong> MindAct servers, access logs, exports</li>
+<li><strong>Brand:</strong> MindAct DataField + mind-act.co</li>
+<li><strong>Workflow:</strong> facilities, IPs, Teams A–D, Tools 1–4</li>
+<li><strong>Client view:</strong> branded dashboard, map, QA, report</li>
+<li><strong>Offline:</strong> same conditions, MindAct sync queue UX</li>
+<li><strong>Arabic TPM tools:</strong> Tools 1–4 native and versioned</li>
+<li><strong>Later:</strong> you own the product and the history</li>
+<li><strong>3 years:</strong> one build you own + modest hosting</li>
+</ul>
+</div>
+</div>
+<div class="callout reveal">Kobo has years of offline edge-case fixes and global enumerator familiarity. MindAct Collect does not pretend to replace Kobo for every NGO on earth. It replaces MindAct’s dependence on Kobo so <strong>your</strong> data, <strong>your</strong> brand, and <strong>your</strong> TPM workflow are first-class.</div>
+<p style="text-align: center"><strong>Free software is expensive when the dataset and the reputation sit on someone else’s platform.</strong></p>
+<p class="section-pop reveal pop">Kobo is an external tool. <div>This is yours.</div></p>
+</div>
+</section>
+<section class="cover" id="cover-how">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">05</p>
+<h2>How It Works</h2>
+<p class="cover-desc">Collect in the field. Queue when the signal dies. Analyze on mind-act.co when you are back online.</p>
+</div>
+<img alt="Tablet in the field" src="proposal-assets/cover-how.png"/>
+</div>
+</section>
+<section class="block" id="how">
+<div class="wrap">
+<h2 class="section-title reveal">How will the app work?</h2>
+<div class="flow reveal d1">
+<span>Enumerator offline</span><i>→</i>
+<span>Queue + sync</span><i>→</i>
+<span>MindAct admin</span><i>→</i>
+<span>Client dashboard</span><i>→</i>
+<span>WHO exports</span>
+</div>
+<p class="reveal">Supervisor feeds the same admin layer. Four surfaces. One data store.</p>
+<div class="gallery reveal d1">
+<figure class="shot portrait"><img alt="Field app home placeholder" src="proposal-assets/ui-field-home.png"/><figcaption>Field home · assignments</figcaption></figure>
+<figure class="shot portrait"><img alt="Sync queue placeholder" src="proposal-assets/ui-sync-queue.png"/><figcaption>Sync queue · offline retry</figcaption></figure>
+<figure class="shot wide"><img alt="Client dashboard placeholder" src="proposal-assets/ui-dashboard.png"/><figcaption>Client dashboard · hosted by MindAct</figcaption></figure>
+</div>
+<div class="grid-2">
+<article class="card reveal"><div class="icon-wrap"><i data-lucide="smartphone"></i></div><h3>1. Field app</h3><p>Android phones/tablets. Login or QR setup. Assigned facilities. Tools 1–4. Drafts offline. Required GPS and compressed photos. Finalize into a sync queue. Auto-retry when online.</p></article>
+<article class="card reveal d1"><div class="icon-wrap"><i data-lucide="users"></i></div><h3>2. Supervisor</h3><p>Teams A–D board. Completeness matrix (facility × tool). Pending sync. Revisit / access issues. State debrief notes.</p></article>
+<article class="card reveal d2"><div class="icon-wrap"><i data-lucide="server"></i></div><h3>3. Ops admin</h3><p>On mind-act.co: projects, 40-facility roster, form versions, users/roles, raw submissions, media, access log. This is the ownership layer.</p></article>
+<article class="card reveal d3"><div class="icon-wrap"><i data-lucide="layout-dashboard"></i></div><h3>4. Client dashboard</h3><p>Round command center (10 hospitals / 16 PHC / 10 SC / 260 exits), GPS map, facility dossier, QA flags, clean dataset + round report. Badge: <strong>Hosted by MindAct</strong>.</p></article>
+</div>
+<h3>Field reality rules</h3>
+<ul>
+<li>No beneficiary self-fill on a public website. Enumerator-led.</li>
+<li>Paper fallback IDs if a device dies; enter later under the same case ID.</li>
+<li>Sync hubs: locality capital, overnight, or Days 7–10 QA window.</li>
+<li>Arabic RTL in the field; English (bilingual-ready) on the client dashboard.</li>
+</ul>
+<p class="section-pop reveal pop">Offline first. <div>MindAct always.</div></p>
+</div>
+</section>
+<section class="cover reverse" id="cover-ui">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">06</p>
+<h2>UI Design</h2>
+<p class="cover-desc">A Sudan-ready field tool: high contrast outdoors, calm trust on the web. Not a purple SaaS clone.</p>
+</div>
+<img alt="Design work" src="proposal-assets/cover-ui.png"/>
+</div>
+</section>
+<section class="block paper" id="ui">
+<div class="wrap">
+<h2 class="section-title reveal">What does the UI look like?</h2>
+<figure class="shot wide reveal d1" style="margin-bottom:20px">
+<img alt="Nile Field design system placeholder" src="proposal-assets/ui-design-system.png"/>
+<figcaption>Placeholder · DataField design system board</figcaption>
+</figure>
+<div class="swatches reveal d2">
+<div class="swatch"><b style="background:#0F5C5C"></b><span>#0F5C5C teal</span></div>
+<div class="swatch"><b style="background:#C45C1A"></b><span>#C45C1A clay</span></div>
+<div class="swatch"><b style="background:#F3EFE6"></b><span>#F3EFE6 sand</span></div>
+<div class="swatch"><b style="background:#F7F5F0"></b><span>#F7F5F0 canvas</span></div>
+<div class="swatch"><b style="background:#1A2421"></b><span>#1A2421 ink</span></div>
+<div class="swatch"><b style="background:#0B3D2C"></b><span>MindAct green</span></div>
+</div>
+<p><strong>Type:</strong> Field Arabic: IBM Plex Sans Arabic. Web headlines: Fraunces. Web UI: IBM Plex Sans.</p>
+<p>Clients should see instantly: teal top bar with MindAct wordmark, always-visible Online / Offline / Pending chips, large tap targets. No generic Inter/Roboto look inside the product UI.</p>
+<p class="section-pop reveal pop">Built for Sudan.</p>
+</div>
+</section>
+<section class="cover overlay" id="cover-ux">
+<img alt="" class="cover-bg" src="proposal-assets/cover-ux-bg.png"/>
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">07</p>
+<h2>User Experience</h2>
+<p class="cover-desc">Enumerator, exit interview, supervisor, client. Each path is designed for the 10-day TPM reality.</p>
+</div>
+</div>
+</section>
+<section class="block" id="ux">
+<div class="wrap">
+<h2 class="section-title reveal">How will people use it?</h2>
+<div class="gallery reveal d1">
+<figure class="shot portrait"><img alt="Enumerator home placeholder" src="proposal-assets/ui-field-home.png"/><figcaption>Journey 1 · enumerator home</figcaption></figure>
+<figure class="shot portrait"><img alt="Sync queue placeholder" src="proposal-assets/ui-sync-queue.png"/><figcaption>Journey 1 close · sync later</figcaption></figure>
+</div>
+<div class="ux-grid">
+<article class="ux-card reveal"><h3> 1. Hospital assessment</h3><p>Login → My work → Facility → Tool 1 → Sections A–N with draft save → GPS → Photos → Finalize → Queue → Sync later.</p></article>
+<article class="ux-card reveal d1"><h3> 2. Exit interview</h3><p>Consent → Demographics → Access → Protection → Close with feedback channel → Finalize with no name stored.</p></article>
+<article class="ux-card reveal"><h3> 3. Supervisor day check</h3><p>Team board → Filter state/team → Incomplete facilities / pending sync → Flag revisit → Debrief note.</p></article>
+<article class="ux-card reveal d1"><h3> 4. Client ownership</h3><p>Login → Targets vs actual → GPS map → Facility dossier → Export → Ownership badge and access log.</p></article>
+</div>
+<h3>Non-negotiables</h3>
+<ul>
+<li>Cannot finalize without required GPS when marked.</li>
+<li>Sync failure is retryable, never silent data loss.</li>
+<li>Tool 4: no probing of alleged perpetrators; PSEA path if payment/gift is disclosed.</li>
+<li>Client landing is one headline + one CTA, not a card dump.</li>
+</ul>
+<p class="section-pop reveal pop">Four journeys. One round.</p>
+</div>
+</section>
+<section class="cover stack" id="cover-process">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">08</p>
+<h2>App Development Process</h2>
+<p class="cover-desc">A short, AI-accelerated build with MindAct checkpoints. Offline sync and security stay human-owned.</p>
+</div>
+<img alt="Software development" src="proposal-assets/cover-process.png"/>
+</div>
+</section>
+<section class="block paper" id="process">
+<div class="wrap">
+<h2 class="section-title reveal">How will it be built?</h2>
+<ol class="steps reveal d1">
+<li><span class="dot">0</span><div><h3>Discovery (done)</h3><p>WHO-ECHO tools, 15-state coverage, ownership requirement understood. MindAct: approve this proposal.</p></div></li>
+<li><span class="dot">1</span><div><h3>UI lock</h3><p>DataField screens. MindAct: one review call, written sign-off.</p></div></li>
+<li><span class="dot">2</span><div><h3>Core field build</h3><p>Auth, assignments, Tools 1–4, offline store, GPS/photos, sync queue. MindAct: device demo.</p></div></li>
+<li><span class="dot">3</span><div><h3>Command layer</h3><p>Supervisor completeness + admin roster/users/submissions. MindAct: review roles and facility list.</p></div></li>
+<li><span class="dot">4</span><div><h3>Client dashboard</h3><p>Progress, map, QA flags, exports, ownership panel. MindAct: review WHO-facing view.</p></div></li>
+<li><span class="dot">5</span><div><h3>Hardening</h3><p>Arabic RTL, offline/sync torture test, photo compression. MindAct: airplane-mode UAT.</p></div></li>
+<li><span class="dot">6</span><div><h3>Handover</h3><p>Source, credentials, admin training, 30-day hypercare. MindAct: accept launch.</p></div></li>
+</ol>
+<p><strong>How AI is used:</strong> AI accelerates UI implementation, form schemas, and dashboard scaffolding. Offline sync, security, and UAT remain human-owned.</p>
+<h3>What MindAct receives at handover</h3>
+<ul>
+<li>Android field app (sideload + Play internal track if desired)</li>
+<li>mind-act.co admin + client dashboard</li>
+<li>Source code and deployment access on MindAct-controlled hosting</li>
+<li>Admin guide (Arabic/English outline)</li>
+<li>30 days of bugfix hypercare after launch</li>
+</ul>
+<p class="section-pop reveal pop">Lock the UI. Then ship.</p>
+</div>
+</section>
+<section class="cover" id="cover-budget">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">09</p>
+<h2>Market Cost</h2>
+<p class="cover-desc">Benchmark only: a small regional studio vs a freelance full-stack. Not a Dubai enterprise quote.</p>
+</div>
+<img alt="Budget planning" src="proposal-assets/cover-budget.png"/>
+</div>
+</section>
+<section class="block" id="budget">
+<div class="wrap">
+<h2 class="section-title reveal">What would the market charge?</h2>
+<div class="price-duo reveal d1">
+<article class="price-card"><p class="num">Small regional studio</p><p class="amt">AED 35k–80k</p><p>2–4 months. Designer + developer + light PM. About 200–400 studio hours.</p></article>
+<article class="price-card"><p class="num">Freelance full-stack</p><p class="amt">AED 15k–45k</p><p>7–10 weeks. One contractor, usually without dedicated designer or QA.</p></article>
+</div>
+<p class="lead">In-house Sudan/Egypt hire: AED 8k–48k salary over 2–4 months, plus hiring delay. Hosting (to own the data): AED 150–400 / month.</p>
+<div class="table-wrap reveal d1">
+<table>
+<thead><tr><th>Workstream</th><th>Small regional studio</th><th>Freelance full-stack</th></tr></thead>
+<tbody>
+<tr><td>Discovery, UX/UI, design system</td><td>AED 4,000–10,000</td><td>AED 2,000–6,000 (or DIY)</td></tr>
+<tr><td>Android field app (offline, GPS, photos, sync)</td><td>AED 12,000–25,000</td><td>AED 6,000–15,000</td></tr>
+<tr><td>Supervisor + admin + client dashboard</td><td>AED 8,000–20,000</td><td>AED 4,000–12,000</td></tr>
+<tr><td>Backend, auth, media, access logs</td><td>AED 7,000–15,000</td><td>AED 3,000–10,000</td></tr>
+<tr><td>Arabic RTL, QA, UAT, launch</td><td>AED 3,000–7,000</td><td>AED 1,000–4,000</td></tr>
+<tr><td>Project management</td><td>AED 2,000–8,000</td><td>Folded into the rate</td></tr>
+<tr class="highlight"><td>Typical build total</td><td>AED 35,000–80,000</td><td>AED 15,000–45,000</td></tr>
+<tr><td>Calendar time</td><td>2–4 months</td><td>4–10 weeks</td></tr>
+<tr><td>Post-launch support</td><td>AED 2,000–6,000 / month</td><td>AED 1,000–4,000 / month or hourly</td></tr>
+</tbody>
+</table>
+</div>
+<h3>How those ranges are built</h3>
+<p><strong>Small regional studio.</strong> A 2–4 person shop commonly bills about AED 80–180/hour blended. This scope is roughly 200–400 studio hours. That is how you reach AED 35k–80k.</p>
+<p><strong>Freelance full-stack.</strong> A capable regional/remote contractor often charges about AED 55–150/hour ($15–40/hr), or AED 4,000–12,000/month. A tight build is 180–350 focused hours. That is how you reach AED 15k–45k, usually without a dedicated designer or QA.</p>
+<p><strong>In-house hire.</strong> A full-stack employee in Sudan/Egypt is often AED 4,000–12,000/month. Two to four months of build is AED 8,000–48,000 in salary before you have a finished v1, and you still carry the person after launch.</p>
+<h3>Usually not in those build quotes</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Ongoing / extra</th><th>Typical</th></tr></thead>
+<tbody>
+<tr><td>Hosting + database + photo storage</td><td>AED 150–400 / month (this is how you own the data)</td></tr>
+<tr><td>Play Store account, devices, SIMs, power banks</td><td>MindAct operations budget</td></tr>
+<tr><td>Scope changes</td><td>10–30% on top of the build</td></tr>
+<tr><td>Warranty after handover</td><td>Often 2–8 weeks, then hourly or a small retainer</td></tr>
+</tbody>
+</table>
+</div>
+<p><strong>If MindAct hires the market it would actually use, budget AED 15,000–45,000 for a freelance full-stack, or AED 35,000–80,000 for a small studio, over one to four months.</strong></p>
+<p>Kobo remains “free” only if MindAct accepts that the brand and the dataset do not sit fully inside MindAct.</p>
+<p class="section-pop reveal pop">App-dev market is merciless.</p>
+</div>
+</section>
+<section class="cover reverse" id="cover-timeline">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">10 </p>
+<h2>Development Timeline</h2>
+<p class="cover-desc">Known TPM toolkit. Locked screens. AI-accelerated build. Still serious about offline and UAT.</p>
+</div>
+<img alt="Calendar planning" src="proposal-assets/cover-timeline.png"/>
+</div>
+</section>
+<section class="block paper" id="timeline">
+<div class="wrap">
+<h2 class="section-title reveal">How long will it take?</h2>
+<div class="weeks reveal d1">
+<article class="week"><p class="num">Week 0 · 2–3 days</p><h3>UI lock</h3><p>Stitch + this proposal. You see a signed screen set.</p></article>
+<article class="week"><p class="num">Week 1</p><h3>Field app walking</h3><p>Login, assignments, one full tool offline. You see a device demo.</p></article>
+<article class="week"><p class="num">Week 2</p><h3>All four tools</h3><p>GPS, photos, sync to admin. You see an end-to-end dummy round.</p></article>
+<article class="week"><p class="num">Week 3</p><h3>Dashboard + handover</h3><p>Supervisor, client view, UAT. You see a launch candidate.</p></article>
+</div>
+<p style="margin-top:24px"><strong>Buffer:</strong> +3–5 days if Play Store listing, extra WHO wording, or major UI revisions after sign-off.</p>
+<p>This is short and still serious because the scope is MindAct’s known TPM toolkit, not a global Kobo clone.</p>
+<p class="section-pop reveal pop">Three weeks after UI lock.</p>
+</div>
+</section>
+<section class="cover overlay" id="cover-offer">
+<img alt="" class="cover-bg" src="proposal-assets/cover-offer-bg.png"/>
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">11</p>
+<h2>The Offer</h2>
+<p class="cover-desc">Full v1 on MindAct infrastructure. Source included. 30-day hypercare after acceptance.</p>
+</div>
+</div>
+</section>
+<section class="block" id="offer">
+<div class="wrap">
+<h2 class="section-title reveal">What’s the offer?</h2>
+<div class="offer reveal d1">
+<p class="kicker"> The offer</p>
+<h2>Design, implement, and deliver MindAct DataField for AED 10,000.</h2>
+<div class="offer-price">AED 10,000</div>
+<p>Entire first-version product. One fee.</p>
+<h3>Included</h3>
+<ul>
+<li>MindAct DataField app (offline-first, Arabic)</li>
+<li>Supervisor view</li>
+<li>mind-act.co admin + client dashboard</li>
+<li>Source and deployment on MindAct-controlled infrastructure</li>
+<li>30-day hypercare after acceptance</li>
+</ul>
+<p class="note"><strong>Not included:</strong> unlimited new modules forever, hardware, or a promise to out-feature Kobo on every generic use case in year one.</p>
+<p class="note">MindAct already has a live WHO-ECHO TPM use case, four Arabic tools, and a 10-day field model. Building against a real round is the cheapest moment to own the stack. Waiting until after another Kobo round means another dataset you do not fully control.</p>
+<p class="note"><strong>Next step:</strong> Approve this proposal + UI lock → start Week 1 → first device demo within 7 days of sign-off.</p>
+</div>
+<p class="section-pop reveal pop">AED 10,000 <div><br/><div>Full working app</div><div>+</div><div>Maintenance</div></div></p>
+</div>
+</section>
+<section class="cover stack" id="cover-why">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">12</p>
+<h2>Price Justification</h2>
+<p class="cover-desc">You just saw the hiring market. This offer undercuts a studio and beats a typical freelancer on price, speed, and handover.</p>
+</div>
+<img alt="Analytics dashboard" src="proposal-assets/cover-why.jpg"/>
+</div>
+</section>
+<section class="block paper" id="why">
+<div class="wrap">
+<h2 class="section-title reveal">Why is this price reasonable?</h2>
+<div class="table-wrap reveal d1">
+<table>
+<thead><tr><th>Path</th><th>Typical you would pay</th><th>Time</th><th>What you own</th></tr></thead>
+<tbody>
+<tr><td>Small regional studio</td><td>AED 35,000–80,000</td><td>2–4 months</td><td>The build, after a studio contract</td></tr>
+<tr><td>Freelance full-stack</td><td>AED 15,000–45,000</td><td>4–10 weeks</td><td>The build, if the contractor documents it</td></tr>
+<tr><td>In-house hire (Sudan/Egypt)</td><td>AED 8,000–48,000 salary over 2–4 months</td><td>Hiring delay + months</td><td>An employee, not necessarily a finished product</td></tr>
+<tr><td>Kobo / Google Forms</td><td>AED 0 license</td><td>Immediate</td><td>Neither the platform nor clean custody</td></tr>
+<tr class="highlight"><td>This offer</td><td>AED 10,000 one-time</td><td>~3 weeks after UI lock</td><td>Full v1, source, MindAct hosting, 30-day hypercare</td></tr>
+</tbody>
+</table>
+</div>
+<p>About <strong>3.5–8× less than a small studio</strong> and <strong>at or below the bottom of a freelance engagement</strong>, with a faster calendar and a locked UI already done.</p>
+<h3>Why this still wins against a cheap freelancer</h3>
+<ol>
+<li>AI-native delivery plus a pre-locked DataField UI, so MindAct is not paying discovery weeks.</li>
+<li>Scope is already known: Tools 1–4, 40 facilities, 4 teams, 4 surfaces.</li>
+<li>Four surfaces in one fee: field + supervisor + admin + client dashboard, not a field-only script.</li>
+<li>Founding-partner rate: MindAct is the first logo. You get ownership-level pricing; the builder gets a reference product.</li>
+<li>Handover is included: source, MindAct-controlled hosting, 30-day hypercare. Many freelance quotes stop at “it runs on my laptop.”</li>
+</ol>
+<h3>Risk controls</h3>
+<ul>
+<li>Milestone or installment payments</li>
+<li>UI sign-off before heavy build</li>
+<li>Source + hosting in MindAct’s control at handover</li>
+<li>Hypercare window included</li>
+</ul>
+<p><strong>A small studio would likely ask AED 35k–80k and take months. A freelancer would likely ask AED 15k–45k with more delivery risk. Paying AED 0 to Kobo leaves data and brand where they are today. AED 10,000 is where ownership becomes rational.</strong></p>
+<p class="section-pop reveal pop">Ownership at a founding price.</p>
+</div>
+</section>
+<section class="cover" id="cover-payment">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">13</p>
+<h2>Payment Terms</h2>
+<p class="cover-desc">Milestones, or up to four monthly installments. Final schedule in a short agreement.</p>
+</div>
+<img alt="Payment" src="proposal-assets/cover-payment.png"/>
+</div>
+</section>
+<section class="block" id="payment">
+<div class="wrap">
+<h2 class="section-title reveal">How can MindAct pay?</h2>
+<p class="reveal d1">Final schedule to be written into a short services agreement.</p>
+<div class="grid-2">
+<article class="card">
+<h3>Option A — Milestones (recommended)</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Milestone</th><th>When</th><th>Amount</th></tr></thead>
+<tbody>
+<tr><td>1. Kickoff (30%)</td><td>UI sign-off + agreement</td><td>AED 3,000</td></tr>
+<tr><td>2. Field core (30%)</td><td>Tools offline + sync demo</td><td>AED 3,000</td></tr>
+<tr><td>3. Full v1 (25%)</td><td>Dashboard + UAT start</td><td>AED 2,500</td></tr>
+<tr><td>4. Acceptance (15%)</td><td>Handover + credentials</td><td>AED 1,500</td></tr>
+<tr class="highlight"><td>Total</td><td></td><td>AED 10,000</td></tr>
+</tbody>
+</table>
+</div>
+</article>
+<article class="card">
+<h3>Option B — 4 monthly installments</h3>
+<div class="table-wrap">
+<table>
+<thead><tr><th>Month</th><th>Trigger</th><th>Amount</th></tr></thead>
+<tbody>
+<tr><td>Month 1</td><td>Agreement + kickoff</td><td>AED 2,500</td></tr>
+<tr><td>Month 2</td><td>Handover</td><td>AED 2,500</td></tr>
+<tr><td>Month 3</td><td>Calendar</td><td>AED 2,500</td></tr>
+<tr><td>Month 4</td><td>Calendar</td><td>AED 2,500</td></tr>
+<tr class="highlight"><td>Total</td><td></td><td>AED 10,000</td></tr>
+</tbody>
+</table>
+</div>
+</article>
+</div>
+<p style="margin-top:18px">Installments can overlap a 3-week build (Months 1–2 cover delivery; Months 3–4 are cash-flow smoothing). Options can be combined: last installment due only after acceptance.</p>
+<p>Hosting invoices are separate, in MindAct’s name, and are not part of the build fee unless MindAct asks to prepay the first 3 months at cost.</p>
+<p class="section-pop reveal pop">Pay in milestones or months.</p>
+</div>
+</section>
+<section class="cover reverse" id="cover-close">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">14</p>
+<h2>Next Steps</h2>
+<p class="cover-desc">Stop renting the pipeline, choose payment option, start Week 1.</p>
+</div>
+<img alt="Open road" src="proposal-assets/cover-close.jpg"/>
+</div>
+</section>
+<section class="block paper" id="close">
+<div class="wrap">
+<h2 class="section-title reveal">What’s next?</h2>
+<ul>
+<li>MindAct DataField puts WHO-ECHO TPM data on MindAct infrastructure.</li>
+<li>Field teams work offline in Arabic; clients see a branded dashboard, not a Kobo export.</li>
+<li>AED 10,000, ~3 weeks after UI lock, milestone or 4-month payment.</li>
+</ul>
+<div class="ask">
+<div class="ask-item reveal"><div class="icon-wrap"><i data-lucide="file-check"></i></div><div class="num">01</div><strong>Approve this proposal.</strong></div>
+<div class="ask-item reveal d1"><div class="icon-wrap"><i data-lucide="pen-line"></i></div><div class="num">02</div><strong>Sign off DataField UI</strong> (or request one revision round).</div>
+<div class="ask-item reveal d2"><div class="icon-wrap"><i data-lucide="circle-dollar-sign"></i></div><div class="num">03</div><strong>Choose payment Option A or B.</strong></div>
+<div class="ask-item reveal d3"><div class="icon-wrap"><i data-lucide="rocket"></i></div><div class="num">04</div><strong>Kick off Week 1.</strong></div>
+</div>
+<div class="sign">
+<div class="sign-line"><br/></div>
+<div class="sign-line"><br/></div>
+</div>
+<p class="muted" style="margin-top:28px">Attachments to follow: <div>- DataField UI screens </div><div>- WHO-ECHO Tools 1–4 map</div><div>- Draft milestone agreement</div><div>- Indicative hosting quote (accounts in MindAct’s name)</div></p>
+<p class="section-pop reveal pop">Approve. Sign. <div>Start Week 1.</div></p>
+</div>
+</section>
+<section class="cover finale-cover" id="thanks">
+<div class="cover-grid">
+<div>
+<p class="cover-kicker">Take action</p>
+<h2>Sign the agreement and we'll start today.</h2>
+<div class="cta-actions">
+<a class="btn btn-primary" href="https://wa.me/971509320937?text=Hi%20Mo.G%2C%20MindAct%20is%20ready%20to%20sign%20the%20MindAct%20Collect%20agreement." rel="noopener" target="_blank">
+<i data-lucide="file-signature"></i>
+            Sign the agreement
+          </a>
+<a class="btn btn-ghost" href="https://wa.me/971509320937" rel="noopener" target="_blank">
+<i data-lucide="message-circle"></i>
+            Contact +971 50 932 0937
+          </a>
+</div>
+</div>
+</div>
+<img alt="" class="finale-phone" src="proposal-assets/finale-phone.png"/>
+</section>
+<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+<script>
+    lucide.createIcons();
+
+    (function scrollReveal() {
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        document.querySelectorAll(".reveal").forEach((el) => el.classList.add("in"));
+        return;
+      }
+
+      const GROUPS = new Set([
+        "grid-2", "grid-4", "pain", "gallery", "weeks", "ux-grid", "compare",
+        "benefit-list", "ask", "sign", "price-duo", "steps", "swatches"
+      ]);
+
+      function stamp(el, delay) {
+        if (!el || el.closest(".edit-bar, .align-toggle")) return;
+        el.classList.add("reveal");
+        if (el.classList.contains("section-pop")) el.classList.add("pop");
+        el.style.setProperty("--reveal-delay", (delay || 0) + "s");
+      }
+
+      function stampChildren(parent) {
+        const kids = [...parent.children].filter((n) => n.nodeType === 1 && !n.classList.contains("cover-bg"));
+        kids.forEach((kid, i) => stamp(kid, Math.min(i * 0.08, 0.4)));
+      }
+
+      document.querySelectorAll(".hero .cover-content").forEach((el) => stamp(el, 0));
+      document.querySelectorAll(".image-only img").forEach((el) => stamp(el, 0));
+      document.querySelectorAll(".cover-grid").forEach((grid) => stampChildren(grid));
+      document.querySelectorAll("section.block .wrap").forEach((wrap) => {
+        [...wrap.children].forEach((child, i) => {
+          const group = [...child.classList].some((c) => GROUPS.has(c));
+          if (group) stampChildren(child);
+          else stamp(child, Math.min(i * 0.06, 0.24));
+        });
+      });
+
+      let lastY = window.scrollY || 0;
+      let scrollingDown = true;
+      window.addEventListener("scroll", () => {
+        const y = window.scrollY || 0;
+        if (Math.abs(y - lastY) > 1) scrollingDown = y > lastY;
+        lastY = y;
+      }, { passive: true });
+
+      const state = new WeakMap();
+
+      function replay(el) {
+        el.classList.remove("no-anim", "in");
+        el.style.animation = "none";
+        void el.offsetWidth;
+        el.style.removeProperty("animation");
+        requestAnimationFrame(() => el.classList.add("in"));
+      }
+      function settle(el) {
+        el.classList.add("no-anim", "in");
+        requestAnimationFrame(() => el.classList.remove("no-anim"));
+      }
+
+      const io = new IntersectionObserver((entries) => {
+        entries.forEach((e) => {
+          const el = e.target;
+          if (e.isIntersecting) {
+            if (scrollingDown && state.get(el) !== "in") replay(el);
+            else if (!scrollingDown) settle(el);
+            else if (!el.classList.contains("in")) replay(el);
+            state.set(el, "in");
+          } else {
+            if (scrollingDown) el.classList.remove("in");
+            state.set(el, "out");
+          }
+        });
+      }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
+
+      document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
+    })();
+
+    (function printPages() {
+      const SEL = "body > header.hero, body > section";
+      function pages() { return [...document.querySelectorAll(SEL)]; }
+
+      function wrap() {
+        pages().forEach((el) => {
+          if (el.querySelector(":scope > .print-fit-inner")) return;
+          const inner = document.createElement("div");
+          inner.className = "print-fit-inner";
+          while (el.firstChild) inner.appendChild(el.firstChild);
+          el.appendChild(inner);
+        });
+      }
+      function unwrap() {
+        pages().forEach((el) => {
+          const inner = el.querySelector(":scope > .print-fit-inner");
+          if (!inner) return;
+          while (inner.firstChild) el.insertBefore(inner.firstChild, inner);
+          inner.remove();
+          el.classList.remove("is-print-fit");
+          el.style.removeProperty("--print-scale");
+        });
+      }
+      function fit() {
+        wrap();
+        pages().forEach((el) => {
+          const inner = el.querySelector(":scope > .print-fit-inner");
+          if (!inner) return;
+          el.classList.remove("is-print-fit");
+          el.style.removeProperty("--print-scale");
+          const boxH = el.clientHeight || window.innerHeight;
+          const boxW = el.clientWidth || window.innerWidth;
+          const s = Math.min(1, (boxH - 2) / Math.max(inner.scrollHeight, 1), (boxW - 2) / Math.max(inner.scrollWidth, 1));
+          if (s < 0.995) {
+            el.style.setProperty("--print-scale", String(s));
+            el.classList.add("is-print-fit");
+          }
+        });
+      }
+
+      window.addEventListener("beforeprint", fit);
+      window.addEventListener("afterprint", unwrap);
+      const mql = window.matchMedia("print");
+      const onMql = (e) => { e.matches ? fit() : unwrap(); };
+      if (mql.addEventListener) mql.addEventListener("change", onMql);
+      else if (mql.addListener) mql.addListener(onMql);
+    })();
+
+    (function visualEditor() {
+      const DB_NAME = "mindact-collect-editor";
+      const DB_STORE = "draft";
+      const DRAFT_KEY = "current";
+      const LS_TEXT = "mindact-collect-draft-v3";
+      const LS_LEGACY = ["mindact-collect-draft-v2", "mindact-collect-draft"];
+      const TEXT_SEL = [
+        "h1", "h2", "h3", "h4", "p", "li", "td", "th", "figcaption",
+        ".cover-kicker", ".cover-desc", ".section-title", ".sub", ".pitch", ".eyebrow",
+        ".who", ".role", ".amt", ".num", ".lead", ".muted", ".note", ".sign-line",
+        ".chip", ".week p", ".week h3", ".benefit-row h3", ".benefit-row p",
+        ".section-pop",
+        ".compare-col li", ".ux-card p", ".ask-item strong", ".offer li", ".cta p", ".cta h2"
+      ].join(",");
+
+      const bar = document.createElement("div");
+      bar.className = "edit-bar";
+      bar.innerHTML = '<span class="hint">Editor</span>' +
+        '<button type="button" data-act="toggle">Edit copy</button>' +
+        '<button type="button" class="ghost" data-act="photo">Replace image</button>' +
+        '<button type="button" class="ghost" data-act="download">Download HTML</button>' +
+        '<button type="button" class="ghost" data-act="clear">Clear draft</button>';
+      document.body.appendChild(bar);
+
+      const fileInput = document.createElement("input");
+      fileInput.type = "file";
+      fileInput.accept = "image/*";
+      fileInput.hidden = true;
+      document.body.appendChild(fileInput);
+
+      let editing = new URLSearchParams(location.search).get("edit") === "1";
+      let pendingImg = null;
+
+      function editableNodes() {
+        return [...document.querySelectorAll(TEXT_SEL)].filter((el) => {
+          if (el.closest(".edit-bar")) return false;
+          if (el.closest("a.btn")) return false;
+          return true;
+        });
+      }
+
+      function setEditing(on) {
+        editing = on;
+        document.body.classList.toggle("is-editing", on);
+        document.body.classList.toggle("show-editor", on || new URLSearchParams(location.search).get("edit") === "1");
+        editableNodes().forEach((el) => {
+          el.contentEditable = on ? "true" : "false";
+        });
+        bar.querySelector('[data-act="toggle"]').textContent = on ? "Done editing" : "Edit copy";
+        bar.querySelector(".hint").textContent = on ? "Click text or photos" : "Editor";
+        if (!on) hideAlignBtn(true);
+      }
+
+      function pageImgs() {
+        return [...document.querySelectorAll("img")].filter((img) => !img.closest(".edit-bar"));
+      }
+      function liveLogos() {
+        return [...document.querySelectorAll("img.js-live-logo")];
+      }
+      function overlayEls() {
+        return [...document.querySelectorAll(".cover.overlay")];
+      }
+
+      function editId(el) {
+        if (!el) return "";
+        const explicit = el.getAttribute("data-edit-id");
+        if (explicit) return explicit;
+        if (el.id && el.classList.contains("overlay")) return "overlay:" + el.id;
+        if (el.id && el.tagName === "IMG") return "img:" + el.id;
+        const section = el.closest("header[id], section[id]") || el.closest("[id]") || document.body;
+        const scope = section.id || "root";
+        const tag = el.tagName.toLowerCase();
+        const cls = [...el.classList].filter((c) => !["reveal", "d1", "d2", "d3", "d4", "in"].includes(c)).slice(0, 2).join(".");
+        const peers = [...section.querySelectorAll(tag)].filter((n) => {
+          if (n.closest(".edit-bar")) return false;
+          const ncls = [...n.classList].filter((c) => !["reveal", "d1", "d2", "d3", "d4", "in"].includes(c)).slice(0, 2).join(".");
+          return ncls === cls;
+        });
+        return scope + "::" + tag + (cls ? "." + cls : "") + "[" + peers.indexOf(el) + "]";
+      }
+
+      function collectDraft() {
+        const texts = {};
+        const aligns = {};
+        editableNodes().forEach((el) => {
+          texts[editId(el)] = el.innerHTML;
+          if (el.style.textAlign) aligns[editId(el)] = el.style.textAlign;
+        });
+        const images = {};
+        pageImgs().forEach((img) => { images[editId(img)] = img.getAttribute("src") || ""; });
+        const overlays = {};
+        overlayEls().forEach((el) => { overlays[editId(el)] = el.getAttribute("style") || ""; });
+        return { v: 3, texts, images, overlays, aligns };
+      }
+
+      function applyDraft(data) {
+        if (!data) return;
+        const texts = data.texts || {};
+        const aligns = data.aligns || {};
+        editableNodes().forEach((el) => {
+          const id = editId(el);
+          if (Object.prototype.hasOwnProperty.call(texts, id)) el.innerHTML = texts[id];
+          if (aligns[id]) el.style.textAlign = aligns[id];
+        });
+        const images = data.images || {};
+        pageImgs().forEach((img) => {
+          const id = editId(img);
+          if (!images[id]) return;
+          img.src = images[id];
+          if (String(images[id]).startsWith("data:")) img.removeAttribute("data-src");
+        });
+        const overlays = data.overlays || {};
+        overlayEls().forEach((el) => {
+          const id = editId(el);
+          if (overlays[id]) el.setAttribute("style", overlays[id]);
+          const bg = el.querySelector(".cover-bg");
+          if (!bg) return;
+          const imgId = editId(bg);
+          if (images[imgId]) return;
+          const fromStyle = (overlays[id] || el.getAttribute("style") || "").match(/--cover-img:\s*url\((["']?)([\s\S]*?)\1\)/);
+          if (fromStyle && fromStyle[2]) bg.src = fromStyle[2];
+        });
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function migrateIndexDraft(old) {
+        const texts = {};
+        editableNodes().forEach((el, i) => { if (old.texts && old.texts[i] != null) texts[editId(el)] = old.texts[i]; });
+        const images = {};
+        pageImgs().forEach((img, i) => { if (old.images && old.images[i]) images[editId(img)] = old.images[i]; });
+        const overlays = {};
+        overlayEls().forEach((el, i) => { if (old.overlays && old.overlays[i]) overlays[editId(el)] = old.overlays[i]; });
+        return { v: 3, texts, images, overlays };
+      }
+
+      function openDb() {
+        return new Promise((resolve, reject) => {
+          const req = indexedDB.open(DB_NAME, 1);
+          req.onupgradeneeded = () => {
+            if (!req.result.objectStoreNames.contains(DB_STORE)) req.result.createObjectStore(DB_STORE);
+          };
+          req.onsuccess = () => resolve(req.result);
+          req.onerror = () => reject(req.error);
+        });
+      }
+      function idbGet() {
+        return openDb().then((db) => new Promise((resolve, reject) => {
+          const req = db.transaction(DB_STORE, "readonly").objectStore(DB_STORE).get(DRAFT_KEY);
+          req.onsuccess = () => resolve(req.result || null);
+          req.onerror = () => reject(req.error);
+        }));
+      }
+      function idbSet(data) {
+        return openDb().then((db) => new Promise((resolve, reject) => {
+          const tx = db.transaction(DB_STORE, "readwrite");
+          tx.objectStore(DB_STORE).put(data, DRAFT_KEY);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        }));
+      }
+      function idbClear() {
+        return openDb().then((db) => new Promise((resolve, reject) => {
+          const tx = db.transaction(DB_STORE, "readwrite");
+          tx.objectStore(DB_STORE).delete(DRAFT_KEY);
+          tx.oncomplete = () => resolve();
+          tx.onerror = () => reject(tx.error);
+        }));
+      }
+
+      async function persistDraft(data) {
+        try { await idbSet(data); } catch (err) {}
+        try {
+          const slim = { v: 3, texts: data.texts || {}, images: {}, overlays: {}, aligns: data.aligns || {} };
+          Object.entries(data.images || {}).forEach(([k, v]) => {
+            if (v && !String(v).startsWith("data:") && String(v).length < 2500) slim.images[k] = v;
+          });
+          Object.entries(data.overlays || {}).forEach(([k, v]) => {
+            if (v && String(v).length < 8000) slim.overlays[k] = v;
+          });
+          localStorage.setItem(LS_TEXT, JSON.stringify(slim));
+        } catch (err) {}
+      }
+
+      let snapTimer = null;
+      function snapshot() {
+        const data = collectDraft();
+        return persistDraft(data);
+      }
+      function snapshotSoon() {
+        clearTimeout(snapTimer);
+        snapTimer = setTimeout(() => { snapshot(); }, 200);
+      }
+
+      async function restore() {
+        let data = null;
+        try { data = await idbGet(); } catch (err) {}
+        if (!data || data.v !== 3) {
+          try {
+            const ls = localStorage.getItem(LS_TEXT);
+            if (ls) {
+              const parsed = JSON.parse(ls);
+              if (parsed && parsed.v === 3) data = Object.assign({ texts: {}, images: {}, overlays: {} }, parsed, {
+                texts: Object.assign({}, parsed.texts, data && data.texts),
+                images: Object.assign({}, parsed.images, data && data.images),
+                overlays: Object.assign({}, parsed.overlays, data && data.overlays)
+              });
+            }
+          } catch (err) {}
+        }
+        if (!data || data.v !== 3) {
+          for (const key of LS_LEGACY) {
+            const raw = localStorage.getItem(key);
+            if (!raw) continue;
+            try {
+              const old = JSON.parse(raw);
+              if (old && Array.isArray(old.texts)) {
+                data = migrateIndexDraft(old);
+                break;
+              }
+            } catch (err) {}
+          }
+        }
+        if (!data) return null;
+        applyDraft(data);
+        persistDraft(data);
+        return data;
+      }
+
+      function refreshLiveLogos(draft) {
+        const saved = (draft && draft.images) || {};
+        liveLogos().forEach((img) => {
+          const src = img.getAttribute("src") || "";
+          if (src.startsWith("data:")) return;
+          if (saved[editId(img)]) return;
+          const base = img.getAttribute("data-src") || src.split("?")[0];
+          img.setAttribute("data-src", base);
+          img.src = base + "?t=" + Date.now();
+        });
+      }
+
+      function pickImage(cb) {
+        pendingImg = cb;
+        fileInput.value = "";
+        fileInput.click();
+      }
+
+      fileInput.addEventListener("change", () => {
+        const file = fileInput.files && fileInput.files[0];
+        if (!file || !pendingImg) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          pendingImg(reader.result);
+          pendingImg = null;
+          snapshot();
+        };
+        reader.readAsDataURL(file);
+      });
+
+      function applyImgSrc(img, dataUrl) {
+        img.src = dataUrl;
+        img.removeAttribute("data-src");
+        snapshot();
+      }
+
+      const alignBtn = document.createElement("button");
+      alignBtn.type = "button";
+      alignBtn.className = "align-toggle";
+      alignBtn.textContent = "Center";
+      document.body.appendChild(alignBtn);
+
+      let alignTarget = null;
+      let alignHideTimer = null;
+
+      function readAlign(el) {
+        const v = (el.style.textAlign || "").toLowerCase();
+        if (v === "center") return "center";
+        if (v === "left" || v === "start") return "left";
+        const computed = (getComputedStyle(el).textAlign || "left").toLowerCase();
+        return computed === "center" ? "center" : "left";
+      }
+      function refreshAlignBtn() {
+        if (!alignTarget) return;
+        alignBtn.textContent = readAlign(alignTarget) === "center" ? "Left" : "Center";
+      }
+      function placeAlignBtn(el) {
+        const r = el.getBoundingClientRect();
+        const top = Math.max(8, r.top - 40);
+        const left = Math.min(window.innerWidth - 88, Math.max(8, r.left + r.width / 2 - 40));
+        alignBtn.style.top = top + "px";
+        alignBtn.style.left = left + "px";
+      }
+      function showAlignBtn(el) {
+        clearTimeout(alignHideTimer);
+        alignTarget = el;
+        refreshAlignBtn();
+        placeAlignBtn(el);
+        alignBtn.classList.add("is-visible");
+      }
+      function hideAlignBtn(immediate) {
+        clearTimeout(alignHideTimer);
+        const hide = () => {
+          alignBtn.classList.remove("is-visible");
+          alignTarget = null;
+        };
+        if (immediate) hide();
+        else alignHideTimer = setTimeout(hide, 1000);
+      }
+
+      document.addEventListener("mouseover", (e) => {
+        if (!editing) return;
+        if (e.target.closest(".align-toggle") || e.target.closest(".edit-bar")) {
+          clearTimeout(alignHideTimer);
+          return;
+        }
+        const el = e.target.closest('[contenteditable="true"]');
+        if (el) showAlignBtn(el);
+      });
+      document.addEventListener("mouseout", (e) => {
+        if (!editing || !alignTarget) return;
+        const to = e.relatedTarget;
+        if (to && (to.closest(".align-toggle") || to.closest('[contenteditable="true"]'))) {
+          const next = to.closest('[contenteditable="true"]');
+          if (next && next !== alignTarget) showAlignBtn(next);
+          else clearTimeout(alignHideTimer);
+          return;
+        }
+        hideAlignBtn();
+      });
+      alignBtn.addEventListener("mouseenter", () => clearTimeout(alignHideTimer));
+      alignBtn.addEventListener("mouseleave", () => hideAlignBtn());
+      alignBtn.addEventListener("click", (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        if (!alignTarget) return;
+        alignTarget.style.textAlign = readAlign(alignTarget) === "center" ? "left" : "center";
+        refreshAlignBtn();
+        snapshot();
+      });
+      window.addEventListener("scroll", () => {
+        if (alignTarget && alignBtn.classList.contains("is-visible")) placeAlignBtn(alignTarget);
+      }, { passive: true });
+      window.addEventListener("resize", () => {
+        if (alignTarget && alignBtn.classList.contains("is-visible")) placeAlignBtn(alignTarget);
+      });
+
+      document.addEventListener("click", (e) => {
+        if (!editing) return;
+        if (e.target.closest(".edit-bar") || e.target.closest(".align-toggle")) return;
+        const img = e.target.closest("img");
+        if (img && !img.closest(".edit-bar")) {
+          e.preventDefault();
+          pickImage((dataUrl) => applyImgSrc(img, dataUrl));
+          return;
+        }
+        const heroPanel = e.target.closest(".cover-panel");
+        if (heroPanel && !e.target.closest('[contenteditable="true"]') && !e.target.closest(".hero-logo")) {
+          e.preventDefault();
+          const bg = heroPanel.querySelector(".cover-bg");
+          pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
+          return;
+        }
+        const overlay = e.target.closest(".cover.overlay");
+        if (overlay && !e.target.closest('[contenteditable="true"]')) {
+          e.preventDefault();
+          const bg = overlay.querySelector(".cover-bg");
+          if (bg) pickImage((dataUrl) => applyImgSrc(bg, dataUrl));
+        }
+      });
+
+      document.addEventListener("input", (e) => {
+        if (!editing) return;
+        if (e.target.closest && e.target.closest('[contenteditable="true"]')) snapshotSoon();
+      });
+
+      bar.addEventListener("click", (e) => {
+        const act = e.target.getAttribute("data-act");
+        if (act === "toggle") setEditing(!editing);
+        if (act === "photo") {
+          setEditing(true);
+          const hoveredImg = document.querySelector("img:hover");
+          const overlay = document.querySelector(".cover.overlay:hover");
+          const panel = document.querySelector(".cover-panel:hover");
+          if (overlay && (!hoveredImg || hoveredImg.classList.contains("cover-bg"))) {
+            const bg = overlay.querySelector(".cover-bg");
+            pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
+          } else if (panel && (!hoveredImg || hoveredImg.classList.contains("cover-bg"))) {
+            const bg = panel.querySelector(".cover-bg");
+            pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
+          } else {
+            pickImage((dataUrl) => {
+              const chosen = hoveredImg || document.querySelector("img");
+              if (chosen && !chosen.closest(".edit-bar")) applyImgSrc(chosen, dataUrl);
+            });
+          }
+        }
+        if (act === "clear") {
+          Promise.resolve(idbClear()).finally(() => {
+            localStorage.removeItem(LS_TEXT);
+            LS_LEGACY.forEach((k) => localStorage.removeItem(k));
+            location.reload();
+          });
+        }
+        if (act === "download") downloadHtml();
+      });
+
+      function blobToDataUrl(blob) {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onload = () => resolve(reader.result);
+          reader.onerror = () => reject(reader.error);
+          reader.readAsDataURL(blob);
+        });
+      }
+
+      function readCoverImg(el) {
+        const raw = (el.style.getPropertyValue("--cover-img") || "").trim();
+        const m = raw.match(/^url\((["']?)([\s\S]*)\1\)$/);
+        return m ? m[2] : "";
+      }
+
+      async function toDataUrl(src, liveImg) {
+        if (!src) return src;
+        if (src.startsWith("data:")) return src;
+        const abs = (() => { try { return new URL(src, location.href).href; } catch (e) { return src; } })();
+        try {
+          const res = await fetch(abs);
+          if (!res.ok) throw new Error(String(res.status));
+          const blob = await res.blob();
+          const type = blob.type || "";
+          if (type.includes("svg") || /\.svg(\?|$)/i.test(abs)) {
+            const text = await blob.text();
+            return "data:image/svg+xml;charset=utf-8," + encodeURIComponent(text);
+          }
+          return await blobToDataUrl(blob);
+        } catch (err) {
+          if (liveImg && liveImg.complete && liveImg.naturalWidth) {
+            try {
+              const canvas = document.createElement("canvas");
+              canvas.width = liveImg.naturalWidth;
+              canvas.height = liveImg.naturalHeight;
+              canvas.getContext("2d").drawImage(liveImg, 0, 0);
+              return canvas.toDataURL("image/png");
+            } catch (err2) {}
+          }
+          return src;
+        }
+      }
+
+      async function downloadHtml() {
+        await snapshot();
+        const btn = bar.querySelector('[data-act="download"]');
+        const prev = btn.textContent;
+        btn.disabled = true;
+        btn.textContent = "Embedding images…";
+        try {
+          const cache = new Map();
+          async function embed(src, liveImg) {
+            const key = (src || "").replace(/([?&])t=\d+/, "").replace(/\?$/, "");
+            if (!key) return src;
+            if (cache.has(key)) return cache.get(key);
+            const data = await toDataUrl(src, liveImg);
+            cache.set(key, data);
+            return data;
+          }
+
+          const imgs = pageImgs();
+          const imgData = [];
+          for (const img of imgs) {
+            imgData.push(await embed(img.getAttribute("src") || img.src, img));
+          }
+          const overlays = [...document.querySelectorAll(".cover.overlay")];
+          const overlayData = [];
+          for (const el of overlays) {
+            const url = readCoverImg(el);
+            overlayData.push(url ? await embed(url) : "");
+          }
+          const iconLink = document.querySelector('link[rel="icon"]');
+          const iconData = iconLink ? await embed(iconLink.getAttribute("href") || "") : "";
+
+          const clone = document.documentElement.cloneNode(true);
+          clone.querySelectorAll(".edit-bar, .align-toggle, input[type=file][hidden]").forEach((n) => n.remove());
+          clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
+          clone.querySelector("body").classList.remove("is-editing", "show-editor");
+          [...clone.querySelectorAll("img")].filter((img) => !img.closest(".edit-bar")).forEach((img, i) => {
+            if (!imgData[i]) return;
+            img.setAttribute("src", imgData[i]);
+            img.removeAttribute("data-src");
+            img.classList.remove("js-live-logo");
+          });
+          [...clone.querySelectorAll(".cover.overlay")].forEach((el, i) => {
+            if (overlayData[i]) el.style.setProperty("--cover-img", 'url("' + overlayData[i] + '")');
+          });
+          const cloneIcon = clone.querySelector('link[rel="icon"]');
+          if (cloneIcon && iconData) {
+            cloneIcon.setAttribute("href", iconData);
+            if (iconData.startsWith("data:image/svg")) cloneIcon.setAttribute("type", "image/svg+xml");
+          }
+          const html = "<!DOCTYPE html>\n" + clone.outerHTML.replace(/<input[^>]*type=\"file\"[^>]*>/gi, "");
+          const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+          const a = document.createElement("a");
+          a.href = URL.createObjectURL(blob);
+          a.download = "mindact-collect-proposal.html";
+          a.click();
+          URL.revokeObjectURL(a.href);
+        } catch (err) {
+          alert("Could not embed images. Try again, or serve the page over http (not file://).");
+        } finally {
+          btn.disabled = false;
+          btn.textContent = prev;
+        }
+      }
+
+      window.addEventListener("beforeunload", () => { snapshot(); });
+      (async function initEditor() {
+        const draft = await restore();
+        refreshLiveLogos(draft);
+        if (editing) {
+          document.body.classList.add("show-editor");
+          setEditing(true);
+        }
+        document.documentElement.classList.remove("draft-pending");
+      })();
+      setTimeout(() => document.documentElement.classList.remove("draft-pending"), 2500);
+
+      let clicks = 0;
+      document.querySelectorAll(".hero-logo").forEach((el) => {
+        el.addEventListener("click", (ev) => {
+          if (editing) return;
+          clicks += 1;
+          setTimeout(() => { clicks = 0; }, 600);
+          if (clicks >= 3) {
+            ev.preventDefault();
+            setEditing(true);
+          }
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
