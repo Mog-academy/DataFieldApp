@@ -1,665 +1,633 @@
 <!DOCTYPE html>
-
-<html class="draft-pending" lang="en">
+<html lang="en" class="draft-pending">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>DataField | Proposal</title>
-<link href="proposal-assets/favicon.svg" rel="icon" type="image/svg+xml"/>
-<link href="https://fonts.googleapis.com" rel="preconnect"/>
-<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
-<style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>DataField | Proposal</title>
+  <link rel="icon" href="proposal-assets/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
     :root {
-      --green-dark: #0B3D2C;
-      --green-deep: #064e3b;
-      --green-mid: #2A7D2E;
-      --green-logo: #27b674;
-      --blue-logo: #0d75b8;
-      --yellow-logo: #ffc310;
-      --cream: #F1D2A9;
-      --bg: #FCFAF7;
-      --ink: #2f2f2f;
-      --ink-2: #102a43;
-      --muted: #5c6b63;
-      --line: #e6e0d6;
-      --white: #ffffff;
-      --orange: #FF9900;
-      --blue: #0d75b8;
-      --blue-deep: #084a7a;
-      --blue-navy: #062e4f;
-      --mog-blue: #007BFF;
+      --bg: #151515;
+      --bg-2: #1c1c1c;
+      --card: #242424;
+      --card-2: #2c2c2c;
+      --ink: #ffffff;
+      --muted: rgba(255,255,255,.72);
+      --soft: rgba(255,255,255,.48);
+      --line: rgba(255,255,255,.12);
+      --teal: #00d09c;
+      --teal-deep: #0a3d31;
+      --teal-glow: rgba(0,208,156,.22);
+      --green-mid: #27b674;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
     body {
-      font-family: "Plus Jakarta Sans", sans-serif;
+      font-family: "Manrope", sans-serif;
       background: var(--bg);
       color: var(--ink);
-      line-height: 1.65;
-      font-size: 17px;
+      line-height: 1.55;
+      font-size: 16px;
     }
     img { max-width: 100%; display: block; }
-    h1, h2 {
-      font-family: "Fraunces", serif;
-      font-optical-sizing: auto;
-      color: var(--green-dark);
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      font-weight: 600;
-    }
-    h3, h4 {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      color: var(--green-dark);
-      line-height: 1.25;
-      letter-spacing: -0.02em;
-      font-weight: 700;
-    }
-    p { margin: 0 0 1rem; }
-    ul, ol { padding-left: 1.35em; }
-    a { color: var(--green-mid); }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
 
-    .wrap {
-      width: min(1080px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-
-    /* Cover slide (PPTX-style hero) */
-    .hero {
-      --cover-orange: #27b674;
-      --cover-beige: #EDE6DA;
+    .slide {
       position: relative;
       min-height: 100vh;
-      background: #000;
-      color: var(--white);
-      padding: 0;
+      padding: 48px 56px;
       overflow: hidden;
-    }
-    .cover-frame {
-      min-height: 100vh;
-      height: 100%;
       display: flex;
       flex-direction: column;
-    }
-    .cover-panel {
-      position: relative;
-      flex: 1;
-      display: flex;
-      align-items: center;
       justify-content: center;
-      text-align: center;
-      overflow: hidden;
-      min-height: 0;
+      background:
+        radial-gradient(ellipse 55% 45% at 100% 0%, var(--teal-glow), transparent 60%),
+        radial-gradient(ellipse 45% 40% at 0% 100%, rgba(0,208,156,.12), transparent 55%),
+        var(--bg);
     }
-    .cover-bg {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      z-index: 0;
-    }
-    .cover-content {
-      position: relative;
-      z-index: 2;
-      width: min(780px, 90%);
-      padding: 44px 48px 40px;
-      background: #1e2934;
-      border-radius: 48px;
-    }
-    .hero-phone {
-      position: absolute;
-      right: -22%;
-      top: 50%;
-      transform: translateY(-50%);
-      height: min(430px, 88%);
-      width: auto;
-      z-index: 3;
-      pointer-events: none;
-      filter: none;
-      box-shadow: none;
-      animation: heroPhoneFloat 3.2s ease-in-out infinite;
-    }
-    body.is-editing .hero-phone { pointer-events: auto; animation-play-state: paused; }
-    .hero-logo {
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 28px;
-    }
-    .hero-logo img { height: 68px; width: auto; }
-    .eyebrow {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.28em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.8);
-      margin-bottom: 18px;
-    }
-    .hero h1 {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      color: var(--white);
-      font-size: clamp(36px, 6.4vw, 76px);
-      font-weight: 800;
-      letter-spacing: -0.04em;
-      max-width: none;
-      margin: 0 auto 14px;
-      line-height: 1.05;
-    }
-    .hero .sub {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 0.32em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.88);
-      margin: 0 auto 22px;
-      max-width: none;
-    }
-    .accent-line {
-      width: 72px;
-      height: 3px;
-      background: var(--cover-orange);
-      margin: 0 auto 22px;
-    }
-    .hero .pitch {
-      font-size: 16px;
-      max-width: 46ch;
-      margin: 0 auto 36px;
-      color: rgba(255,255,255,.78);
-    }
-    .cover-contact .label {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,.55);
-      margin: 0 0 8px;
-    }
-    .cover-contact .author {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: #fff;
-      margin: 0 0 4px;
-    }
-    .cover-contact .party,
-    .cover-contact a {
-      color: rgba(255,255,255,.8);
-      text-decoration: none;
-      margin: 0;
-      font-size: 14px;
-    }
-    .chip {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(255,255,255,.1);
-      border: 1px solid rgba(255,255,255,.18);
-      border-radius: 999px;
-      padding: 8px 14px;
-    }
-    .chip svg { width: 14px; height: 14px; }
-    .meta-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px 28px;
-      font-size: 14px;
-      color: rgba(255,255,255,.8);
-    }
-
-    .image-only {
-      padding: 0;
-      margin: 0;
-      min-height: 100vh;
-      background: #000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-    }
-    .image-only img {
-      width: 100%;
-      height: 100vh;
-      object-fit: cover;
-      filter: none;
-      box-shadow: none;
-      border-radius: 0;
-    }
-
-    /* Section covers */
-    .cover {
-      min-height: 78vh;
-      background: linear-gradient(160deg, var(--blue-navy) 0%, var(--blue-deep) 45%, var(--blue) 100%);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      padding: 88px 0;
-      overflow: hidden;
-    }
-    .cover h2 {
-      color: #fff;
-      font-size: clamp(40px, 6vw, 72px);
-      margin: 0 0 16px;
-      max-width: 14ch;
-    }
-    .cover-kicker {
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #b9dcff;
-      margin-bottom: 14px;
-    }
-    .cover-desc {
-      font-size: clamp(18px, 2vw, 22px);
-      line-height: 1.5;
-      color: rgba(255,255,255,.88);
-      max-width: 38ch;
-      margin: 0;
-    }
-    .cover-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 48px;
-      align-items: center;
-      width: min(1180px, calc(100% - 40px));
-      margin: 0 auto;
-    }
-    .cover-grid img {
-      width: 100%;
-      height: min(58vh, 520px);
-      object-fit: cover;
-      border-radius: 24px;
-      box-shadow: 0 24px 60px rgba(0,0,0,.28);
-    }
-    .cover.reverse .cover-grid { direction: rtl; }
-    .cover.reverse .cover-grid > * { direction: ltr; }
-    .cover.stack {
-      min-height: auto;
-      padding: 72px 0 0;
-    }
-    .cover.stack .cover-grid {
-      grid-template-columns: 1fr;
-      gap: 28px;
-      text-align: left;
-    }
-    .cover.stack .cover-desc { max-width: 52ch; }
-    .cover.stack img {
-      height: min(42vh, 420px);
-      border-radius: 24px 24px 0 0;
-      box-shadow: none;
-    }
-    .cover.overlay {
-      position: relative;
-      min-height: 84vh;
-      background-color: var(--blue-navy);
-      background-image: none;
-    }
-    .cover.overlay::after {
+    .slide::before {
       content: "";
       position: absolute;
-      inset: 0;
-      background: linear-gradient(105deg, rgba(6,46,79,.94) 8%, rgba(13,117,184,.72) 100%);
-      z-index: 1;
+      width: 420px;
+      height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,208,156,.35), transparent 68%);
+      filter: blur(8px);
       pointer-events: none;
+      z-index: 0;
     }
-    .cover.overlay .cover-grid {
-      position: relative;
-      z-index: 2;
-      grid-template-columns: minmax(0, 640px);
-    }
-    .cover.overlay img:not(.cover-bg) { display: none; }
+    .slide > * { position: relative; z-index: 1; }
 
-    /* Sections */
-    section.block {
-      padding: 88px 0;
-      background: var(--bg);
-    }
-    section.block.paper { background: #fff; }
-    .kicker {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      color: var(--green-mid);
-      margin-bottom: 10px;
-      display: flex;
+    .brand {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 700;
+      font-size: 15px;
+      letter-spacing: 0.02em;
     }
-    .kicker svg { width: 16px; height: 16px; }
-    h2 {
-      font-size: clamp(26px, 3.2vw, 36px);
-      margin-bottom: 16px;
+    .brand img { height: 44px; width: auto; }
+
+    .kicker {
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--teal);
+      margin-bottom: 14px;
     }
-    .section-title {
-      font-family: "Fraunces", serif;
-      font-size: clamp(36px, 5.5vw, 64px);
-      font-weight: 600;
+    h1, h2 {
+      font-weight: 800;
       letter-spacing: -0.04em;
-      line-height: 1.1;
-      color: var(--green-dark);
-      max-width: 16ch;
-      margin: 0 0 28px;
+      line-height: 1.05;
     }
+    h1 { font-size: clamp(48px, 8vw, 92px); }
+    h2 { font-size: clamp(36px, 5.5vw, 64px); margin-bottom: 18px; }
     h3 {
       font-size: 20px;
-      margin: 28px 0 12px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 8px;
     }
     .lead {
-      font-size: 19px;
-      color: var(--ink-2);
-      max-width: 70ch;
-      margin-bottom: 24px;
+      font-size: clamp(17px, 2vw, 21px);
+      color: var(--muted);
+      max-width: 46ch;
+      line-height: 1.6;
     }
-    .muted { color: var(--muted); }
+    .sub {
+      font-size: clamp(16px, 2vw, 20px);
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-height: 52px;
+      padding: 12px 22px 12px 26px;
+      border-radius: 999px;
+      font-weight: 700;
+      font-size: 15px;
+      background: linear-gradient(90deg, var(--teal) 0%, var(--teal-deep) 100%);
+      color: #fff;
+      border: 0;
+      box-shadow: 0 10px 30px rgba(0,208,156,.2);
+      transition: transform .15s ease;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn svg { width: 18px; height: 18px; }
+    .btn-ghost {
+      background: transparent;
+      border: 1.5px solid rgba(255,255,255,.35);
+      box-shadow: none;
+    }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 
     .grid-2 {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 40px;
+      align-items: center;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+    .grid-2.reverse { grid-template-columns: 0.9fr 1.1fr; }
+    .grid-2.reverse .copy { order: 2; }
+    .grid-2.reverse .media { order: 1; }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
     }
     .grid-4 {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 14px;
     }
-    .card {
-      background: var(--white);
+
+    .media {
+      position: relative;
+      min-height: 420px;
+    }
+    .photo {
+      width: 100%;
+      height: min(62vh, 520px);
+      object-fit: cover;
+      border-radius: 28px;
+      box-shadow: 0 24px 60px rgba(0,0,0,.35);
+    }
+    .photo-stack {
+      position: relative;
+      height: min(64vh, 540px);
+    }
+    .photo-stack .a,
+    .photo-stack .b {
+      position: absolute;
+      top: 0;
+      width: 48%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 28px;
+      box-shadow: 0 24px 50px rgba(0,0,0,.4);
+    }
+    .photo-stack .a { left: 0; }
+    .photo-stack .b { right: 0; top: 36px; height: calc(100% - 36px); }
+    .phone-float {
+      position: absolute;
+      right: -4%;
+      bottom: -6%;
+      height: min(420px, 70%);
+      width: auto;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,.45));
+      animation: float 3.2s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-14px); }
+    }
+
+    .ribbon {
+      position: absolute;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--teal), rgba(0,208,156,.15));
+      opacity: .9;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .ribbon.r1 { width: 180px; height: 180px; right: -40px; top: -50px; }
+    .ribbon.r2 { width: 260px; height: 90px; left: -80px; bottom: 40px; transform: rotate(-18deg); }
+    .ribbon.r3 { width: 320px; height: 110px; right: 8%; top: 12%; transform: rotate(24deg); opacity: .55; }
+
+    .card,
+    .week,
+    .ask-item,
+    .shots figure {
+      background: var(--card);
       border: 1px solid var(--line);
-      border-radius: 16px;
-      padding: 22px 22px 18px;
+      border-radius: 22px;
+      padding: 22px 20px;
+      transition: background .28s ease, border-color .28s ease, transform .28s ease, box-shadow .28s ease;
     }
-    .block.paper .card { background: var(--bg); }
-    .card h3 { margin-top: 0; font-size: 18px; }
-    .num {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-weight: 800;
-      color: var(--green-logo);
-      font-size: 13px;
-      letter-spacing: 0.08em;
-      margin-bottom: 8px;
+    .week {
+      border-radius: 20px;
+      padding: 18px 16px;
+      min-height: 150px;
     }
-    .icon-wrap {
+    .ask-item {
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .shots figure {
+      padding: 0;
+      overflow: hidden;
+    }
+    .card:hover,
+    .week:hover,
+    .ask-item:hover,
+    .shots figure:hover,
+    .card.reveal.in:hover,
+    .week.reveal.in:hover,
+    .ask-item.reveal.in:hover,
+    .shots figure.reveal.in:hover {
+      background: linear-gradient(145deg, var(--teal) 0%, var(--teal-deep) 100%);
+      border-color: transparent;
+      transform: translateY(-4px);
+      box-shadow: 0 18px 40px rgba(0,208,156,.18);
+    }
+    .card .icon {
       width: 42px;
       height: 42px;
       border-radius: 12px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      background: rgba(11,61,44,.08);
-      color: var(--green-dark);
-      margin-bottom: 12px;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.08);
+      margin-bottom: 14px;
+      transition: background .28s ease;
     }
-    .icon-wrap svg { width: 22px; height: 22px; }
-    .pain-item .icon-wrap {
-      margin: 0;
-      width: 44px;
-      height: 44px;
+    .card:hover .icon { background: rgba(0,0,0,.18); }
+    .card p,
+    .week p { color: var(--muted); font-size: 14px; margin: 0; transition: color .28s ease; }
+    .card:hover p,
+    .card:hover h3,
+    .week:hover p,
+    .week:hover h3,
+    .week:hover .n,
+    .ask-item:hover,
+    .ask-item:hover p,
+    .ask-item:hover .num,
+    .shots figure:hover figcaption {
+      color: #fff;
+    }
+    .card svg { width: 22px; height: 22px; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 22px;
+    }
+    .chip {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 600;
+      transition: background .25s ease, border-color .25s ease, color .25s ease;
+    }
+    .chip:hover {
+      background: rgba(0,208,156,.18);
+      border-color: rgba(0,208,156,.45);
+      color: #fff;
     }
 
-    .pain {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 14px;
-    }
-    .pain-item {
-      display: grid;
-      grid-template-columns: 48px 1fr;
-      gap: 14px;
-      padding: 18px;
-      border-radius: 16px;
-      background: var(--white);
-      border: 1px solid var(--line);
-    }
-    .block.paper .pain-item { background: var(--bg); }
-    .benefit-list {
-      display: grid;
-      gap: 0;
-    }
-    .benefit-row {
-      display: grid;
-      grid-template-columns: 220px 1fr;
-      gap: 24px;
-      padding: 22px 0;
-      border-bottom: 1px solid var(--line);
-      align-items: start;
-    }
-    .benefit-row:last-child { border-bottom: none; }
-    .benefit-row h3 { margin: 0; }
     .compare {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .compare-col {
-      border-radius: 20px;
-      padding: 28px 24px;
-      border: 1px solid var(--line);
-    }
-    .compare-col.them { background: #f4f6f8; }
-    .compare-col.us {
-      background: var(--green-dark);
-      color: #fff;
-      border-color: var(--green-dark);
-    }
-    .compare-col.us h3, .compare-col.us strong { color: #fff; }
-    .compare-col li { margin: 10px 0; }
-    .steps {
-      list-style: none;
-      position: relative;
-      margin: 8px 0 24px;
-      padding-left: 8px;
-    }
-    .steps::before {
-      content: "";
-      position: absolute;
-      left: 23px;
-      top: 12px;
-      bottom: 12px;
-      width: 2px;
-      background: var(--line);
-    }
-    .steps li {
-      display: grid;
-      grid-template-columns: 48px 1fr;
       gap: 16px;
-      margin: 0 0 22px;
-      position: relative;
+      width: min(1100px, 100%);
+      margin: 0 auto;
     }
-    .steps .dot {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      background: var(--green-dark);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 800;
-      font-size: 13px;
-      z-index: 1;
-    }
-    .steps h3 { margin: 4px 0 6px; }
-    .weeks {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-    }
-    .week {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 20px 18px;
-      min-height: 220px;
-    }
-    .week .num { font-size: 12px; }
-    .price-duo {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 18px;
-      margin-bottom: 28px;
-    }
-    .price-card {
-      border-radius: 20px;
-      padding: 28px;
-      border: 1px solid var(--line);
-      background: #fff;
-    }
-    .price-card .amt {
-      font-family: "Fraunces", serif;
-      font-size: clamp(28px, 3vw, 40px);
-      color: var(--green-dark);
-      margin: 8px 0 10px;
-    }
-    .ux-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-    }
-    .ux-card {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      padding: 22px;
-    }
-    .ux-card h3 {
-      margin: 0 0 10px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      font-size: 17px;
-    }
-    .ux-card h3 svg { width: 18px; height: 18px; }
-    .pain-n {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-weight: 800;
-      color: var(--green-dark);
-      font-size: 20px;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 15px;
-      background: var(--white);
-      border-radius: 14px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-    }
-    th, td {
-      text-align: left;
-      padding: 12px 14px;
+    .compare .card li {
+      padding: 10px 0;
       border-bottom: 1px solid var(--line);
-      vertical-align: top;
+      color: var(--muted);
+      font-size: 15px;
+      transition: color .28s ease, border-color .28s ease;
     }
-    th {
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-size: 12px;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      background: var(--green-dark);
-      color: var(--white);
-    }
-    tr:last-child td { border-bottom: none; }
-    tr.highlight td {
-      background: #e8f6ee;
-      font-weight: 700;
-      color: var(--green-dark);
-    }
-    .table-wrap { overflow-x: auto; margin: 18px 0 8px; }
-
-    .flow {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      gap: 8px;
-      margin: 18px 0 28px;
-    }
-    .flow span {
-      background: var(--green-dark);
-      color: #fff;
-      border-radius: 10px;
-      padding: 10px 14px;
-      font-size: 14px;
-      font-weight: 500;
-    }
-    .flow i {
-      color: var(--green-mid);
-      font-style: normal;
-      font-weight: 700;
+    .compare .card li:last-child { border-bottom: 0; }
+    .compare .card strong { color: #fff; font-weight: 700; }
+    .compare .card:hover li {
+      color: rgba(255,255,255,.92);
+      border-bottom-color: rgba(255,255,255,.18);
     }
 
-    .journey {
-      border-left: 4px solid var(--green-logo);
-      padding: 6px 0 6px 16px;
-      margin: 0 0 18px;
-    }
-    .journey strong {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-bottom: 4px;
-      color: var(--green-dark);
-    }
-    .journey strong svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-    .swatches { display: flex; flex-wrap: wrap; gap: 12px; margin: 16px 0 8px; }
-    .swatch {
-      width: 92px;
-      border-radius: 12px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: #fff;
-      font-size: 11px;
-      text-align: center;
-    }
-    .swatch b { display: block; height: 52px; }
-    .swatch span { display: block; padding: 8px 6px 10px; color: var(--muted); }
-
-    .offer {
-      background: linear-gradient(165deg, var(--green-dark), var(--green-deep));
-      color: #fff;
-      border-radius: 24px;
-      padding: 40px 36px;
-    }
-    .offer h2, .offer h3 { color: #fff; }
-    .offer .kicker { color: var(--cream); }
-    .offer-price {
-      font-family: "Fraunces", serif;
-      font-size: clamp(40px, 6vw, 64px);
-      font-weight: 600;
-      margin: 8px 0 6px;
-    }
-    .gallery {
+    .shots {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin: 24px 0 8px;
+      grid-template-columns: .7fr .7fr 1.2fr;
+      gap: 14px;
+      width: min(1180px, 100%);
+      margin: 18px auto 0;
     }
-    .gallery.three { grid-template-columns: 1.2fr .7fr .7fr; }
-    .shot {
-      background: #fff;
-      border: 1px solid var(--line);
-      border-radius: 18px;
-      overflow: hidden;
+    .shots img {
+      width: 100%;
+      height: 280px;
+      object-fit: cover;
+      object-position: top;
     }
-    .shot img { width: 100%; aspect-ratio: 16/10; object-fit: cover; }
-    .shot.portrait img { aspect-ratio: 3/4; object-fit: cover; object-position: top; }
-    .shot figcaption {
+    .shots figcaption {
       padding: 12px 14px 14px;
       font-size: 13px;
       color: var(--muted);
-      font-weight: 500;
+      font-weight: 600;
+      transition: color .28s ease;
     }
-    .shot.wide { grid-column: 1 / -1; }
-    .shot.wide img { aspect-ratio: 16/8; }
+
+    .gallery {
+      display: grid;
+      grid-template-columns: 2.4fr 0.7fr;
+      gap: 16px;
+      width: min(1180px, 100%);
+      height: min(78vh, 760px);
+      margin: 0 auto;
+    }
+    .gallery-feature,
+    .gallery-thumbs figure {
+      margin: 0;
+      padding: 0;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: #101010;
+      min-height: 0;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+    .gallery-feature {
+      height: 100%;
+    }
+    .gallery-thumbs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: 1fr 1fr;
+      gap: 16px;
+      height: 100%;
+      min-height: 0;
+    }
+    .gallery-thumbs figure {
+      height: 100%;
+    }
+    .gallery-feature:hover,
+    .gallery-thumbs figure:hover,
+    .gallery-feature.reveal.in:hover,
+    .gallery-thumbs figure.reveal.in:hover {
+      transform: translateY(-4px);
+      border-color: transparent;
+      box-shadow: 0 18px 40px rgba(0,208,156,.18);
+    }
+    .gallery-feature img,
+    .gallery-thumbs img {
+      width: 100%;
+      height: 100%;
+      display: block;
+      object-fit: cover;
+      object-position: top center;
+    }
+    .gallery-thumbs img {
+      object-fit: cover;
+      object-position: top center;
+      background: #101010;
+    }
+    .gallery-feature,
+    .gallery-thumbs figure {
+      cursor: zoom-in;
+    }
+    body.is-editing .gallery-feature,
+    body.is-editing .gallery-thumbs figure {
+      cursor: pointer;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 12000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,.88);
+      padding: 28px;
+      backdrop-filter: blur(6px);
+    }
+    .lightbox.is-open { display: flex; }
+    .lightbox-inner {
+      position: relative;
+      width: min(1100px, 100%);
+      height: min(86vh, 900px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox-inner img {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+      border-radius: 16px;
+      box-shadow: 0 24px 80px rgba(0,0,0,.45);
+      background: #0a0a0a;
+    }
+    .lightbox-btn {
+      position: absolute;
+      border: 0;
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      width: 48px;
+      height: 48px;
+      border-radius: 999px;
+      display: grid;
+      place-items: center;
+      cursor: pointer;
+      transition: background .2s ease, transform .2s ease;
+    }
+    .lightbox-btn:hover {
+      background: rgba(0,208,156,.85);
+      transform: scale(1.05);
+    }
+    .lightbox-btn svg { width: 22px; height: 22px; }
+    .lightbox-close {
+      top: 18px;
+      right: 18px;
+      position: fixed;
+    }
+    .lightbox-prev,
+    .lightbox-next {
+      top: 50%;
+      transform: translateY(-50%);
+      position: fixed;
+    }
+    .lightbox-prev { left: 18px; }
+    .lightbox-next { right: 18px; }
+    .lightbox-prev:hover,
+    .lightbox-next:hover {
+      transform: translateY(-50%) scale(1.05);
+    }
+    .lightbox-count {
+      position: fixed;
+      bottom: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: rgba(255,255,255,.75);
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+    body.lightbox-open { overflow: hidden; }
+
+    .weeks {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .week .n {
+      color: var(--teal);
+      font-weight: 800;
+      font-size: 13px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+      transition: color .28s ease;
+    }
+
+    .price {
+      font-size: clamp(48px, 8vw, 84px);
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: var(--teal);
+      line-height: 1;
+      margin: 10px 0 18px;
+    }
+    .checklist li {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 8px 0;
+      color: var(--muted);
+    }
+    .checklist li::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      margin-top: 7px;
+      border-radius: 50%;
+      background: var(--teal);
+      flex: 0 0 auto;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    .table th, .table td {
+      text-align: left;
+      padding: 12px 10px;
+      border-bottom: 1px solid var(--line);
+      vertical-align: top;
+    }
+    .table th { color: var(--soft); font-weight: 700; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; }
+    .table tr.hl td { color: #fff; font-weight: 700; background: rgba(0,208,156,.08); }
+
+    .ask {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .ask-item {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+    }
+    .ask-item .num {
+      color: var(--teal);
+      font-weight: 800;
+      font-size: 14px;
+      transition: color .28s ease;
+    }
+
+    .toc {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0 clamp(24px, 4vw, 48px);
+      align-items: start;
+      width: min(920px, 100%);
+      margin: 0 auto;
+    }
+    .toc-col {
+      display: flex;
+      flex-direction: column;
+    }
+    .toc a {
+      display: flex;
+      align-items: baseline;
+      gap: clamp(10px, 1.2vw, 14px);
+      line-height: 1.1;
+      padding: clamp(3px, 0.9vh, 8px) 0;
+      transition: color .2s ease;
+    }
+    .toc-col-left a {
+      justify-content: flex-end;
+    }
+    .toc-col-right a {
+      justify-content: flex-start;
+    }
+    .toc .toc-label {
+      font-weight: 700;
+      font-size: clamp(16px, 3.4vh, 28px);
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      transition: color .2s ease;
+    }
+    .toc .num {
+      font-weight: 700;
+      font-size: clamp(16px, 3.4vh, 28px);
+      letter-spacing: -0.02em;
+      color: var(--soft);
+      font-variant-numeric: tabular-nums;
+      transition: color .2s ease;
+    }
+    .toc a:hover .toc-label,
+    .toc a:hover .num { color: var(--teal); }
+
+    #contents {
+      height: 100vh;
+      min-height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      justify-content: center;
+      padding-top: clamp(20px, 3.5vh, 48px);
+      padding-bottom: clamp(20px, 3.5vh, 48px);
+    }
+    #contents .topbar {
+      position: absolute;
+      top: clamp(20px, 3.5vh, 48px);
+      left: 56px;
+      right: 56px;
+      width: auto;
+      margin: 0;
+    }
+    #contents .slide-body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      width: min(1180px, 100%);
+      margin: 0 auto;
+    }
+    #contents h2 {
+      font-size: clamp(28px, 5.5vh, 56px);
+      margin-bottom: clamp(6px, 1.2vh, 14px);
+    }
+    #contents .lead {
+      margin-left: auto;
+      margin-right: auto;
+      margin-bottom: clamp(14px, 2.8vh, 28px);
+      font-size: clamp(14px, 2.2vh, 20px);
+    }
 
     .reveal {
       opacity: 0;
-      transform: translateY(24px);
+      transform: translateY(28px);
       transition: opacity .7s cubic-bezier(.22,.7,.2,1), transform .7s cubic-bezier(.22,.7,.2,1);
       transition-delay: var(--reveal-delay, 0s);
     }
@@ -667,421 +635,201 @@
       opacity: 1;
       transform: none;
     }
-    .reveal.no-anim,
-    .reveal.no-anim.in {
-      transition: none !important;
-      animation: none !important;
-    }
-    .section-pop {
-      font-family: "Fraunces", serif;
-      font-size: clamp(28px, 4.4vw, 52px);
-      font-weight: 600;
-      text-align: center;
-      color: var(--green-dark);
-      line-height: 1.2;
-      letter-spacing: -0.03em;
-      max-width: 18ch;
-      margin: 56px auto 0;
-    }
     .reveal.pop {
-      opacity: 0;
-      transform: scale(0.5);
-      transition: none;
+      transform: scale(0.92) translateY(18px);
     }
     .reveal.pop.in {
-      opacity: 1;
-      transform: scale(1);
-      animation: popIn .75s cubic-bezier(.22, 1.4, .36, 1) both;
-    }
-    @keyframes popIn {
-      0% { opacity: 0; transform: scale(0.42); }
-      58% { opacity: 1; transform: scale(1.12); }
-      100% { opacity: 1; transform: scale(1); }
-    }
-    .d1 { transition-delay: .08s; }
-    .d2 { transition-delay: .16s; }
-    .d3 { transition-delay: .24s; }
-    .d4 { transition-delay: .32s; }
-    .offer ul { margin: 12px 0 0 18px; }
-    .offer li { margin: 6px 0; }
-    .offer .note {
-      margin-top: 18px;
-      color: rgba(255,255,255,.85);
+      transform: none;
     }
 
-    .ask {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      margin-top: 20px;
+    .frame {
+      border-left: 1px solid rgba(255,255,255,.35);
+      border-bottom: 1px solid rgba(255,255,255,.35);
+      padding: 28px 28px 24px 24px;
+      max-width: 520px;
     }
-    .ask-item {
-      background: #fff;
-      border-radius: 14px;
-      padding: 18px;
-      border: 1px solid var(--line);
-    }
-    .sign {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 24px;
-      margin-top: 28px;
-    }
-    .sign-line {
-      border-top: 1px solid var(--line);
-      padding-top: 12px;
-      min-height: 96px;
+
+    .meta {
+      margin-top: 36px;
       color: var(--muted);
       font-size: 14px;
     }
+    .meta strong { color: #fff; display: block; margin-bottom: 4px; }
 
-    .callout {
-      background: #fff8ee;
-      border: 1px solid #f1d2a9;
-      border-radius: 14px;
-      padding: 16px 18px;
-      margin: 16px 0;
-    }
+    .slide-cover .ribbon.r1 { right: -30px; top: -60px; width: 280px; height: 280px; }
+    .slide-cover .copy { max-width: 560px; }
+    .slide-cover .brand img { height: 56px; }
+    .slide-cover .actions { margin-top: 34px; }
+    .slide-cover .meta { margin-top: 56px; }
 
-    .cta-actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 14px;
-      justify-content: center;
-      margin: 4px 0 28px;
-    }
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      min-height: 56px;
-      padding: 14px 28px;
-      border-radius: 999px;
-      font-family: "Plus Jakarta Sans", sans-serif;
-      font-weight: 700;
-      font-size: 16px;
-      text-decoration: none;
-      transition: transform .15s ease, box-shadow .15s ease;
-    }
-    .btn svg { width: 20px; height: 20px; }
-    .btn:hover { transform: translateY(-2px); }
-    .btn-primary {
-      background: #fff;
-      color: #0B3D2C;
-      box-shadow: 0 10px 30px rgba(0,0,0,.18);
-    }
-    .btn-ghost {
-      background: transparent;
-      color: #fff;
-      border: 2px solid rgba(255,255,255,.85);
-    }
-
-    .cover.finale-cover {
-      position: relative;
-      min-height: 84vh;
+    .slide-center {
       text-align: center;
-      flex-direction: column;
-      justify-content: center;
+      align-items: center;
     }
-    .cover.finale-cover .cover-grid {
+    .slide-center .lead { margin-left: auto; margin-right: auto; }
+    .slide-center .actions { justify-content: center; }
+
+    #thanks {
+      --blue: #0d75b8;
+      --blue-deep: #084a7a;
+      --blue-glow: rgba(13,117,184,.32);
+      background:
+        radial-gradient(ellipse 55% 45% at 100% 0%, var(--blue-glow), transparent 60%),
+        radial-gradient(ellipse 45% 40% at 0% 100%, rgba(13,117,184,.2), transparent 55%),
+        #071525;
+      overflow: hidden;
+    }
+    #thanks::before {
+      background: radial-gradient(circle, rgba(13,117,184,.45), transparent 68%);
+    }
+    #thanks .ribbon {
+      background: linear-gradient(135deg, var(--blue), rgba(13,117,184,.14));
+    }
+    #thanks .kicker { color: #7ec8ff; }
+    #thanks .btn {
+      background: linear-gradient(90deg, #0d75b8 0%, #084a7a 100%);
+      box-shadow: 0 10px 30px rgba(13,117,184,.32);
+    }
+    #thanks .btn-ghost {
+      border-color: rgba(126,200,255,.55);
+    }
+    #thanks .frame {
+      border-left-color: rgba(126,200,255,.45);
+      border-bottom-color: rgba(126,200,255,.45);
       position: relative;
       z-index: 2;
-      grid-template-columns: minmax(0, 720px);
-      justify-content: center;
-      text-align: center;
     }
-    .cover.finale-cover h2 {
-      max-width: none;
+    #thanks .thanks-phone {
+      position: absolute;
+      right: 20%;
+      top: 50%;
+      transform: translateY(-50%);
+      height: min(520px, 78%);
+      width: auto;
+      z-index: 1;
+      pointer-events: none;
+      filter: drop-shadow(0 20px 40px rgba(0,0,0,.45));
+      animation: thanksPhoneFloat 3.2s ease-in-out infinite;
+    }
+    body.is-editing #thanks .thanks-phone { pointer-events: auto; }
+    @keyframes thanksPhoneFloat {
+      0%, 100% { transform: translateY(-50%); }
+      50% { transform: translateY(calc(-50% - 14px)); }
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 36px;
+      width: min(1180px, 100%);
       margin-left: auto;
       margin-right: auto;
     }
-    .cover.finale-cover .cta-actions {
-      margin: 32px 0 0;
-    }
-    .finale-phone {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      right: 8%;
-      margin: auto 0;
-      height: min(640px, 90%);
-      width: auto;
-      max-width: none;
-      z-index: 1;
-      pointer-events: none;
-      filter: none;
-      box-shadow: none;
-      border-radius: 0;
-      animation: phoneFloat 3.2s ease-in-out infinite;
-    }
-    body.is-editing .finale-phone { pointer-events: auto; animation-play-state: paused; }
-    @keyframes heroPhoneFloat {
-      0%, 100% { transform: translateY(-50%); }
-      50% { transform: translateY(calc(-50% - 16px)); }
-    }
-    @keyframes phoneFloat {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-16px); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-phone,
-      .finale-phone {
-        animation: none;
-      }
-    }
+    .slide-body { width: min(1180px, 100%); margin: 0 auto; }
 
-    @media screen and (max-width: 960px) {
-      html, body { overflow-x: hidden; }
-      .wrap { width: calc(100% - 28px); }
-      .hero-grid, .gallery, .gallery.three, .cover-grid, .compare, .weeks, .price-duo, .ux-grid, .pain, .benefit-row { grid-template-columns: 1fr; }
-      .cover.reverse .cover-grid { direction: ltr; }
-      .weeks { grid-template-columns: 1fr 1fr; }
-      .cover-grid { width: calc(100% - 28px); gap: 22px; }
-      .cover h2 { max-width: none; font-size: clamp(28px, 7vw, 44px); }
-      .section-title { max-width: none; font-size: clamp(28px, 7vw, 42px); }
-      ul:not(.steps),
-      ol:not(.steps) {
-        padding-left: 1.55em;
-        margin-left: 12px;
+    @media (max-width: 960px) {
+      .slide { padding: 36px 22px; }
+      .grid-2, .grid-2.reverse, .compare, .ask, .toc, .weeks, .shots, .grid-3 {
+        grid-template-columns: 1fr;
       }
-    }
-    @media screen and (max-width: 860px) {
-      .grid-2, .grid-4, .ask, .sign { grid-template-columns: 1fr; }
-      .weeks { grid-template-columns: 1fr; }
-      .pain-item { grid-template-columns: 44px 1fr; }
-      .benefit-row { grid-template-columns: 1fr; gap: 8px; }
-      .cta-actions { flex-direction: column; align-items: stretch; }
-      .btn { width: 100%; }
-
-      .hero,
-      .cover-frame,
-      .cover-panel {
-        min-height: auto;
+      #contents .topbar {
+        left: 22px;
+        right: 22px;
+      }
+      #contents {
         height: auto;
+        max-height: none;
+        min-height: 100vh;
+        overflow: visible;
       }
-      .cover-panel {
-        padding: 28px 16px 32px;
-        align-items: stretch;
-        overflow: hidden;
-      }
-      .cover-content {
-        width: 100%;
-        padding: 28px 22px 20px;
-        border-radius: 28px;
-      }
-      .hero-logo { margin-bottom: 18px; }
-      .hero-logo img { height: 44px; }
-      .hero h1 { font-size: clamp(26px, 8vw, 36px); }
-      .hero .sub { font-size: 11px; letter-spacing: 0.18em; }
-      .hero .pitch { font-size: 15px; margin-bottom: 22px; }
-      .hero-phone {
-        position: relative;
-        right: auto;
-        top: auto;
-        display: block;
-        height: 260px;
-        width: auto;
-        max-width: 220px;
-        margin: 12px auto 0;
-        animation-name: phoneFloat;
-      }
-      .finale-phone {
-        position: relative;
-        right: auto;
-        top: auto;
-        display: block;
-        height: 300px;
-        width: auto;
-        max-width: 250px;
-        margin: 28px auto 0;
-      }
-
-      .image-only { min-height: 42vh; }
-      .image-only img { height: 42vh; }
-
-      .cover {
-        min-height: auto;
-        padding: 48px 0;
-      }
-      .cover.stack { padding: 40px 0 0; }
-      .cover.overlay { min-height: 56vh; padding: 48px 16px; }
-      .cover-desc { font-size: 16px; }
-      .cover-grid img,
-      .cover.stack img {
-        height: 200px;
-        border-radius: 16px;
-      }
-
-      section.block { padding: 48px 0; }
-      .lead { font-size: 17px; }
-      .section-pop {
-        font-size: clamp(22px, 6.5vw, 30px);
-        margin-top: 32px;
-      }
-      .offer { padding: 22px 18px; }
-      .offer-price { font-size: 36px; }
-      .week { min-height: 0; }
-      .price-card { padding: 22px 18px; }
-      .table-wrap { margin-left: -6px; margin-right: -6px; }
-      table { font-size: 13px; }
-      th, td { padding: 10px 10px; }
-      .shot.portrait img { aspect-ratio: 4/5; max-height: 320px; }
-      .edit-bar {
-        left: 10px;
-        right: 10px;
-        bottom: 10px;
-        max-width: none;
+      .toc-col-left a,
+      .toc-col-right a {
         justify-content: center;
       }
+      .gallery {
+        grid-template-columns: 1fr;
+        height: auto;
+      }
+      .gallery-feature {
+        height: 220px;
+      }
+      .gallery-thumbs {
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: auto;
+        height: auto;
+      }
+      .gallery-thumbs figure {
+        height: 260px;
+      }
+      .grid-2.reverse .copy, .grid-2.reverse .media { order: unset; }
+      .media, .photo-stack { min-height: 0; height: auto; }
+      .photo, .photo-stack { height: 280px; }
+      .photo-stack .a, .photo-stack .b {
+        position: relative;
+        width: 100%;
+        height: 280px;
+        top: auto;
+        left: auto;
+        right: auto;
+      }
+      .photo-stack .b { display: none; }
+      .phone-float {
+        position: relative;
+        right: auto;
+        bottom: auto;
+        height: 240px;
+        margin: 18px auto 0;
+        display: block;
+      }
+      #thanks .thanks-phone {
+        position: relative;
+        right: auto;
+        top: auto;
+        transform: none;
+        display: block;
+        height: 280px;
+        margin: 28px auto 0;
+        animation-name: float;
+      }
+      .shots img { height: 220px; }
+      .grid-4 { grid-template-columns: 1fr 1fr; }
     }
-    @media screen and (max-width: 520px) {
-      .cover-content { padding: 22px 16px 16px; border-radius: 22px; }
-      .hero-logo img { height: 36px; }
-      .hero-phone { height: 210px; max-width: 170px; }
-      .finale-phone { height: 240px; max-width: 200px; }
-      .cover-kicker { font-size: 11px; }
-      .flow { gap: 6px; }
-      .flow span { font-size: 13px; padding: 8px 10px; }
+    @media (max-width: 560px) {
+      .grid-4, .weeks { grid-template-columns: 1fr; }
+      .gallery-thumbs { grid-template-columns: 1fr 1fr; }
+      .gallery-thumbs figure { height: 220px; }
+      .actions { flex-direction: column; align-items: stretch; }
+      .btn { justify-content: center; }
     }
 
     @media print {
-      @page {
-        size: landscape;
-        margin: 8mm;
-      }
-      html, body {
-        background: #fff !important;
-        margin: 0;
-        padding: 0;
-      }
-      body {
-        print-color-adjust: exact;
-        -webkit-print-color-adjust: exact;
-      }
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-      .reveal, .reveal.d1, .reveal.d2, .reveal.d3, .reveal.pop, .cover-grid > div, .cover-grid > img {
-        opacity: 1 !important;
-        transform: none !important;
-        animation: none !important;
-      }
-      .section-pop { font-size: 28px !important; margin-top: 28px !important; }
-      .edit-bar, .align-toggle, input[type=file] { display: none !important; }
-      html.draft-pending body { visibility: visible !important; }
-
-      body > header.hero,
-      body > section {
-        box-sizing: border-box;
-        width: 100%;
+      @page { size: landscape; margin: 8mm; }
+      .slide {
+        min-height: 0;
         height: 100vh;
-        max-height: 100vh;
-        min-height: 0 !important;
-        overflow: hidden;
         page-break-after: always;
         break-after: page;
-        page-break-inside: avoid;
-        break-inside: avoid;
+        overflow: hidden;
       }
-      body > section:last-of-type {
-        page-break-after: auto;
-        break-after: auto;
-      }
-      .hero {
-        display: flex;
-        flex-direction: column;
-        padding: 0 !important;
-      }
-      .hero .cover-frame {
-        min-height: 0 !important;
-        height: 100%;
-        flex: 1;
-      }
-      .cover.finale-cover .cover-grid {
-        grid-template-columns: minmax(0, 720px) !important;
-        justify-content: center;
-        text-align: center;
-      }
-      .finale-phone {
-        position: absolute !important;
-        top: 0 !important;
-        bottom: 0 !important;
-        right: 8% !important;
-        margin: auto 0 !important;
+      .slide:last-child { page-break-after: auto; break-after: auto; }
+      * { animation: none !important; transition: none !important; }
+      .reveal, .reveal.in {
+        opacity: 1 !important;
         transform: none !important;
-        height: min(480px, 80%) !important;
-        max-height: none !important;
-        width: auto !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
       }
-      .image-only {
-        padding: 0 !important;
-        background: #000;
+      .edit-bar, .align-toggle, .lightbox, input[type=file] { display: none !important; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .phone-float,
+      #thanks .thanks-phone { animation: none; }
+      .reveal, .reveal.in {
+        opacity: 1 !important;
+        transform: none !important;
+        transition: none !important;
       }
-      .image-only img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        filter: none !important;
-        box-shadow: none !important;
-        border-radius: 0 !important;
-        max-height: none !important;
-      }
-      .cover {
-        padding: 28px 20px !important;
-      }
-      .cover.stack { padding: 28px 20px 0 !important; }
-      .cover.overlay { min-height: 0 !important; }
-      .cover-grid { grid-template-columns: 1fr 1fr !important; }
-      .cover.stack .cover-grid { grid-template-columns: 1fr !important; }
-      .cover.overlay .cover-grid { grid-template-columns: minmax(0, 640px) !important; }
-      .cover.reverse .cover-grid { direction: rtl !important; }
-      .cover.reverse .cover-grid > * { direction: ltr !important; }
-      section.block {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        padding: 22px 28px !important;
-      }
-      .wrap {
-        width: min(1200px, calc(100% - 24px));
-        margin: 0 auto;
-      }
-      .grid-2, .compare, .price-duo, .ux-grid, .pain, .ask, .sign, .gallery {
-        grid-template-columns: 1fr 1fr !important;
-      }
-      .grid-4, .weeks { grid-template-columns: repeat(4, 1fr) !important; }
-      .gallery.three { grid-template-columns: 1.2fr .7fr .7fr !important; }
-      .benefit-row { grid-template-columns: 220px 1fr !important; }
-      .pain-item { grid-template-columns: 48px 1fr !important; }
-      .cta-actions {
-        flex-direction: row !important;
-        align-items: center !important;
-        justify-content: center !important;
-      }
-      .btn { width: auto !important; }
-      .cover-grid img,
-      .gallery img,
-      .shot img,
-      .shot.wide img {
-        height: auto !important;
-        max-height: 240px !important;
-      }
-      .section-title { font-size: 32px !important; }
-      .cover h2 { font-size: 40px !important; }
-      table { font-size: 12px; }
-      .print-fit-inner { width: 100%; }
-      section.block.is-print-fit,
-      section.block.is-print-fit {
-        justify-content: flex-start;
-      }
-      .is-print-fit > .print-fit-inner {
-        transform: scale(var(--print-scale, 1));
-        transform-origin: top center;
-      }
+      .card, .week, .ask-item, .shots figure { transition: none; }
     }
 
     /* Visual editor */
@@ -1094,12 +842,12 @@
       flex-wrap: wrap;
       gap: 8px;
       align-items: center;
-      background: #062e4f;
+      background: #0a3d31;
       color: #fff;
       padding: 10px 12px;
       border-radius: 16px;
-      box-shadow: 0 16px 40px rgba(0,0,0,.28);
-      font-family: "Plus Jakarta Sans", sans-serif;
+      box-shadow: 0 16px 40px rgba(0,0,0,.4);
+      font-family: "Manrope", sans-serif;
       font-size: 13px;
       font-weight: 700;
       max-width: calc(100vw - 36px);
@@ -1113,7 +861,7 @@
       font: inherit;
       cursor: pointer;
       background: #fff;
-      color: #062e4f;
+      color: #0a3d31;
     }
     .edit-bar button.ghost {
       background: transparent;
@@ -1128,597 +876,587 @@
       border: 0;
       border-radius: 999px;
       padding: 8px 14px;
-      font-family: "Plus Jakarta Sans", sans-serif;
+      font-family: "Manrope", sans-serif;
       font-size: 12px;
       font-weight: 700;
       letter-spacing: 0.04em;
-      background: #062e4f;
+      background: #0a3d31;
       color: #fff;
       cursor: pointer;
-      box-shadow: 0 10px 28px rgba(0,0,0,.28);
+      box-shadow: 0 10px 28px rgba(0,0,0,.35);
       white-space: nowrap;
     }
     .align-toggle.is-visible { display: block; }
+    body.is-editing a[href] {
+      cursor: text;
+    }
+    body.is-editing .toc a:hover .toc-label { color: var(--ink); }
+    body.is-editing .toc a:hover .num { color: var(--soft); }
     body.is-editing [contenteditable="true"] {
       outline: none;
       cursor: text;
     }
     body.is-editing [contenteditable="true"]:hover,
     body.is-editing [contenteditable="true"]:focus {
-      outline: 2px dashed rgba(13,117,184,.5);
+      outline: 2px dashed rgba(0,208,156,.55);
       outline-offset: 3px;
     }
-    body.is-editing img:not(.edit-bar img):not(.cover-bg) {
+    body.is-editing img:not(.edit-bar img) {
       outline: none;
       cursor: pointer;
     }
-    body.is-editing img:not(.edit-bar img):not(.cover-bg):hover {
-      outline: 2px dashed #1a8fe0;
+    body.is-editing img:not(.edit-bar img):hover {
+      outline: 2px dashed #00d09c;
     }
-    body.is-editing .cover.overlay,
-    body.is-editing .cover-panel {
-      outline: none;
-      cursor: pointer;
-    }
-    body.is-editing .cover.overlay:hover,
-    body.is-editing .cover-panel:hover {
-      outline: 3px dashed #7ec8ff;
-      outline-offset: -8px;
-    }
-    body.is-editing img:not(.edit-bar img)::after { content: none; }
   </style>
 </head>
 <body>
-<header class="hero" id="hero">
-<div class="cover-frame">
-<div class="cover-panel">
-<img alt="" class="cover-bg" src="proposal-assets/hero-cover-bg.png"/>
-<div class="cover-content reveal">
-<div class="hero-logo">
-<img alt="Mind Act" src="proposal-assets/logo-on-dark.png"/>
-</div>
-<p class="eyebrow">Confidential · August 2026</p>
-<h1>DataField</h1>
-<p class="sub">A Mindact on-field survey collection app</p>
-<div class="accent-line"></div>
-<p class="pitch">Your surveys. Your servers. Your brand. A MindAct-owned field platform so WHO-ECHO TPM data never lives on Kobo or Google Forms again.</p>
-<div class="cover-contact">
-<p class="label">Prepared by</p>
-<p class="author">Mo.G Creative Systems</p>
-<p><div><a href="https://wa.me/971509320937" rel="noopener" target="_blank">Mohamed Elgaili</a></div><div><a href="https://wa.me/971509320937" rel="noopener" target="_blank">+971 50 932 0937</a></div></p>
-</div>
-<img alt="" class="hero-phone" src="proposal-assets/hero-phone.png"/>
-</div>
-</div>
-</div>
-</header>
-<section class="image-only" id="after-hero">
-<img alt="" src="proposal-assets/after-hero.png"/>
-</section>
-<section class="cover" id="cover-purpose">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">01</p>
-<h2>Purpose</h2>
-<p class="cover-desc">From a village interview to a WHO-ready export, on MindAct infrastructure, not a rented form tool.</p>
-</div>
-<img alt="Humanitarian field work" src="proposal-assets/cover-purpose.png"/>
-</div>
-</section>
-<section class="block" id="purpose">
-<div class="wrap">
-<h2 class="section-title reveal">What’s the purpose?</h2>
-<p class="lead reveal d1">MindAct DataField is a purpose-built survey and TPM platform for MindAct’s field work in Sudan and beyond. Enumerators collect hospital, PHC, stabilization centre, and beneficiary exit interviews offline, then sync to MindAct’s own infrastructure on mind-act.co.</p>
-<div class="grid-2">
-<article class="card reveal"><div class="icon-wrap"><i data-lucide="wifi-off"></i></div><div class="num"><br/></div><h3>Collect offline</h3><p>High-quality survey data in low-connectivity, low-power environments.</p></article>
-<article class="card reveal d1"><div class="icon-wrap"><i data-lucide="shield-check"></i></div><div class="num"><br/></div><h3>Keep data inside MindAct</h3><p>Every submission, GPS point, photo, and export stays on MindAct, not a third-party form tool.</p></article>
-<article class="card reveal d2"><div class="icon-wrap"><i data-lucide="activity"></i></div><div class="num"><br/></div><h3>See the round live</h3><p>Supervisors track teams, states, facilities, and tools during a compressed field round.</p></article>
-<article class="card reveal d3"><div class="icon-wrap"><i data-lucide="award"></i></div><div class="num"><br/></div><h3>Look like the operator</h3><p>Present MindAct to WHO, IPs, and donors as a productized monitoring firm, not a team renting Kobo.</p></article>
-</div>
-<p class="muted reveal" style="margin-top:20px; text-align: center">This is not a consumer Play Store toy, and not a pixel-clone of Kobo.</p>
-<p class="section-pop reveal pop">It's MindAct's operational system for TPM and future Surveys.</p>
-</div>
-</section>
-<section class="cover reverse" id="cover-benefits">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">02</p>
-<h2>Benefit</h2>
-<p class="cover-desc">Own the data, the brand, and the workflow. Reuse the same engine for the next donor and the next state.</p>
-</div>
-<img alt="Partnership handshake" src="proposal-assets/cover-benefits.png"/>
-</div>
-</section>
-<section class="block paper" id="benefits">
-<div class="wrap">
-<h2 class="section-title reveal">How does MindAct benefit?</h2>
-<div class="benefit-list reveal d1">
-<article class="benefit-row"><h3>1. Data ownership</h3><p>WHO-ECHO and future project data sit on MindAct-controlled hosting. No Kobo account dependency, no Google Forms custody.</p></article>
-<article class="benefit-row"><h3>2. Branding</h3><p>Enumerators, facility staff, and clients see MindAct DataField and mind-act.co, not a generic humanitarian tool.</p></article>
-<article class="benefit-row"><h3>3. Win more work</h3><p>Proposals can say “proprietary offline TPM platform + owned datasets,” a real differentiator vs consultancies who only subcontract Kobo.</p></article>
-<article class="benefit-row"><h3>4. Speed in the field</h3><p>Facility roster, team assignment (A–D), tool picker (1–4), and 10-day completeness are built for MindAct’s actual TPM workflow.</p></article>
-<article class="benefit-row"><h3>5. Client confidence</h3><p>Clients can be given access to the app's dashboard that shows targets vs actual (hospitals, PHCs, SCs, exit interviews), GPS map, QA flags, and one-click export.</p></article>
-<article class="benefit-row"><h3>6. Reuse</h3><p>After WHO-ECHO, the same engine runs the next survey round, new tools, new states, new donors.</p></article>
-<article class="benefit-row"><h3>7. Lock-in the right way</h3><p>Clients stay because the data and workflow live with MindAct, not because of a vendor trap you do not control.</p></article>
-</div>
-<p class="reveal" style="margin-top:28px; text-align: center"><strong>Kobo makes MindAct look like every other implementer. </strong></p>
-<p class="section-pop reveal pop">DataField improves MindAct's positioning.</p>
-</div>
-</section>
-<section class="cover overlay" id="cover-pains">
-<img alt="" class="cover-bg" src="proposal-assets/cover-pains-bg.png"/>
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">03</p>
-<h2>Pain Points</h2>
-<p class="cover-desc">Custody, connectivity, and TPM shape. These are the problems a generic tool will not solve in rural Sudan.</p>
-</div>
-</div>
-</section>
-<section class="block" id="pains">
-<div class="wrap">
-<h2 class="section-title reveal">What problems does this solve?</h2>
-<div class="pain">
-<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="database"></i></div><div><strong>Data is not really yours.</strong> Kobo/Google hold the project, media, and access trail. Offboarding, audit, and “delete our data from their cloud” become political.</div></div>
-<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="wifi-off"></i></div><div><strong>Rural Sudan breaks online forms.</strong> Google Forms needs a live connection. Teams lose interviews, batch-submit in towns, or fall back to paper and re-entry error.</div></div>
-<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="layout-grid"></i></div><div><strong>Generic tools ignore TPM shape.</strong> 40 facilities, 15 states, 4 tools, 4 teams, 10 field days, GPS + photos, 260 exit interviews. Kobo can store answers; it does not run this operation.</div></div>
-<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="eye-off"></i></div><div><strong>Supervisors fly blind.</strong> Completeness vs target is a spreadsheet after the fact, not a live board during Days 1–10.</div></div>
-<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="tag"></i></div><div><strong>Brand leakage.</strong> Every tablet opens Kobo. Partners remember the tool, not MindAct.</div></div>
-<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="heart-handshake"></i></div><div><strong>Arabic + protection interviews are awkward.</strong> Tool 4 needs consent, PSEA-safe close, no probing. Generic builders do not encode that duty of care.</div></div>
-<div class="pain-item reveal"><div class="icon-wrap"><i data-lucide="bar-chart-3"></i></div><div><strong>Analysis is bolted on.</strong> Charts in Kobo/Forms are shallow. Facility × IP × tool triangulation for WHO reports is manual and slow.</div></div>
-<div class="pain-item reveal d1"><div class="icon-wrap"><i data-lucide="battery-low"></i></div><div><strong>Electricity and media.</strong> Uncompressed photos and chatty cloud apps drain batteries and fail on weak 3G. The product must queue, compress, and retry.</div></div>
-</div>
-<p class="section-pop reveal pop">Control is the product.</p>
-</div>
-</section>
-<section class="cover stack" id="cover-kobo">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">04</p>
-<h2>Kobo Comparison</h2>
-<p class="cover-desc">Kobo is excellent but MindAct DataField is MindAct’s production stack: your data, your brand, your TPM workflow.</p>
-</div>
-<img alt="Team working on laptops" src="proposal-assets/cover-kobo.jpg"/>
-</div>
-</section>
-<section class="block paper" id="kobo">
-<div class="wrap">
-<h2 class="section-title reveal">Why is this better than Kobo?</h2>
-<p class="lead reveal d1">This does not claim to beat Kobo worldwide. It beats Kobo as MindAct’s production stack.</p>
-<div class="compare reveal d1">
-<div class="compare-col them">
-<h3>Kobo</h3>
-<ul>
-<li><strong>Custody:</strong> their cloud, or a self-host you still do not brand</li>
-<li><strong>Brand:</strong> KoboCollect on every device</li>
-<li><strong>Workflow:</strong> generic projects and forms</li>
-<li><strong>Client view:</strong> share a project or send Excel</li>
-<li><strong>Offline:</strong> strong, field-proven</li>
-<li><strong>Arabic TPM tools:</strong> rebuild forms each time</li>
-<li><strong>Later:</strong> you are a tenant</li>
-<li><strong>3 years:</strong> “free” + staff time + brand dilution</li>
-</ul>
-</div>
-<div class="compare-col us">
-<h3>MindAct DataField</h3>
-<ul>
-<li><strong>Custody:</strong> MindAct servers, access logs, exports</li>
-<li><strong>Brand:</strong> MindAct DataField + mind-act.co</li>
-<li><strong>Workflow:</strong> facilities, IPs, Teams A–D, Tools 1–4</li>
-<li><strong>Client view:</strong> branded dashboard, map, QA, report</li>
-<li><strong>Offline:</strong> same conditions, MindAct sync queue UX</li>
-<li><strong>Arabic TPM tools:</strong> Tools 1–4 native and versioned</li>
-<li><strong>Later:</strong> you own the product and the history</li>
-<li><strong>3 years:</strong> one build you own + modest hosting</li>
-</ul>
-</div>
-</div>
-<div class="callout reveal">Kobo has years of offline edge-case fixes and global enumerator familiarity. MindAct Collect does not pretend to replace Kobo for every NGO on earth. It replaces MindAct’s dependence on Kobo so <strong>your</strong> data, <strong>your</strong> brand, and <strong>your</strong> TPM workflow are first-class.</div>
-<p style="text-align: center"><strong>Free software is expensive when the dataset and the reputation sit on someone else’s platform.</strong></p>
-<p class="section-pop reveal pop">Kobo is an external tool. <div>This is yours.</div></p>
-</div>
-</section>
-<section class="cover" id="cover-how">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">05</p>
-<h2>How It Works</h2>
-<p class="cover-desc">Collect in the field. Queue when the signal dies. Analyze on mind-act.co when you are back online.</p>
-</div>
-<img alt="Tablet in the field" src="proposal-assets/cover-how.png"/>
-</div>
-</section>
-<section class="block" id="how">
-<div class="wrap">
-<h2 class="section-title reveal">How will the app work?</h2>
-<div class="flow reveal d1">
-<span>Enumerator offline</span><i>→</i>
-<span>Queue + sync</span><i>→</i>
-<span>MindAct admin</span><i>→</i>
-<span>Client dashboard</span><i>→</i>
-<span>WHO exports</span>
-</div>
-<p class="reveal">Supervisor feeds the same admin layer. Four surfaces. One data store.</p>
-<div class="gallery reveal d1">
-<figure class="shot portrait"><img alt="Field app home placeholder" src="proposal-assets/ui-field-home.png"/><figcaption>Field home · assignments</figcaption></figure>
-<figure class="shot portrait"><img alt="Sync queue placeholder" src="proposal-assets/ui-sync-queue.png"/><figcaption>Sync queue · offline retry</figcaption></figure>
-<figure class="shot wide"><img alt="Client dashboard placeholder" src="proposal-assets/ui-dashboard.png"/><figcaption>Client dashboard · hosted by MindAct</figcaption></figure>
-</div>
-<div class="grid-2">
-<article class="card reveal"><div class="icon-wrap"><i data-lucide="smartphone"></i></div><h3>1. Field app</h3><p>Android phones/tablets. Login or QR setup. Assigned facilities. Tools 1–4. Drafts offline. Required GPS and compressed photos. Finalize into a sync queue. Auto-retry when online.</p></article>
-<article class="card reveal d1"><div class="icon-wrap"><i data-lucide="users"></i></div><h3>2. Supervisor</h3><p>Teams A–D board. Completeness matrix (facility × tool). Pending sync. Revisit / access issues. State debrief notes.</p></article>
-<article class="card reveal d2"><div class="icon-wrap"><i data-lucide="server"></i></div><h3>3. Ops admin</h3><p>On mind-act.co: projects, 40-facility roster, form versions, users/roles, raw submissions, media, access log. This is the ownership layer.</p></article>
-<article class="card reveal d3"><div class="icon-wrap"><i data-lucide="layout-dashboard"></i></div><h3>4. Client dashboard</h3><p>Round command center (10 hospitals / 16 PHC / 10 SC / 260 exits), GPS map, facility dossier, QA flags, clean dataset + round report. Badge: <strong>Hosted by MindAct</strong>.</p></article>
-</div>
-<h3>Field reality rules</h3>
-<ul>
-<li>No beneficiary self-fill on a public website. Enumerator-led.</li>
-<li>Paper fallback IDs if a device dies; enter later under the same case ID.</li>
-<li>Sync hubs: locality capital, overnight, or Days 7–10 QA window.</li>
-<li>Arabic RTL in the field; English (bilingual-ready) on the client dashboard.</li>
-</ul>
-<p class="section-pop reveal pop">Offline first. <div>MindAct always.</div></p>
-</div>
-</section>
-<section class="cover reverse" id="cover-ui">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">06</p>
-<h2>UI Design</h2>
-<p class="cover-desc">A Sudan-ready field tool: high contrast outdoors, calm trust on the web. Not a purple SaaS clone.</p>
-</div>
-<img alt="Design work" src="proposal-assets/cover-ui.png"/>
-</div>
-</section>
-<section class="block paper" id="ui">
-<div class="wrap">
-<h2 class="section-title reveal">What does the UI look like?</h2>
-<figure class="shot wide reveal d1" style="margin-bottom:20px">
-<img alt="Nile Field design system placeholder" src="proposal-assets/ui-design-system.png"/>
-<figcaption>Placeholder · DataField design system board</figcaption>
-</figure>
-<div class="swatches reveal d2">
-<div class="swatch"><b style="background:#0F5C5C"></b><span>#0F5C5C teal</span></div>
-<div class="swatch"><b style="background:#C45C1A"></b><span>#C45C1A clay</span></div>
-<div class="swatch"><b style="background:#F3EFE6"></b><span>#F3EFE6 sand</span></div>
-<div class="swatch"><b style="background:#F7F5F0"></b><span>#F7F5F0 canvas</span></div>
-<div class="swatch"><b style="background:#1A2421"></b><span>#1A2421 ink</span></div>
-<div class="swatch"><b style="background:#0B3D2C"></b><span>MindAct green</span></div>
-</div>
-<p><strong>Type:</strong> Field Arabic: IBM Plex Sans Arabic. Web headlines: Fraunces. Web UI: IBM Plex Sans.</p>
-<p>Clients should see instantly: teal top bar with MindAct wordmark, always-visible Online / Offline / Pending chips, large tap targets. No generic Inter/Roboto look inside the product UI.</p>
-<p class="section-pop reveal pop">Built for Sudan.</p>
-</div>
-</section>
-<section class="cover overlay" id="cover-ux">
-<img alt="" class="cover-bg" src="proposal-assets/cover-ux-bg.png"/>
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">07</p>
-<h2>User Experience</h2>
-<p class="cover-desc">Enumerator, exit interview, supervisor, client. Each path is designed for the 10-day TPM reality.</p>
-</div>
-</div>
-</section>
-<section class="block" id="ux">
-<div class="wrap">
-<h2 class="section-title reveal">How will people use it?</h2>
-<div class="gallery reveal d1">
-<figure class="shot portrait"><img alt="Enumerator home placeholder" src="proposal-assets/ui-field-home.png"/><figcaption>Journey 1 · enumerator home</figcaption></figure>
-<figure class="shot portrait"><img alt="Sync queue placeholder" src="proposal-assets/ui-sync-queue.png"/><figcaption>Journey 1 close · sync later</figcaption></figure>
-</div>
-<div class="ux-grid">
-<article class="ux-card reveal"><h3> 1. Hospital assessment</h3><p>Login → My work → Facility → Tool 1 → Sections A–N with draft save → GPS → Photos → Finalize → Queue → Sync later.</p></article>
-<article class="ux-card reveal d1"><h3> 2. Exit interview</h3><p>Consent → Demographics → Access → Protection → Close with feedback channel → Finalize with no name stored.</p></article>
-<article class="ux-card reveal"><h3> 3. Supervisor day check</h3><p>Team board → Filter state/team → Incomplete facilities / pending sync → Flag revisit → Debrief note.</p></article>
-<article class="ux-card reveal d1"><h3> 4. Client ownership</h3><p>Login → Targets vs actual → GPS map → Facility dossier → Export → Ownership badge and access log.</p></article>
-</div>
-<h3>Non-negotiables</h3>
-<ul>
-<li>Cannot finalize without required GPS when marked.</li>
-<li>Sync failure is retryable, never silent data loss.</li>
-<li>Tool 4: no probing of alleged perpetrators; PSEA path if payment/gift is disclosed.</li>
-<li>Client landing is one headline + one CTA, not a card dump.</li>
-</ul>
-<p class="section-pop reveal pop">Four journeys. One round.</p>
-</div>
-</section>
-<section class="cover stack" id="cover-process">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">08</p>
-<h2>App Development Process</h2>
-<p class="cover-desc">A short, AI-accelerated build with MindAct checkpoints. Offline sync and security stay human-owned.</p>
-</div>
-<img alt="Software development" src="proposal-assets/cover-process.png"/>
-</div>
-</section>
-<section class="block paper" id="process">
-<div class="wrap">
-<h2 class="section-title reveal">How will it be built?</h2>
-<ol class="steps reveal d1">
-<li><span class="dot">0</span><div><h3>Discovery (done)</h3><p>WHO-ECHO tools, 15-state coverage, ownership requirement understood. MindAct: approve this proposal.</p></div></li>
-<li><span class="dot">1</span><div><h3>UI lock</h3><p>DataField screens. MindAct: one review call, written sign-off.</p></div></li>
-<li><span class="dot">2</span><div><h3>Core field build</h3><p>Auth, assignments, Tools 1–4, offline store, GPS/photos, sync queue. MindAct: device demo.</p></div></li>
-<li><span class="dot">3</span><div><h3>Command layer</h3><p>Supervisor completeness + admin roster/users/submissions. MindAct: review roles and facility list.</p></div></li>
-<li><span class="dot">4</span><div><h3>Client dashboard</h3><p>Progress, map, QA flags, exports, ownership panel. MindAct: review WHO-facing view.</p></div></li>
-<li><span class="dot">5</span><div><h3>Hardening</h3><p>Arabic RTL, offline/sync torture test, photo compression. MindAct: airplane-mode UAT.</p></div></li>
-<li><span class="dot">6</span><div><h3>Handover</h3><p>Source, credentials, admin training, 30-day hypercare. MindAct: accept launch.</p></div></li>
-</ol>
-<p><strong>How AI is used:</strong> AI accelerates UI implementation, form schemas, and dashboard scaffolding. Offline sync, security, and UAT remain human-owned.</p>
-<h3>What MindAct receives at handover</h3>
-<ul>
-<li>Android field app (sideload + Play internal track if desired)</li>
-<li>mind-act.co admin + client dashboard</li>
-<li>Source code and deployment access on MindAct-controlled hosting</li>
-<li>Admin guide (Arabic/English outline)</li>
-<li>30 days of bugfix hypercare after launch</li>
-</ul>
-<p class="section-pop reveal pop">Lock the UI. Then ship.</p>
-</div>
-</section>
-<section class="cover" id="cover-budget">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">09</p>
-<h2>Market Cost</h2>
-<p class="cover-desc">Benchmark only: a small regional studio vs a freelance full-stack. Not a Dubai enterprise quote.</p>
-</div>
-<img alt="Budget planning" src="proposal-assets/cover-budget.png"/>
-</div>
-</section>
-<section class="block" id="budget">
-<div class="wrap">
-<h2 class="section-title reveal">What would the market charge?</h2>
-<div class="price-duo reveal d1">
-<article class="price-card"><p class="num">Small regional studio</p><p class="amt">AED 35k–80k</p><p>2–4 months. Designer + developer + light PM. About 200–400 studio hours.</p></article>
-<article class="price-card"><p class="num">Freelance full-stack</p><p class="amt">AED 15k–45k</p><p>7–10 weeks. One contractor, usually without dedicated designer or QA.</p></article>
-</div>
-<p class="lead">In-house Sudan/Egypt hire: AED 8k–48k salary over 2–4 months, plus hiring delay. Hosting (to own the data): AED 150–400 / month.</p>
-<div class="table-wrap reveal d1">
-<table>
-<thead><tr><th>Workstream</th><th>Small regional studio</th><th>Freelance full-stack</th></tr></thead>
-<tbody>
-<tr><td>Discovery, UX/UI, design system</td><td>AED 4,000–10,000</td><td>AED 2,000–6,000 (or DIY)</td></tr>
-<tr><td>Android field app (offline, GPS, photos, sync)</td><td>AED 12,000–25,000</td><td>AED 6,000–15,000</td></tr>
-<tr><td>Supervisor + admin + client dashboard</td><td>AED 8,000–20,000</td><td>AED 4,000–12,000</td></tr>
-<tr><td>Backend, auth, media, access logs</td><td>AED 7,000–15,000</td><td>AED 3,000–10,000</td></tr>
-<tr><td>Arabic RTL, QA, UAT, launch</td><td>AED 3,000–7,000</td><td>AED 1,000–4,000</td></tr>
-<tr><td>Project management</td><td>AED 2,000–8,000</td><td>Folded into the rate</td></tr>
-<tr class="highlight"><td>Typical build total</td><td>AED 35,000–80,000</td><td>AED 15,000–45,000</td></tr>
-<tr><td>Calendar time</td><td>2–4 months</td><td>4–10 weeks</td></tr>
-<tr><td>Post-launch support</td><td>AED 2,000–6,000 / month</td><td>AED 1,000–4,000 / month or hourly</td></tr>
-</tbody>
-</table>
-</div>
-<h3>How those ranges are built</h3>
-<p><strong>Small regional studio.</strong> A 2–4 person shop commonly bills about AED 80–180/hour blended. This scope is roughly 200–400 studio hours. That is how you reach AED 35k–80k.</p>
-<p><strong>Freelance full-stack.</strong> A capable regional/remote contractor often charges about AED 55–150/hour ($15–40/hr), or AED 4,000–12,000/month. A tight build is 180–350 focused hours. That is how you reach AED 15k–45k, usually without a dedicated designer or QA.</p>
-<p><strong>In-house hire.</strong> A full-stack employee in Sudan/Egypt is often AED 4,000–12,000/month. Two to four months of build is AED 8,000–48,000 in salary before you have a finished v1, and you still carry the person after launch.</p>
-<h3>Usually not in those build quotes</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Ongoing / extra</th><th>Typical</th></tr></thead>
-<tbody>
-<tr><td>Hosting + database + photo storage</td><td>AED 150–400 / month (this is how you own the data)</td></tr>
-<tr><td>Play Store account, devices, SIMs, power banks</td><td>MindAct operations budget</td></tr>
-<tr><td>Scope changes</td><td>10–30% on top of the build</td></tr>
-<tr><td>Warranty after handover</td><td>Often 2–8 weeks, then hourly or a small retainer</td></tr>
-</tbody>
-</table>
-</div>
-<p><strong>If MindAct hires the market it would actually use, budget AED 15,000–45,000 for a freelance full-stack, or AED 35,000–80,000 for a small studio, over one to four months.</strong></p>
-<p>Kobo remains “free” only if MindAct accepts that the brand and the dataset do not sit fully inside MindAct.</p>
-<p class="section-pop reveal pop">App-dev market is merciless.</p>
-</div>
-</section>
-<section class="cover reverse" id="cover-timeline">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">10 </p>
-<h2>Development Timeline</h2>
-<p class="cover-desc">Known TPM toolkit. Locked screens. AI-accelerated build. Still serious about offline and UAT.</p>
-</div>
-<img alt="Calendar planning" src="proposal-assets/cover-timeline.png"/>
-</div>
-</section>
-<section class="block paper" id="timeline">
-<div class="wrap">
-<h2 class="section-title reveal">How long will it take?</h2>
-<div class="weeks reveal d1">
-<article class="week"><p class="num">Week 0 · 2–3 days</p><h3>UI lock</h3><p>Stitch + this proposal. You see a signed screen set.</p></article>
-<article class="week"><p class="num">Week 1</p><h3>Field app walking</h3><p>Login, assignments, one full tool offline. You see a device demo.</p></article>
-<article class="week"><p class="num">Week 2</p><h3>All four tools</h3><p>GPS, photos, sync to admin. You see an end-to-end dummy round.</p></article>
-<article class="week"><p class="num">Week 3</p><h3>Dashboard + handover</h3><p>Supervisor, client view, UAT. You see a launch candidate.</p></article>
-</div>
-<p style="margin-top:24px"><strong>Buffer:</strong> +3–5 days if Play Store listing, extra WHO wording, or major UI revisions after sign-off.</p>
-<p>This is short and still serious because the scope is MindAct’s known TPM toolkit, not a global Kobo clone.</p>
-<p class="section-pop reveal pop">Three weeks after UI lock.</p>
-</div>
-</section>
-<section class="cover overlay" id="cover-offer">
-<img alt="" class="cover-bg" src="proposal-assets/cover-offer-bg.png"/>
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">11</p>
-<h2>The Offer</h2>
-<p class="cover-desc">Full v1 on MindAct infrastructure. Source included. 30-day hypercare after acceptance.</p>
-</div>
-</div>
-</section>
-<section class="block" id="offer">
-<div class="wrap">
-<h2 class="section-title reveal">What’s the offer?</h2>
-<div class="offer reveal d1">
-<p class="kicker"> The offer</p>
-<h2>Design, implement, and deliver MindAct DataField for AED 10,000.</h2>
-<div class="offer-price">AED 10,000</div>
-<p>Entire first-version product. One fee.</p>
-<h3>Included</h3>
-<ul>
-<li>MindAct DataField app (offline-first, Arabic)</li>
-<li>Supervisor view</li>
-<li>mind-act.co admin + client dashboard</li>
-<li>Source and deployment on MindAct-controlled infrastructure</li>
-<li>30-day hypercare after acceptance</li>
-</ul>
-<p class="note"><strong>Not included:</strong> unlimited new modules forever, hardware, or a promise to out-feature Kobo on every generic use case in year one.</p>
-<p class="note">MindAct already has a live WHO-ECHO TPM use case, four Arabic tools, and a 10-day field model. Building against a real round is the cheapest moment to own the stack. Waiting until after another Kobo round means another dataset you do not fully control.</p>
-<p class="note"><strong>Next step:</strong> Approve this proposal + UI lock → start Week 1 → first device demo within 7 days of sign-off.</p>
-</div>
-<p class="section-pop reveal pop">AED 10,000 <div><br/><div>Full working app</div><div>+</div><div>Maintenance</div></div></p>
-</div>
-</section>
-<section class="cover stack" id="cover-why">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">12</p>
-<h2>Price Justification</h2>
-<p class="cover-desc">You just saw the hiring market. This offer undercuts a studio and beats a typical freelancer on price, speed, and handover.</p>
-</div>
-<img alt="Analytics dashboard" src="proposal-assets/cover-why.jpg"/>
-</div>
-</section>
-<section class="block paper" id="why">
-<div class="wrap">
-<h2 class="section-title reveal">Why is this price reasonable?</h2>
-<div class="table-wrap reveal d1">
-<table>
-<thead><tr><th>Path</th><th>Typical you would pay</th><th>Time</th><th>What you own</th></tr></thead>
-<tbody>
-<tr><td>Small regional studio</td><td>AED 35,000–80,000</td><td>2–4 months</td><td>The build, after a studio contract</td></tr>
-<tr><td>Freelance full-stack</td><td>AED 15,000–45,000</td><td>4–10 weeks</td><td>The build, if the contractor documents it</td></tr>
-<tr><td>In-house hire (Sudan/Egypt)</td><td>AED 8,000–48,000 salary over 2–4 months</td><td>Hiring delay + months</td><td>An employee, not necessarily a finished product</td></tr>
-<tr><td>Kobo / Google Forms</td><td>AED 0 license</td><td>Immediate</td><td>Neither the platform nor clean custody</td></tr>
-<tr class="highlight"><td>This offer</td><td>AED 10,000 one-time</td><td>~3 weeks after UI lock</td><td>Full v1, source, MindAct hosting, 30-day hypercare</td></tr>
-</tbody>
-</table>
-</div>
-<p>About <strong>3.5–8× less than a small studio</strong> and <strong>at or below the bottom of a freelance engagement</strong>, with a faster calendar and a locked UI already done.</p>
-<h3>Why this still wins against a cheap freelancer</h3>
-<ol>
-<li>AI-native delivery plus a pre-locked DataField UI, so MindAct is not paying discovery weeks.</li>
-<li>Scope is already known: Tools 1–4, 40 facilities, 4 teams, 4 surfaces.</li>
-<li>Four surfaces in one fee: field + supervisor + admin + client dashboard, not a field-only script.</li>
-<li>Founding-partner rate: MindAct is the first logo. You get ownership-level pricing; the builder gets a reference product.</li>
-<li>Handover is included: source, MindAct-controlled hosting, 30-day hypercare. Many freelance quotes stop at “it runs on my laptop.”</li>
-</ol>
-<h3>Risk controls</h3>
-<ul>
-<li>Milestone or installment payments</li>
-<li>UI sign-off before heavy build</li>
-<li>Source + hosting in MindAct’s control at handover</li>
-<li>Hypercare window included</li>
-</ul>
-<p><strong>A small studio would likely ask AED 35k–80k and take months. A freelancer would likely ask AED 15k–45k with more delivery risk. Paying AED 0 to Kobo leaves data and brand where they are today. AED 10,000 is where ownership becomes rational.</strong></p>
-<p class="section-pop reveal pop">Ownership at a founding price.</p>
-</div>
-</section>
-<section class="cover" id="cover-payment">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">13</p>
-<h2>Payment Terms</h2>
-<p class="cover-desc">Milestones, or up to four monthly installments. Final schedule in a short agreement.</p>
-</div>
-<img alt="Payment" src="proposal-assets/cover-payment.png"/>
-</div>
-</section>
-<section class="block" id="payment">
-<div class="wrap">
-<h2 class="section-title reveal">How can MindAct pay?</h2>
-<p class="reveal d1">Final schedule to be written into a short services agreement.</p>
-<div class="grid-2">
-<article class="card">
-<h3>Option A — Milestones (recommended)</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Milestone</th><th>When</th><th>Amount</th></tr></thead>
-<tbody>
-<tr><td>1. Kickoff (30%)</td><td>UI sign-off + agreement</td><td>AED 3,000</td></tr>
-<tr><td>2. Field core (30%)</td><td>Tools offline + sync demo</td><td>AED 3,000</td></tr>
-<tr><td>3. Full v1 (25%)</td><td>Dashboard + UAT start</td><td>AED 2,500</td></tr>
-<tr><td>4. Acceptance (15%)</td><td>Handover + credentials</td><td>AED 1,500</td></tr>
-<tr class="highlight"><td>Total</td><td></td><td>AED 10,000</td></tr>
-</tbody>
-</table>
-</div>
-</article>
-<article class="card">
-<h3>Option B — 4 monthly installments</h3>
-<div class="table-wrap">
-<table>
-<thead><tr><th>Month</th><th>Trigger</th><th>Amount</th></tr></thead>
-<tbody>
-<tr><td>Month 1</td><td>Agreement + kickoff</td><td>AED 2,500</td></tr>
-<tr><td>Month 2</td><td>Handover</td><td>AED 2,500</td></tr>
-<tr><td>Month 3</td><td>Calendar</td><td>AED 2,500</td></tr>
-<tr><td>Month 4</td><td>Calendar</td><td>AED 2,500</td></tr>
-<tr class="highlight"><td>Total</td><td></td><td>AED 10,000</td></tr>
-</tbody>
-</table>
-</div>
-</article>
-</div>
-<p style="margin-top:18px">Installments can overlap a 3-week build (Months 1–2 cover delivery; Months 3–4 are cash-flow smoothing). Options can be combined: last installment due only after acceptance.</p>
-<p>Hosting invoices are separate, in MindAct’s name, and are not part of the build fee unless MindAct asks to prepay the first 3 months at cost.</p>
-<p class="section-pop reveal pop">Pay in milestones or months.</p>
-</div>
-</section>
-<section class="cover reverse" id="cover-close">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">14</p>
-<h2>Next Steps</h2>
-<p class="cover-desc">Stop renting the pipeline, choose payment option, start Week 1.</p>
-</div>
-<img alt="Open road" src="proposal-assets/cover-close.jpg"/>
-</div>
-</section>
-<section class="block paper" id="close">
-<div class="wrap">
-<h2 class="section-title reveal">What’s next?</h2>
-<ul>
-<li>MindAct DataField puts WHO-ECHO TPM data on MindAct infrastructure.</li>
-<li>Field teams work offline in Arabic; clients see a branded dashboard, not a Kobo export.</li>
-<li>AED 10,000, ~3 weeks after UI lock, milestone or 4-month payment.</li>
-</ul>
-<div class="ask">
-<div class="ask-item reveal"><div class="icon-wrap"><i data-lucide="file-check"></i></div><div class="num">01</div><strong>Approve this proposal.</strong></div>
-<div class="ask-item reveal d1"><div class="icon-wrap"><i data-lucide="pen-line"></i></div><div class="num">02</div><strong>Sign off DataField UI</strong> (or request one revision round).</div>
-<div class="ask-item reveal d2"><div class="icon-wrap"><i data-lucide="circle-dollar-sign"></i></div><div class="num">03</div><strong>Choose payment Option A or B.</strong></div>
-<div class="ask-item reveal d3"><div class="icon-wrap"><i data-lucide="rocket"></i></div><div class="num">04</div><strong>Kick off Week 1.</strong></div>
-</div>
-<div class="sign">
-<div class="sign-line"><br/></div>
-<div class="sign-line"><br/></div>
-</div>
-<p class="muted" style="margin-top:28px">Attachments to follow: <div>- DataField UI screens </div><div>- WHO-ECHO Tools 1–4 map</div><div>- Draft milestone agreement</div><div>- Indicative hosting quote (accounts in MindAct’s name)</div></p>
-<p class="section-pop reveal pop">Approve. Sign. <div>Start Week 1.</div></p>
-</div>
-</section>
-<section class="cover finale-cover" id="thanks">
-<div class="cover-grid">
-<div>
-<p class="cover-kicker">Take action</p>
-<h2>Sign the agreement and we'll start today.</h2>
-<div class="cta-actions">
-<a class="btn btn-primary" href="https://wa.me/971509320937?text=Hi%20Mo.G%2C%20MindAct%20is%20ready%20to%20sign%20the%20MindAct%20Collect%20agreement." rel="noopener" target="_blank">
-<i data-lucide="file-signature"></i>
-            Sign the agreement
-          </a>
-<a class="btn btn-ghost" href="https://wa.me/971509320937" rel="noopener" target="_blank">
-<i data-lucide="message-circle"></i>
-            Contact +971 50 932 0937
-          </a>
-</div>
-</div>
-</div>
-<img alt="" class="finale-phone" src="proposal-assets/finale-phone.png"/>
-</section>
-<script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
-<script>
+
+  <!-- 01 Cover -->
+  <section class="slide slide-cover" id="cover">
+    <div class="ribbon r1"></div>
+    <div class="ribbon r2"></div>
+    <div class="grid-2">
+      <div class="copy">
+        <div class="brand">
+          <img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" />
+        </div>
+        <h1>DataField</h1>
+        <p class="sub">Off-line survey collection app</p>
+        <div class="actions">
+          <a class="btn" href="#thanks">Let’s collaborate <i data-lucide="arrow-right"></i></a>
+        </div>
+        <div class="meta">
+          <span style="color:var(--soft)">Presented by</span>
+          <strong>Mo.G Creative Systems</strong>
+          Mohamed Elgaili<br />
+          <a href="https://wa.me/971509320937">+971 50 932 0937</a>
+        </div>
+      </div>
+      <div class="media">
+        <div class="photo-stack">
+          <img class="a" src="proposal-assets/cover-purpose.png" alt="" />
+          <img class="b" src="proposal-assets/cover-benefits.png" alt="" />
+          <img class="phone-float" src="proposal-assets/finale-phone.png" alt="DataField phone" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contents -->
+  <section class="slide" id="contents">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">Contents</p>
+    </div>
+    <div class="slide-body">
+      <h2>Jump to a section.</h2>
+      <p class="lead">Everything in this proposal, in order.</p>
+      <nav class="toc" aria-label="Table of contents">
+        <div class="toc-col toc-col-left">
+          <a href="#purpose"><span class="toc-label">Purpose</span><span class="num">01</span></a>
+          <a href="#problem"><span class="toc-label">Problem</span><span class="num">02</span></a>
+          <a href="#solution"><span class="toc-label">Solution</span><span class="num">03</span></a>
+          <a href="#features"><span class="toc-label">Key features</span><span class="num">04</span></a>
+          <a href="#benefits"><span class="toc-label">Benefits</span><span class="num">05</span></a>
+          <a href="#compare"><span class="toc-label">Comparison</span><span class="num">06</span></a>
+          <a href="#screens"><span class="toc-label">Product</span><span class="num">07</span></a>
+        </div>
+        <div class="toc-col toc-col-right">
+          <a href="#gallery"><span class="num">08</span><span class="toc-label">Gallery</span></a>
+          <a href="#timeline"><span class="num">09</span><span class="toc-label">Timeline</span></a>
+          <a href="#offer"><span class="num">10</span><span class="toc-label">Offer</span></a>
+          <a href="#why"><span class="num">11</span><span class="toc-label">Why this price</span></a>
+          <a href="#payment"><span class="num">12</span><span class="toc-label">Payment</span></a>
+          <a href="#next"><span class="num">13</span><span class="toc-label">Next steps</span></a>
+          <a href="#thanks"><span class="num">14</span><span class="toc-label">Thank you</span></a>
+        </div>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 02 Purpose -->
+  <section class="slide" id="purpose">
+    <div class="ribbon r3"></div>
+    <div class="grid-2">
+      <div class="copy">
+        <p class="kicker">01 · Purpose</p>
+        <h2>Own the field data pipeline.</h2>
+        <p class="lead">MindAct DataField is a purpose-built survey and TPM platform for MindAct’s field work in Sudan and beyond. Enumerators collect hospital, PHC, stabilization centre, and beneficiary exit interviews offline, then sync to MindAct’s own infrastructure on mind-act.co.</p>
+        <div class="chips">
+          <span class="chip">Offline-first</span>
+          <span class="chip">Arabic field UX</span>
+          <span class="chip">MindAct hosting</span>
+        </div>
+      </div>
+      <div class="media">
+        <img class="photo" src="proposal-assets/cover-purpose.png" alt="" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 03 Problem -->
+  <section class="slide" id="problem">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">02 · Problem</p>
+    </div>
+    <div class="slide-body">
+      <h2>Not a missing form.<br />Missing control.</h2>
+      <p class="lead" style="margin-bottom:28px">Custody, connectivity, and TPM shape. Generic tools will not solve this in rural Sudan.</p>
+      <div class="grid-3">
+        <article class="card">
+          <div class="icon"><i data-lucide="database"></i></div>
+          <h3>Data is not yours</h3>
+          <p>Kobo/Google hold the project, media, and access trail.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i data-lucide="wifi-off"></i></div>
+          <h3>Rural Sudan breaks online forms</h3>
+          <p>Teams lose interviews, batch-submit in towns, or fall back to paper.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i data-lucide="layout-grid"></i></div>
+          <h3>Generic tools ignore TPM</h3>
+          <p>40 facilities, 15 states, 4 tools, 4 teams, 10 field days need an OS, not a form builder.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04 Solution -->
+  <section class="slide" id="solution">
+    <div class="grid-2 reverse">
+      <div class="media">
+        <img class="photo" src="proposal-assets/cover-how.png" alt="" />
+      </div>
+      <div class="copy">
+        <p class="kicker">03 · Solution</p>
+        <h2>A MindAct-owned field OS.</h2>
+        <p class="lead">DataField puts WHO-ECHO TPM data on MindAct infrastructure, with offline Arabic collection and a branded client dashboard.</p>
+        <ul class="checklist" style="margin-top:22px">
+          <li>Facility roster, Teams A–D, Tools 1–4</li>
+          <li>Offline store, GPS, photos, retryable sync</li>
+          <li>Supervisor completeness + admin + client view</li>
+          <li>Source and hosting under MindAct control</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05 Features -->
+  <section class="slide" id="features">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">04 · Key features</p>
+    </div>
+    <div class="slide-body">
+      <div class="grid-2">
+        <div>
+          <h2>Built for the round, not a demo.</h2>
+          <p class="lead">Four surfaces in one product: field, supervisor, admin, and client dashboard.</p>
+          <div class="actions">
+            <a class="btn" href="#screens">See screens <i data-lucide="arrow-right"></i></a>
+          </div>
+          <img class="photo" style="height:220px;margin-top:28px" src="proposal-assets/cover-ui.png" alt="" />
+        </div>
+        <div class="grid-4">
+          <article class="card">
+            <div class="icon"><i data-lucide="smartphone"></i></div>
+            <h3>Offline field app</h3>
+            <p>Arabic RTL collection that works without signal.</p>
+          </article>
+          <article class="card">
+            <div class="icon"><i data-lucide="refresh-cw"></i></div>
+            <h3>Sync queue</h3>
+            <p>Retryable uploads. No silent data loss.</p>
+          </article>
+          <article class="card">
+            <div class="icon"><i data-lucide="map"></i></div>
+            <h3>GPS + photos</h3>
+            <p>Required location and media when marked.</p>
+          </article>
+          <article class="card">
+            <div class="icon"><i data-lucide="layout-dashboard"></i></div>
+            <h3>Client dashboard</h3>
+            <p>Targets vs actual, map, QA flags, export.</p>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06 Benefits -->
+  <section class="slide" id="benefits">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">05 · Benefits</p>
+    </div>
+    <div class="slide-body">
+      <h2>How MindAct wins.</h2>
+      <div class="grid-3" style="margin-top:28px">
+        <article class="card">
+          <div class="icon"><i data-lucide="shield-check"></i></div>
+          <h3>Data sovereignty</h3>
+          <p>WHO-ECHO and future project data sit on MindAct-controlled hosting.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i data-lucide="award"></i></div>
+          <h3>Brand</h3>
+          <p>Partners see DataField and mind-act.co, not a rented tool.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i data-lucide="rocket"></i></div>
+          <h3>Win more work</h3>
+          <p>Propose a proprietary offline TPM platform plus owned datasets.</p>
+        </article>
+      </div>
+      <p class="lead" style="margin-top:28px">Kobo makes MindAct look like every other implementer. DataField makes MindAct look like the operator.</p>
+    </div>
+  </section>
+
+  <!-- 07 vs Kobo -->
+  <section class="slide" id="compare">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">06 · Comparison</p>
+    </div>
+    <div class="slide-body">
+      <h2 style="margin-bottom:24px">Public utility vs private OS.</h2>
+      <div class="compare">
+        <article class="card">
+          <h3>Kobo / Forms</h3>
+          <ul>
+            <li><strong>Custody:</strong> their cloud</li>
+            <li><strong>Brand:</strong> KoboCollect on devices</li>
+            <li><strong>Workflow:</strong> generic projects</li>
+            <li><strong>Later:</strong> you are a tenant</li>
+          </ul>
+        </article>
+        <article class="card">
+          <h3>MindAct DataField</h3>
+          <ul>
+            <li><strong>Custody:</strong> MindAct servers + logs</li>
+            <li><strong>Brand:</strong> DataField + mind-act.co</li>
+            <li><strong>Workflow:</strong> facilities, teams, Tools 1–4</li>
+            <li><strong>Later:</strong> you own product + history</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 Screens -->
+  <section class="slide" id="screens">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">07 · Product</p>
+    </div>
+    <div class="slide-body">
+      <h2>What teams will see.</h2>
+      <p class="lead">Field home, sync queue, and the MindAct-hosted client dashboard.</p>
+      <div class="shots">
+        <figure>
+          <img src="proposal-assets/ui-field-home.png" alt="Field home" />
+          <figcaption>Field home · assignments</figcaption>
+        </figure>
+        <figure>
+          <img src="proposal-assets/ui-sync-queue.png" alt="Sync queue" />
+          <figcaption>Sync queue · offline retry</figcaption>
+        </figure>
+        <figure>
+          <img src="proposal-assets/ui-dashboard.png" alt="Dashboard" />
+          <figcaption>Client dashboard · hosted by MindAct</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08 Gallery -->
+  <section class="slide" id="gallery">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">08 · Gallery</p>
+    </div>
+    <div class="slide-body">
+      <div class="gallery">
+        <figure class="gallery-feature">
+          <img src="proposal-assets/ui-design-system.png" alt="" />
+        </figure>
+        <div class="gallery-thumbs">
+          <figure>
+            <img src="proposal-assets/ui-field-home.png" alt="" />
+          </figure>
+          <figure>
+            <img src="proposal-assets/ui-sync-queue.png" alt="" />
+          </figure>
+          <figure>
+            <img src="proposal-assets/ui-dashboard.png" alt="" />
+          </figure>
+          <figure>
+            <img src="proposal-assets/finale-phone.png" alt="" />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09 Timeline -->
+  <section class="slide" id="timeline">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">09 · Timeline</p>
+    </div>
+    <div class="slide-body">
+      <h2>~3 weeks after UI lock.</h2>
+      <p class="lead" style="margin-bottom:24px">AI-native delivery on a pre-locked Nile Field / DataField UI. No discovery months.</p>
+      <div class="weeks">
+        <article class="week">
+          <div class="n">Week 0–1</div>
+          <h3>UI lock</h3>
+          <p style="color:var(--muted);font-size:14px">One review call. Written sign-off.</p>
+        </article>
+        <article class="week">
+          <div class="n">Week 1–2</div>
+          <h3>Field core</h3>
+          <p style="color:var(--muted);font-size:14px">Auth, Tools 1–4, offline, sync.</p>
+        </article>
+        <article class="week">
+          <div class="n">Week 2–3</div>
+          <h3>Command layer</h3>
+          <p style="color:var(--muted);font-size:14px">Supervisor, admin, client dashboard.</p>
+        </article>
+        <article class="week">
+          <div class="n">Handover</div>
+          <h3>Launch</h3>
+          <p style="color:var(--muted);font-size:14px">Source, credentials, 30-day hypercare.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 Offer -->
+  <section class="slide" id="offer">
+    <div class="ribbon r1"></div>
+    <div class="grid-2">
+      <div class="copy">
+        <p class="kicker">10 · Offer</p>
+        <h2>Design, build, deliver.</h2>
+        <div class="price">AED 10,000</div>
+        <p class="lead">One fee for field app + supervisor + admin + client dashboard, source, MindAct-controlled hosting setup, and 30-day hypercare.</p>
+      </div>
+      <div>
+        <article class="card" style="padding:28px">
+          <h3 style="font-size:24px;margin-bottom:16px">Included</h3>
+          <ul class="checklist">
+            <li>Android field app (offline-first, Arabic)</li>
+            <li>Supervisor + admin + client dashboard</li>
+            <li>Source and deployment on MindAct infrastructure</li>
+            <li>30-day bugfix hypercare after acceptance</li>
+          </ul>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 Why price -->
+  <section class="slide" id="why">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">11 · Why this price</p>
+    </div>
+    <div class="slide-body">
+      <h2>Ownership becomes rational.</h2>
+      <div class="card" style="margin-top:22px;padding:8px 18px 12px;overflow:auto">
+        <table class="table">
+          <thead>
+            <tr><th>Path</th><th>Typical</th><th>Time</th><th>What you own</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Small regional studio</td><td>AED 35k–80k</td><td>2–4 months</td><td>Build after studio contract</td></tr>
+            <tr><td>Freelance full-stack</td><td>AED 15k–45k</td><td>4–10 weeks</td><td>Build if documented</td></tr>
+            <tr><td>Kobo / Google Forms</td><td>AED 0 license</td><td>Immediate</td><td>Neither platform nor custody</td></tr>
+            <tr class="hl"><td>This offer</td><td>AED 10,000</td><td>~3 weeks after UI lock</td><td>Full v1 + source + hypercare</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 Payment -->
+  <section class="slide" id="payment">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">12 · Payment</p>
+    </div>
+    <div class="slide-body">
+      <h2>Milestones or months.</h2>
+      <div class="compare" style="margin-top:22px">
+        <article class="card">
+          <h3>Option A — Milestones</h3>
+          <table class="table">
+            <tr><td>Kickoff 30%</td><td>AED 3,000</td></tr>
+            <tr><td>Field core 30%</td><td>AED 3,000</td></tr>
+            <tr><td>Full v1 25%</td><td>AED 2,500</td></tr>
+            <tr><td>Acceptance 15%</td><td>AED 1,500</td></tr>
+            <tr class="hl"><td>Total</td><td>AED 10,000</td></tr>
+          </table>
+        </article>
+        <article class="card">
+          <h3>Option B — 4 months</h3>
+          <table class="table">
+            <tr><td>Month 1</td><td>AED 2,500</td></tr>
+            <tr><td>Month 2</td><td>AED 2,500</td></tr>
+            <tr><td>Month 3</td><td>AED 2,500</td></tr>
+            <tr><td>Month 4</td><td>AED 2,500</td></tr>
+            <tr class="hl"><td>Total</td><td>AED 10,000</td></tr>
+          </table>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 Next steps -->
+  <section class="slide" id="next">
+    <div class="topbar">
+      <div class="brand"><img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" /></div>
+      <p class="kicker" style="margin:0">13 · Next steps</p>
+    </div>
+    <div class="slide-body">
+      <h2>Approve. Sign. Start Week 1.</h2>
+      <div class="ask" style="margin-top:24px">
+        <div class="ask-item"><div class="num">01</div><div><strong>Approve this proposal</strong><p style="color:var(--muted);font-size:14px;margin-top:4px">Confirm scope and AED 10,000.</p></div></div>
+        <div class="ask-item"><div class="num">02</div><div><strong>Sign off DataField UI</strong><p style="color:var(--muted);font-size:14px;margin-top:4px">Or request one revision round.</p></div></div>
+        <div class="ask-item"><div class="num">03</div><div><strong>Choose Option A or B</strong><p style="color:var(--muted);font-size:14px;margin-top:4px">Write it into a short agreement.</p></div></div>
+        <div class="ask-item"><div class="num">04</div><div><strong>Kick off Week 1</strong><p style="color:var(--muted);font-size:14px;margin-top:4px">Build starts immediately after UI lock.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 Thank you -->
+  <section class="slide slide-center" id="thanks">
+    <div class="ribbon r1"></div>
+    <div class="ribbon r2"></div>
+    <div class="brand" style="margin-bottom:28px">
+      <img src="proposal-assets/mog-logo-white.png" alt="Mo.G Creative Systems" />
+    </div>
+    <div class="frame" style="margin:0 auto;text-align:left">
+      <p class="kicker">Take action</p>
+      <h2>Thank you.<br />Let’s start today.</h2>
+      <p class="lead">Sign the agreement and Week 1 can begin immediately.</p>
+      <div class="actions">
+        <a class="btn" href="https://www.sejda.com/share/da99e610209a4c28978bceb6f6213ac2-rrsU4Cc1XOBFhwTrymyXTqo9kjfg4JYcNqoW3d9cLTB-3_E-k8lqpiHrNl2uw15J" target="_blank" rel="noopener">
+          Sign the agreement <i data-lucide="file-signature"></i>
+        </a>
+        <a class="btn btn-ghost" href="https://wa.me/971509320937?text=%D8%B3%D9%84%D8%A7%D9%85%D8%A7%D8%AA%20%D9%85%D8%AD%D9%85%D8%AF%20%D8%B9%D9%86%D8%AF%D9%8A%20%D8%B3%D8%A4%D8%A7%D9%84%20%D8%A8%D8%A7%D9%84%D9%86%D8%B3%D8%A8%D8%A9%20%D9%84..." target="_blank" rel="noopener">
+          <i data-lucide="message-circle"></i>
+          Discuss terms
+        </a>
+      </div>
+      <div class="meta">
+        <strong>Mo.G Creative Systems</strong>
+        Mohamed Elgaili · DataField proposal
+      </div>
+    </div>
+    <img class="thanks-phone" src="proposal-assets/finale-phone.png" alt="" />
+  </section>
+
+  <div class="lightbox" id="lightbox" hidden aria-hidden="true">
+    <button type="button" class="lightbox-btn lightbox-close" data-lightbox="close" aria-label="Close">
+      <i data-lucide="x"></i>
+    </button>
+    <button type="button" class="lightbox-btn lightbox-prev" data-lightbox="prev" aria-label="Previous">
+      <i data-lucide="chevron-left"></i>
+    </button>
+    <div class="lightbox-inner">
+      <img src="" alt="" />
+    </div>
+    <button type="button" class="lightbox-btn lightbox-next" data-lightbox="next" aria-label="Next">
+      <i data-lucide="chevron-right"></i>
+    </button>
+    <div class="lightbox-count" aria-live="polite"></div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.min.js"></script>
+  <script>
     lucide.createIcons();
+
+    (function galleryLightbox() {
+      const root = document.getElementById("lightbox");
+      if (!root) return;
+      const imgEl = root.querySelector(".lightbox-inner img");
+      const countEl = root.querySelector(".lightbox-count");
+      let items = [];
+      let index = 0;
+
+      function galleryImgs() {
+        return [...document.querySelectorAll("#gallery .gallery-feature img, #gallery .gallery-thumbs img")];
+      }
+
+      function refreshItems() {
+        items = galleryImgs().map((img) => img.currentSrc || img.src).filter(Boolean);
+      }
+
+      function render() {
+        if (!items.length) return;
+        imgEl.src = items[index];
+        countEl.textContent = (index + 1) + " / " + items.length;
+        if (window.lucide) lucide.createIcons();
+      }
+
+      function openAt(i) {
+        if (document.body.classList.contains("is-editing")) return;
+        refreshItems();
+        if (!items.length) return;
+        index = ((i % items.length) + items.length) % items.length;
+        root.hidden = false;
+        root.classList.add("is-open");
+        root.setAttribute("aria-hidden", "false");
+        document.body.classList.add("lightbox-open");
+        render();
+      }
+
+      function close() {
+        root.classList.remove("is-open");
+        root.hidden = true;
+        root.setAttribute("aria-hidden", "true");
+        document.body.classList.remove("lightbox-open");
+        imgEl.removeAttribute("src");
+      }
+
+      function step(delta) {
+        if (!items.length) return;
+        index = (index + delta + items.length) % items.length;
+        render();
+      }
+
+      document.querySelector("#gallery")?.addEventListener("click", (e) => {
+        if (document.body.classList.contains("is-editing")) return;
+        if (e.target.closest(".edit-bar, .align-toggle, .lightbox")) return;
+        const img = e.target.closest("#gallery .gallery-feature img, #gallery .gallery-thumbs img");
+        if (!img) return;
+        e.preventDefault();
+        e.stopPropagation();
+        const list = galleryImgs();
+        const i = list.indexOf(img);
+        openAt(i < 0 ? 0 : i);
+      });
+
+      root.addEventListener("click", (e) => {
+        const act = e.target.closest("[data-lightbox]")?.getAttribute("data-lightbox");
+        if (act === "close") close();
+        else if (act === "prev") step(-1);
+        else if (act === "next") step(1);
+        else if (e.target === root) close();
+      });
+
+      document.addEventListener("keydown", (e) => {
+        if (!root.classList.contains("is-open")) return;
+        if (e.key === "Escape") close();
+        if (e.key === "ArrowLeft") step(-1);
+        if (e.key === "ArrowRight") step(1);
+      });
+    })();
 
     (function scrollReveal() {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -1727,134 +1465,79 @@
       }
 
       const GROUPS = new Set([
-        "grid-2", "grid-4", "pain", "gallery", "weeks", "ux-grid", "compare",
-        "benefit-list", "ask", "sign", "price-duo", "steps", "swatches"
+        "grid-2", "grid-3", "grid-4", "compare", "shots", "gallery", "gallery-thumbs", "weeks", "ask", "toc", "toc-col", "chips", "actions", "checklist"
       ]);
 
       function stamp(el, delay) {
-        if (!el || el.closest(".edit-bar, .align-toggle")) return;
+        if (!el || el.closest(".edit-bar, .align-toggle, .ribbon")) return;
+        if (el.classList.contains("phone-float") || el.classList.contains("thanks-phone") || el.classList.contains("ribbon")) return;
         el.classList.add("reveal");
-        if (el.classList.contains("section-pop")) el.classList.add("pop");
         el.style.setProperty("--reveal-delay", (delay || 0) + "s");
       }
 
       function stampChildren(parent) {
-        const kids = [...parent.children].filter((n) => n.nodeType === 1 && !n.classList.contains("cover-bg"));
-        kids.forEach((kid, i) => stamp(kid, Math.min(i * 0.08, 0.4)));
+        [...parent.children].forEach((kid, i) => {
+          if (kid.classList.contains("ribbon")) return;
+          const isGroup = [...kid.classList].some((c) => GROUPS.has(c));
+          if (isGroup) stampChildren(kid);
+          else stamp(kid, Math.min(i * 0.08, 0.4));
+        });
       }
 
-      document.querySelectorAll(".hero .cover-content").forEach((el) => stamp(el, 0));
-      document.querySelectorAll(".image-only img").forEach((el) => stamp(el, 0));
-      document.querySelectorAll(".cover-grid").forEach((grid) => stampChildren(grid));
-      document.querySelectorAll("section.block .wrap").forEach((wrap) => {
-        [...wrap.children].forEach((child, i) => {
+      document.querySelectorAll(".slide").forEach((slide) => {
+        const kids = [...slide.children].filter((n) => !n.classList.contains("ribbon"));
+        kids.forEach((child, i) => {
           const group = [...child.classList].some((c) => GROUPS.has(c));
           if (group) stampChildren(child);
-          else stamp(child, Math.min(i * 0.06, 0.24));
+          else if (child.classList.contains("slide-body") || child.classList.contains("topbar") || child.classList.contains("grid-2") || child.classList.contains("frame") || child.classList.contains("brand")) {
+            if (child.classList.contains("slide-body") || child.classList.contains("grid-2")) {
+              [...child.children].forEach((inner, j) => {
+                const innerGroup = [...inner.classList].some((c) => GROUPS.has(c));
+                if (innerGroup) stampChildren(inner);
+                else if (inner.classList.contains("copy") || inner.classList.contains("media")) {
+                  stampChildren(inner);
+                } else stamp(inner, Math.min(j * 0.08, 0.32));
+              });
+            } else {
+              stamp(child, Math.min(i * 0.06, 0.24));
+            }
+          } else {
+            stamp(child, Math.min(i * 0.06, 0.24));
+          }
         });
       });
 
-      let lastY = window.scrollY || 0;
-      let scrollingDown = true;
-      window.addEventListener("scroll", () => {
-        const y = window.scrollY || 0;
-        if (Math.abs(y - lastY) > 1) scrollingDown = y > lastY;
-        lastY = y;
-      }, { passive: true });
-
-      const state = new WeakMap();
-
-      function replay(el) {
-        el.classList.remove("no-anim", "in");
-        el.style.animation = "none";
-        void el.offsetWidth;
-        el.style.removeProperty("animation");
-        requestAnimationFrame(() => el.classList.add("in"));
-      }
-      function settle(el) {
-        el.classList.add("no-anim", "in");
-        requestAnimationFrame(() => el.classList.remove("no-anim"));
-      }
-
       const io = new IntersectionObserver((entries) => {
-        entries.forEach((e) => {
-          const el = e.target;
-          if (e.isIntersecting) {
-            if (scrollingDown && state.get(el) !== "in") replay(el);
-            else if (!scrollingDown) settle(el);
-            else if (!el.classList.contains("in")) replay(el);
-            state.set(el, "in");
-          } else {
-            if (scrollingDown) el.classList.remove("in");
-            state.set(el, "out");
+        entries.forEach((entry) => {
+          const el = entry.target;
+          if (entry.isIntersecting) {
+            if (!el.classList.contains("in")) el.classList.add("in");
+            return;
+          }
+          // Reset only after the element has fully left below the viewport,
+          // so scrolling back up can replay. Never toggle while clipped at edges.
+          if (entry.boundingClientRect.top >= (window.innerHeight || 0)) {
+            el.classList.remove("in");
           }
         });
-      }, { threshold: 0.05, rootMargin: "0px 0px -8% 0px" });
+      }, { threshold: 0.15, rootMargin: "0px 0px -4% 0px" });
 
       document.querySelectorAll(".reveal").forEach((el) => io.observe(el));
     })();
 
-    (function printPages() {
-      const SEL = "body > header.hero, body > section";
-      function pages() { return [...document.querySelectorAll(SEL)]; }
-
-      function wrap() {
-        pages().forEach((el) => {
-          if (el.querySelector(":scope > .print-fit-inner")) return;
-          const inner = document.createElement("div");
-          inner.className = "print-fit-inner";
-          while (el.firstChild) inner.appendChild(el.firstChild);
-          el.appendChild(inner);
-        });
-      }
-      function unwrap() {
-        pages().forEach((el) => {
-          const inner = el.querySelector(":scope > .print-fit-inner");
-          if (!inner) return;
-          while (inner.firstChild) el.insertBefore(inner.firstChild, inner);
-          inner.remove();
-          el.classList.remove("is-print-fit");
-          el.style.removeProperty("--print-scale");
-        });
-      }
-      function fit() {
-        wrap();
-        pages().forEach((el) => {
-          const inner = el.querySelector(":scope > .print-fit-inner");
-          if (!inner) return;
-          el.classList.remove("is-print-fit");
-          el.style.removeProperty("--print-scale");
-          const boxH = el.clientHeight || window.innerHeight;
-          const boxW = el.clientWidth || window.innerWidth;
-          const s = Math.min(1, (boxH - 2) / Math.max(inner.scrollHeight, 1), (boxW - 2) / Math.max(inner.scrollWidth, 1));
-          if (s < 0.995) {
-            el.style.setProperty("--print-scale", String(s));
-            el.classList.add("is-print-fit");
-          }
-        });
-      }
-
-      window.addEventListener("beforeprint", fit);
-      window.addEventListener("afterprint", unwrap);
-      const mql = window.matchMedia("print");
-      const onMql = (e) => { e.matches ? fit() : unwrap(); };
-      if (mql.addEventListener) mql.addEventListener("change", onMql);
-      else if (mql.addListener) mql.addListener(onMql);
-    })();
-
     (function visualEditor() {
-      const DB_NAME = "mindact-collect-editor";
+      const DB_NAME = "datafield-proposal-editor";
       const DB_STORE = "draft";
       const DRAFT_KEY = "current";
-      const LS_TEXT = "mindact-collect-draft-v3";
-      const LS_LEGACY = ["mindact-collect-draft-v2", "mindact-collect-draft"];
+      const LS_TEXT = "datafield-proposal-draft-v1";
+      const LS_LEGACY = [];
       const TEXT_SEL = [
-        "h1", "h2", "h3", "h4", "p", "li", "td", "th", "figcaption",
-        ".cover-kicker", ".cover-desc", ".section-title", ".sub", ".pitch", ".eyebrow",
-        ".who", ".role", ".amt", ".num", ".lead", ".muted", ".note", ".sign-line",
-        ".chip", ".week p", ".week h3", ".benefit-row h3", ".benefit-row p",
-        ".section-pop",
-        ".compare-col li", ".ux-card p", ".ask-item strong", ".offer li", ".cta p", ".cta h2"
+        "h1", "h2", "h3", "h4", "p", "li", "td", "th", "figcaption", "strong",
+        ".kicker", ".lead", ".sub", ".chip", ".meta", ".price",
+        ".week p", ".week h3", ".week .n",
+        ".ask-item strong", ".ask-item p", ".ask-item .num",
+        ".toc .toc-label", ".toc .num",
+        ".card h3", ".card p", ".checklist li"
       ].join(",");
 
       const bar = document.createElement("div");
@@ -1898,18 +1581,11 @@
       function pageImgs() {
         return [...document.querySelectorAll("img")].filter((img) => !img.closest(".edit-bar"));
       }
-      function liveLogos() {
-        return [...document.querySelectorAll("img.js-live-logo")];
-      }
-      function overlayEls() {
-        return [...document.querySelectorAll(".cover.overlay")];
-      }
 
       function editId(el) {
         if (!el) return "";
         const explicit = el.getAttribute("data-edit-id");
         if (explicit) return explicit;
-        if (el.id && el.classList.contains("overlay")) return "overlay:" + el.id;
         if (el.id && el.tagName === "IMG") return "img:" + el.id;
         const section = el.closest("header[id], section[id]") || el.closest("[id]") || document.body;
         const scope = section.id || "root";
@@ -1920,7 +1596,8 @@
           const ncls = [...n.classList].filter((c) => !["reveal", "d1", "d2", "d3", "d4", "in"].includes(c)).slice(0, 2).join(".");
           return ncls === cls;
         });
-        return scope + "::" + tag + (cls ? "." + cls : "") + "[" + peers.indexOf(el) + "]";
+        const idx = peers.findIndex((n) => n === el);
+        return scope + "::" + tag + (cls ? "." + cls : "") + "[" + idx + "]";
       }
 
       function collectDraft() {
@@ -1932,9 +1609,7 @@
         });
         const images = {};
         pageImgs().forEach((img) => { images[editId(img)] = img.getAttribute("src") || ""; });
-        const overlays = {};
-        overlayEls().forEach((el) => { overlays[editId(el)] = el.getAttribute("style") || ""; });
-        return { v: 3, texts, images, overlays, aligns };
+        return { v: 3, texts, images, overlays: {}, aligns };
       }
 
       function applyDraft(data) {
@@ -1953,28 +1628,7 @@
           img.src = images[id];
           if (String(images[id]).startsWith("data:")) img.removeAttribute("data-src");
         });
-        const overlays = data.overlays || {};
-        overlayEls().forEach((el) => {
-          const id = editId(el);
-          if (overlays[id]) el.setAttribute("style", overlays[id]);
-          const bg = el.querySelector(".cover-bg");
-          if (!bg) return;
-          const imgId = editId(bg);
-          if (images[imgId]) return;
-          const fromStyle = (overlays[id] || el.getAttribute("style") || "").match(/--cover-img:\s*url\((["']?)([\s\S]*?)\1\)/);
-          if (fromStyle && fromStyle[2]) bg.src = fromStyle[2];
-        });
         if (window.lucide) lucide.createIcons();
-      }
-
-      function migrateIndexDraft(old) {
-        const texts = {};
-        editableNodes().forEach((el, i) => { if (old.texts && old.texts[i] != null) texts[editId(el)] = old.texts[i]; });
-        const images = {};
-        pageImgs().forEach((img, i) => { if (old.images && old.images[i]) images[editId(img)] = old.images[i]; });
-        const overlays = {};
-        overlayEls().forEach((el, i) => { if (old.overlays && old.overlays[i]) overlays[editId(el)] = old.overlays[i]; });
-        return { v: 3, texts, images, overlays };
       }
 
       function openDb() {
@@ -2018,9 +1672,6 @@
           Object.entries(data.images || {}).forEach(([k, v]) => {
             if (v && !String(v).startsWith("data:") && String(v).length < 2500) slim.images[k] = v;
           });
-          Object.entries(data.overlays || {}).forEach(([k, v]) => {
-            if (v && String(v).length < 8000) slim.overlays[k] = v;
-          });
           localStorage.setItem(LS_TEXT, JSON.stringify(slim));
         } catch (err) {}
       }
@@ -2045,41 +1696,15 @@
               const parsed = JSON.parse(ls);
               if (parsed && parsed.v === 3) data = Object.assign({ texts: {}, images: {}, overlays: {} }, parsed, {
                 texts: Object.assign({}, parsed.texts, data && data.texts),
-                images: Object.assign({}, parsed.images, data && data.images),
-                overlays: Object.assign({}, parsed.overlays, data && data.overlays)
+                images: Object.assign({}, parsed.images, data && data.images)
               });
             }
           } catch (err) {}
-        }
-        if (!data || data.v !== 3) {
-          for (const key of LS_LEGACY) {
-            const raw = localStorage.getItem(key);
-            if (!raw) continue;
-            try {
-              const old = JSON.parse(raw);
-              if (old && Array.isArray(old.texts)) {
-                data = migrateIndexDraft(old);
-                break;
-              }
-            } catch (err) {}
-          }
         }
         if (!data) return null;
         applyDraft(data);
         persistDraft(data);
         return data;
-      }
-
-      function refreshLiveLogos(draft) {
-        const saved = (draft && draft.images) || {};
-        liveLogos().forEach((img) => {
-          const src = img.getAttribute("src") || "";
-          if (src.startsWith("data:")) return;
-          if (saved[editId(img)]) return;
-          const base = img.getAttribute("data-src") || src.split("?")[0];
-          img.setAttribute("data-src", base);
-          img.src = base + "?t=" + Date.now();
-        });
       }
 
       function pickImage(cb) {
@@ -2190,24 +1815,12 @@
       document.addEventListener("click", (e) => {
         if (!editing) return;
         if (e.target.closest(".edit-bar") || e.target.closest(".align-toggle")) return;
+        const link = e.target.closest("a[href]");
+        if (link) e.preventDefault();
         const img = e.target.closest("img");
         if (img && !img.closest(".edit-bar")) {
           e.preventDefault();
           pickImage((dataUrl) => applyImgSrc(img, dataUrl));
-          return;
-        }
-        const heroPanel = e.target.closest(".cover-panel");
-        if (heroPanel && !e.target.closest('[contenteditable="true"]') && !e.target.closest(".hero-logo")) {
-          e.preventDefault();
-          const bg = heroPanel.querySelector(".cover-bg");
-          pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
-          return;
-        }
-        const overlay = e.target.closest(".cover.overlay");
-        if (overlay && !e.target.closest('[contenteditable="true"]')) {
-          e.preventDefault();
-          const bg = overlay.querySelector(".cover-bg");
-          if (bg) pickImage((dataUrl) => applyImgSrc(bg, dataUrl));
         }
       });
 
@@ -2222,25 +1835,14 @@
         if (act === "photo") {
           setEditing(true);
           const hoveredImg = document.querySelector("img:hover");
-          const overlay = document.querySelector(".cover.overlay:hover");
-          const panel = document.querySelector(".cover-panel:hover");
-          if (overlay && (!hoveredImg || hoveredImg.classList.contains("cover-bg"))) {
-            const bg = overlay.querySelector(".cover-bg");
-            pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
-          } else if (panel && (!hoveredImg || hoveredImg.classList.contains("cover-bg"))) {
-            const bg = panel.querySelector(".cover-bg");
-            pickImage((dataUrl) => { if (bg) applyImgSrc(bg, dataUrl); });
-          } else {
-            pickImage((dataUrl) => {
-              const chosen = hoveredImg || document.querySelector("img");
-              if (chosen && !chosen.closest(".edit-bar")) applyImgSrc(chosen, dataUrl);
-            });
-          }
+          pickImage((dataUrl) => {
+            const chosen = hoveredImg || document.querySelector("img");
+            if (chosen && !chosen.closest(".edit-bar")) applyImgSrc(chosen, dataUrl);
+          });
         }
         if (act === "clear") {
           Promise.resolve(idbClear()).finally(() => {
             localStorage.removeItem(LS_TEXT);
-            LS_LEGACY.forEach((k) => localStorage.removeItem(k));
             location.reload();
           });
         }
@@ -2254,12 +1856,6 @@
           reader.onerror = () => reject(reader.error);
           reader.readAsDataURL(blob);
         });
-      }
-
-      function readCoverImg(el) {
-        const raw = (el.style.getPropertyValue("--cover-img") || "").trim();
-        const m = raw.match(/^url\((["']?)([\s\S]*)\1\)$/);
-        return m ? m[2] : "";
       }
 
       async function toDataUrl(src, liveImg) {
@@ -2312,27 +1908,17 @@
           for (const img of imgs) {
             imgData.push(await embed(img.getAttribute("src") || img.src, img));
           }
-          const overlays = [...document.querySelectorAll(".cover.overlay")];
-          const overlayData = [];
-          for (const el of overlays) {
-            const url = readCoverImg(el);
-            overlayData.push(url ? await embed(url) : "");
-          }
           const iconLink = document.querySelector('link[rel="icon"]');
           const iconData = iconLink ? await embed(iconLink.getAttribute("href") || "") : "";
 
           const clone = document.documentElement.cloneNode(true);
-          clone.querySelectorAll(".edit-bar, .align-toggle, input[type=file][hidden]").forEach((n) => n.remove());
+          clone.querySelectorAll(".edit-bar, .align-toggle, .lightbox, input[type=file][hidden]").forEach((n) => n.remove());
           clone.querySelectorAll("[contenteditable]").forEach((el) => el.removeAttribute("contenteditable"));
           clone.querySelector("body").classList.remove("is-editing", "show-editor");
           [...clone.querySelectorAll("img")].filter((img) => !img.closest(".edit-bar")).forEach((img, i) => {
             if (!imgData[i]) return;
             img.setAttribute("src", imgData[i]);
             img.removeAttribute("data-src");
-            img.classList.remove("js-live-logo");
-          });
-          [...clone.querySelectorAll(".cover.overlay")].forEach((el, i) => {
-            if (overlayData[i]) el.style.setProperty("--cover-img", 'url("' + overlayData[i] + '")');
           });
           const cloneIcon = clone.querySelector('link[rel="icon"]');
           if (cloneIcon && iconData) {
@@ -2343,7 +1929,7 @@
           const blob = new Blob([html], { type: "text/html;charset=utf-8" });
           const a = document.createElement("a");
           a.href = URL.createObjectURL(blob);
-          a.download = "mindact-collect-proposal.html";
+          a.download = "datafield-proposal.html";
           a.click();
           URL.revokeObjectURL(a.href);
         } catch (err) {
@@ -2356,8 +1942,7 @@
 
       window.addEventListener("beforeunload", () => { snapshot(); });
       (async function initEditor() {
-        const draft = await restore();
-        refreshLiveLogos(draft);
+        await restore();
         if (editing) {
           document.body.classList.add("show-editor");
           setEditing(true);
@@ -2367,7 +1952,7 @@
       setTimeout(() => document.documentElement.classList.remove("draft-pending"), 2500);
 
       let clicks = 0;
-      document.querySelectorAll(".hero-logo").forEach((el) => {
+      document.querySelectorAll(".brand").forEach((el) => {
         el.addEventListener("click", (ev) => {
           if (editing) return;
           clicks += 1;
